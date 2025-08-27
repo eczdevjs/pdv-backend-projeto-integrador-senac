@@ -1,8 +1,9 @@
+
 const routes =require('./routes');
 const express = require('express');
 const app = express();
 const port = 3000;
-
+require("./src/database/connection");
 
 
 app.use(routes);

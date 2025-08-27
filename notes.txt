@@ -1,0 +1,7 @@
+configurando sequelize
+
+criar um arquivo na raiz do projeto chamado : sequlizerc
+
+dentro deste arquivo estarao as configuracoes para o sequelize cli
+
+
