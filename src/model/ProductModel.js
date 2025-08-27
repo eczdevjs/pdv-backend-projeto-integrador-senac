@@ -16,9 +16,7 @@ class Product extends Model {
             });
 
         return this;
-
     }
-
 }
 
 module.exports = Product;

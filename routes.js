@@ -1,10 +1,11 @@
 const express = require('express');
 const productController = require('./src/controller/productController');
+const userController = require('./src/controller/userController')
 const routes = express.Router();
 
-console.log("productController");
-console.log(productController);
+
 
 routes.get('/', productController.store);
+routes.get('/users/', userController.store);
 
 module.exports =  routes;
