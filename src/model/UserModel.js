@@ -22,7 +22,7 @@ class User extends Model {
             lastName: {
                 type: Sequelize.STRING,
                 defaultValue: '',
-                validate: { 
+                validate: {
                     notEmpty: {
                         msg: 'Last Name field can not be empty',
 
@@ -46,16 +46,16 @@ class User extends Model {
                     }
                 }
             },
-            password_hash:{
-               type : Sequelize.STRING,
-               defaultValue: ''
-            } ,
+            password_hash: {
+                type: Sequelize.STRING,
+                defaultValue: ''
+            },
             phone: {
                 type: Sequelize.STRING,
                 defaultValue: '',
                 validate: {
-                    isMobilePhone(value){
-                        if(!validator.isMobilePhone(value, 'pt-BR')){
+                    isMobilePhone(value) {
+                        if (!validator.isMobilePhone(value, 'pt-BR')) {
                             throw new Error('Invalid Brazilian phone number format')
                         }
                     },
@@ -65,22 +65,20 @@ class User extends Model {
                 type: Sequelize.VIRTUAL,
                 validate: {
                     len: {
-                        args: [6,18],
+                        args: [6, 18],
                         msg: "Password too short, it must be between 6 and 18 characters"
                     }
                 }
             }
         }, {
-                sequelize
-            });
+            sequelize
+        });
 
 
-        this.addHook('beforeSave', async (user) => {
-            if(!user.password){
-                throw new Error('password undefined');
-                return;
+        this.addHook('beforeSave', async (user, options) => {
+            if(user.changed('password')){
+                user.password_hash = await bcrypt.hash(user.password, 8);
             }
-            user.password_hash = await bcrypt.hash(user.password, 8);
         });
         return this;
     }
