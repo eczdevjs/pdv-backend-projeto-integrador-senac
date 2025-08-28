@@ -3,17 +3,16 @@ const User = require('../model/UserModel');
 class UserController {
     async store(req, res) {
         try {
-            const newUser = await User.create({
-                name: "Claud",
-                lastName: "Shannon",
-                email: "cshannon@gmail.com",
-                phone: '11956442547',
-                password: "123456",
-            });
+            if (!req.body) {
+                console.log("body request is required");
+                console.log(req.body);
+               return res.status(400).json({message: "body request is required"});
+            }
+            const newUser = await User.create(req.body);
             res.status(201).json(newUser);
 
         } catch (e) {
-            console.log("Error creating user: ",e);
+            console.log("Error creating user: ", e);
             res.status(400).json(e);
         }
 

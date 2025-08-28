@@ -6,6 +6,6 @@ const routes = express.Router();
 
 
 routes.get('/', productController.store);
-routes.get('/users/', userController.store);
+routes.post('/users/', userController.store);
 
 module.exports =  routes;
