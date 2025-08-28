@@ -1,6 +1,7 @@
 const User = require('../model/UserModel');
 
 class UserController {
+// adming required []
     async store(req, res) {
         try {
             if (!req.body) {
@@ -17,7 +18,7 @@ class UserController {
         }
 
     }
-
+//  adminRequired []
     async index(req, res) {
         try {
            const users = await User.findAll();
@@ -32,7 +33,7 @@ class UserController {
         }
 
     }
-
+// login required []
     async show(req, res) {
         try {
 
@@ -56,18 +57,18 @@ class UserController {
         }
 
     }
-
+// login required alterar rota [x]
     async update(req, res) {
         try {
             
-            if(!req.params.id){
-               return res.status(400).json({message: "user id is required"});
+            if(!req.userId){
+               return res.status(400).json({message: "user id is required, token expired"});
             }
             if(!req.body){
                return res.status(400).json({message: "requisition body is required"});
 
             }
-            const user = await User.findByPk(req.params.id);
+            const user = await User.findByPk(req.userId);
 
             if(!user){
                return res.status(400).json({message: "Error fetching user",
@@ -80,22 +81,22 @@ class UserController {
                     {message: "password can not be null"}
                 );
             }
-            const updated = await user.update(req.body);
+            const updatedUser = await user.update(req.body);
 
-            if(!updated){
+            if(!updatedUser){
                  return res.status(400).json(
                     {message: "Error updating  user"}
                 );
             }
 
-            return res.status(200).json(updated);
+            return res.status(200).json(updatedUser);
         } catch (e) {
             console.log("Error creating user: ", e);
             res.status(400).json(e);
         }
 
     }
-
+a// admin required
     async delete(req, res) {
         try {
               if(!req.params.id){

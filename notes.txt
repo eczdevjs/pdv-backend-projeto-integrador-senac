@@ -5,3 +5,5 @@ criar um arquivo na raiz do projeto chamado : sequlizerc
 dentro deste arquivo estarao as configuracoes para o sequelize cli
 
 
+token test: 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3VyaW5nY29tcGxldEBnbWFpbC5jb20iLCJpYXQiOjE3NTYzNTA1NzEsImV4cCI6MTc1Njk1NTM3MX0.Sb4IPr5BwfRa73-b3FQMdjDHNNqTo3C4xFNhXSag04g
