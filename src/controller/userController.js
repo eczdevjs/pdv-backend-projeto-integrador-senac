@@ -16,12 +16,11 @@ class UserController {
             console.log("Error creating user: ", e);
             res.status(400).json(e);
         }
-
     }
 //  adminRequired []
     async index(req, res) {
         try {
-           const users = await User.findAll();
+           const users = await User.findAll({attributes: ['id','name','lastName','email']});
            if(!users){
             return res.status(400).json(e);
            }
@@ -33,15 +32,16 @@ class UserController {
         }
 
     }
-// login required []
+// login required [x]
     async show(req, res) {
         try {
 
-            if(!req.params.id){
+            if(!req.userId){
                return res.status(400).json({message: "user id is required"});
             }
            
-            const user = await User.findByPk(req.params.id);
+            const user = await User.findByPk(req.userId,{attributes: ['id', 'name','lastName', 'email']});
+            
 
             if(!user){
                return res.status(400).json({message: "Error fetching user",
@@ -49,7 +49,7 @@ class UserController {
                });
             }
             
-            return res.status(200).json(user);
+            return res.status(200).json(user );
 
         } catch (e) {
             console.log("Error creating user: ", e);

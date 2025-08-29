@@ -1,5 +1,0 @@
-[] - Usuarios cadastrados so podem editar os proprios dados.
-[] - Para alterar dados de outros usuarios devera ter permissao de adm
-    - Isto pode ser feito a partir do middleware login required que cria userId na request. este id sera utilizado para referenciar o objeto que sera alterado
-[] - como utilizar logs?
-[] - como adicionar os testes
