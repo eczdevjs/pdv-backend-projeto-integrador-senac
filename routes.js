@@ -26,5 +26,12 @@ routes.post('/tokens/', tokenController.store);
 
 routes.post('/clients/register/', clientContrller.store);
 routes.get('/clients/list/', clientController.index);
+routes.get('/clients/:id', clientController.show);
+routes.put("/clients/edit/:id", clientController.update)
+routes.delete("/clients/delete/:id", clientController.delete)
+
+
+
+
 
 module.exports = routes;
