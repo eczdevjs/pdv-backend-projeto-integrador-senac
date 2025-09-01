@@ -3,6 +3,7 @@ const productController = require('./src/controller/productController');
 const userController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
 const loginRequired = require('./src/middlewares/loginRequired');
+const clientContrller = require('./src/controller/clientController');
 const routes = express.Router();
 
 
@@ -19,5 +20,9 @@ routes.delete('/users/',loginRequired , userController.delete);
 
 //token routes
 routes.post('/tokens/', tokenController.store);
+
+// Client routes
+
+routes.post('/clients/register/', clientContrller.store);
 
 module.exports = routes;

@@ -1,6 +1,5 @@
 const { Sequelize, Model } = require('sequelize');
 const validator = require('validator');
-const bcrypt = require('bcryptjs');
 
 class Client extends Model {
     static init(sequelize) {
@@ -51,8 +50,8 @@ class Client extends Model {
                     },
                 }
             },
-            addresId: {
-                type: sequelize.INTEGER,
+            addressId: {
+                type: Sequelize.INTEGER,
                 allowNull:true
             }
 
@@ -60,22 +59,13 @@ class Client extends Model {
             sequelize
         });
 
-
-        this.addHook('beforeSave', async (user, options) => {
-            if (user.changed('password')) {
-                user.password_hash = await bcrypt.hash(user.password, 8);
-            }
-        });
         return this;
     }
 
-    validatePassword(password) {
-        return bcrypt.compare(password, this.password_hash)
-    }
 
 }
 
-module.exports = User;
+module.exports = Client;
 
 
-
+// adicionar as validacoes corretas para clientes
