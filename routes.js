@@ -5,6 +5,7 @@ const tokenController = require('./src/controller/tokenController');
 const loginRequired = require('./src/middlewares/loginRequired');
 const clientContrller = require('./src/controller/clientController');
 const clientController = require('./src/controller/clientController');
+const paymentMethodController = require('./src/controller/paymentMethodController');
 const routes = express.Router();
 
 
@@ -30,6 +31,13 @@ routes.get('/clients/:id', clientController.show);
 routes.put("/clients/edit/:id", clientController.update)
 routes.delete("/clients/delete/:id", clientController.delete)
 
+//Payment method routes
+// Access: loginRequired add or exclude as well admin access.
+routes.post('/paymentmethod/register', paymentMethodController.store)
+routes.get('/paymentmethod/list', paymentMethodController.index);
+routes.get('/paymentmethod/:id', paymentMethodController.show);
+routes.put('/paymentmethod/:id', paymentMethodController.update);
+routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
 
 
 

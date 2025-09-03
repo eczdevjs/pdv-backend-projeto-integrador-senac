@@ -19,7 +19,7 @@ class ClientController {
     async index(req, res) {
         try {
 
-            const clients = await Client.findAll();
+            const clients = await Client.findAll({attributes: ['name', 'lastName', 'email', 'phone']});
             if (!clients) {
                 return res.status(404).json({ message: 'client list empty  or not found' })
             }
