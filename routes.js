@@ -6,13 +6,18 @@ const loginRequired = require('./src/middlewares/loginRequired');
 const clientContrller = require('./src/controller/clientController');
 const clientController = require('./src/controller/clientController');
 const paymentMethodController = require('./src/controller/paymentMethodController');
+const orderController = require('./src/controller/orderController');
 const routes = express.Router();
 
 
+/* PRODUCTS  ROUTES */
+routes.post('/products/register', productController.store);
+routes.get('/products/product/:id', productController.show);
+routes.get('/products/list', productController.index);
+routes.put('/products/edit/:id', productController.update);
+routes.delete('/products/delete/:id', productController.delete);
 
-routes.get('/', productController.store);
-
-/*user routes */ 
+/*USER ROUTES*/ 
 routes.post('/users/register',userController.store);
 // only admins are supposed to see all registered users
 routes.get('/users/', loginRequired , userController.index);
@@ -23,10 +28,10 @@ routes.put('/users/',loginRequired , userController.update);
 // deve ser deletado apenas por adm, se nao for o usuario nao deve excluir o proprio registro, mas pode setar a flag do tipo isActive para falso
 routes.delete('/users/',loginRequired , userController.delete);
 
-//token routes
+//TOKEN ROUTES
 routes.post('/tokens/', tokenController.store);
 
-// Client routes
+// CLIENT ROUTES
 
 routes.post('/clients/register/', clientContrller.store);
 routes.get('/clients/list/', clientController.index);
@@ -34,7 +39,9 @@ routes.get('/clients/:id', clientController.show);
 routes.put("/clients/edit/:id", clientController.update)
 routes.delete("/clients/delete/:id", clientController.delete)
 
-//Payment method routes
+//PAYMENT METHOD ROUTES
+
+
 // Access: loginRequired add or exclude as well admin access.
 routes.post('/paymentmethod/register', paymentMethodController.store)
 routes.get('/paymentmethod/list', paymentMethodController.index);
@@ -43,6 +50,9 @@ routes.put('/paymentmethod/:id', paymentMethodController.update);
 routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
 
 
+// ORDER ROUTES
+
+routes.post('/order/store', orderController.store);
 
 module.exports = routes;
 
