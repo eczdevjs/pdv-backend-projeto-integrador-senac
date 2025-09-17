@@ -2,6 +2,7 @@ const Order = require('../model/OrderModel');
 const Client = require('../model/ClientModel');
 const User  = require('../model/UserModel');
 const PaymentMethod = require('../model/PaymentMethod');
+const Suborder = require('../model/SuborderModel');
 
 class OrderController {
     async store(req, res) {
@@ -11,7 +12,12 @@ class OrderController {
         }
 
         try {
-            const order = await Order.create(req.body);
+            const order = await Order.create(req.body, {
+                include:[{
+                    model: Suborder,
+                    as:'suborders'
+                }]
+            });
             
             if (!order) {
                 return res.status(401).json({ msg: "error creating order" });
@@ -28,15 +34,15 @@ class OrderController {
     async index(req, res) {
         try {
             const orders = await Order.findAll({
-                attributes: ['id', 'totalOrder'],
+                attributes: ['id', 'totalOrder', 'createdAt'],
                 include:[{
                     model: Client,
                     as: 'client',
-                    attributes: ['name', 'lastName']
+                    attributes: ['id','name', 'lastName']
                 },{
                     model: User,
                     as: 'user',
-                    attributes: ['name']
+                    attributes: ['id','name']
                 },{
                     model: PaymentMethod,
                     as: 'paymentMethod',
@@ -68,15 +74,15 @@ class OrderController {
             }
 
             const order = await Order.findByPk(req.params.id, {
-                attributes: ['id', 'totalOrder'],
+                attributes: ['id', 'totalOrder','createdAt'],
                 include:[{
                     model: Client,
                     as: 'client',
-                    attributes: ['name', 'lastName']
+                    attributes: ['id','name', 'lastName']
                 },{
                     model: User,
                     as: 'user',
-                    attributes: ['name']
+                    attributes: ['id','name']
                 },{
                     model: PaymentMethod,
                     as: 'paymentMethod',
@@ -95,7 +101,9 @@ class OrderController {
             res.status(400).json(error);
         }
     }
+
 // atualizar os dados de um pedido pode acarretar em inconsistencia, estudar como implementar 
+
     async update(req, res) {
         if (!req.params.id) {
            return req.status(400).json({ msg: "Id paramether required" });
@@ -111,6 +119,7 @@ class OrderController {
 
        return res.status(200).json(updated);
     }
+
 
     async delete(req, res) {
           if (!req.params.id) {

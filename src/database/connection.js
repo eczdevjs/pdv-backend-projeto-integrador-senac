@@ -5,8 +5,16 @@ const User = require('../model/UserModel');
 const Client = require('../model/ClientModel');
 const PaymentMethod = require('../model/PaymentMethod');
 const Order = require('../model/OrderModel');
+const Suborder = require('../model/SuborderModel');
 
-const models = [Product, User, Client, PaymentMethod, Order];
+const models = [
+    Product,
+    User,
+    Client,
+    PaymentMethod,
+    Order,
+    Suborder
+];
 
 const connection = new Sequelize(databaseConfig);
 
