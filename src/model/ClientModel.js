@@ -62,6 +62,13 @@ class Client extends Model {
         return this;
     }
 
+    static associate(models){
+        Client.hasMany(models.Order, {
+            foreignKey: 'clientId',
+            as: 'orders'
+        });
+    }
+
 
 }
 

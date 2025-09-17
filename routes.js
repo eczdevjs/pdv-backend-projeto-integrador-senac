@@ -17,19 +17,20 @@ routes.get('/products/list', productController.index);
 routes.put('/products/edit/:id', productController.update);
 routes.delete('/products/delete/:id', productController.delete);
 
+
 /*USER ROUTES*/ 
 routes.post('/users/register',userController.store);
 // only admins are supposed to see all registered users
 routes.get('/users/', loginRequired , userController.index);
-
 routes.get('/users/user',loginRequired , userController.show);
 routes.put('/users/',loginRequired , userController.update);
-
 // deve ser deletado apenas por adm, se nao for o usuario nao deve excluir o proprio registro, mas pode setar a flag do tipo isActive para falso
 routes.delete('/users/',loginRequired , userController.delete);
 
+
 //TOKEN ROUTES
 routes.post('/tokens/', tokenController.store);
+
 
 // CLIENT ROUTES
 
@@ -39,9 +40,8 @@ routes.get('/clients/:id', clientController.show);
 routes.put("/clients/edit/:id", clientController.update)
 routes.delete("/clients/delete/:id", clientController.delete)
 
+
 //PAYMENT METHOD ROUTES
-
-
 // Access: loginRequired add or exclude as well admin access.
 routes.post('/paymentmethod/register', paymentMethodController.store)
 routes.get('/paymentmethod/list', paymentMethodController.index);
@@ -53,6 +53,10 @@ routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
 // ORDER ROUTES
 
 routes.post('/order/store', orderController.store);
+routes.get('/orders/list', orderController.index);
+routes.get('/orders/order/:id', orderController.show);
+routes.delete('/orders/delete/:id', orderController.delete);
+
 
 module.exports = routes;
 

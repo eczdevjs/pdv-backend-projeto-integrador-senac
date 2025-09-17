@@ -87,6 +87,15 @@ class User extends Model {
         return bcrypt.compare(password, this.password_hash)
     }
 
+
+    static associate(models){
+        User.hasMany(models.Order, {
+            foreignKey: 'userId',
+            as: 'orders'
+        });
+    }
+
+
 }
 
 module.exports = User;
