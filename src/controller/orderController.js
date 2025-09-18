@@ -47,6 +47,10 @@ class OrderController {
                     model: PaymentMethod,
                     as: 'paymentMethod',
                     attributes: ['name']
+                },{
+                    model: Suborder,
+                    as: 'suborders'
+                    // include: ['']
                 }] 
             });
 

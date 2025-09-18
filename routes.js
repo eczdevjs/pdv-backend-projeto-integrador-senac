@@ -51,7 +51,7 @@ routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
 
 
 // ORDER ROUTES
-
+//LOGIN REQUIRED HERE
 routes.post('/order/store', orderController.store);
 routes.get('/orders/list', orderController.index);
 routes.get('/orders/order/:id', orderController.show);
