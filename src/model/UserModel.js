@@ -1,5 +1,6 @@
 const { Sequelize, Model } = require('sequelize');
 const validator = require('validator');
+
 const bcrypt = require('bcryptjs');
 
 class User extends Model {
@@ -92,6 +93,11 @@ class User extends Model {
         User.hasMany(models.Order, {
             foreignKey: 'userId',
             as: 'orders'
+        });
+
+        User.hasMany(models.Shift, {
+            foreignKey: 'userId',
+            as: 'shifts'
         });
     }
 

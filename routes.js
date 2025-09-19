@@ -7,6 +7,8 @@ const clientContrller = require('./src/controller/clientController');
 const clientController = require('./src/controller/clientController');
 const paymentMethodController = require('./src/controller/paymentMethodController');
 const orderController = require('./src/controller/orderController');
+const shiftController = require('./src/controller/shiftController');
+
 const routes = express.Router();
 
 
@@ -37,8 +39,8 @@ routes.post('/tokens/', tokenController.store);
 routes.post('/clients/register/', clientContrller.store);
 routes.get('/clients/list/', clientController.index);
 routes.get('/clients/:id', clientController.show);
-routes.put("/clients/edit/:id", clientController.update)
-routes.delete("/clients/delete/:id", clientController.delete)
+routes.put("/clients/edit/:id", clientController.update);
+routes.delete("/clients/delete/:id", clientController.delete);
 
 
 //PAYMENT METHOD ROUTES
@@ -57,6 +59,12 @@ routes.get('/orders/list', orderController.index);
 routes.get('/orders/order/:id', orderController.show);
 routes.delete('/orders/delete/:id', orderController.delete);
 
+
+//SHIFT ROUTES
+
+routes.post('/shifts/open', shiftController.open);
+// O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
+routes.patch('/shifts/close/:shiftId', shiftController.close)
 
 module.exports = routes;
 

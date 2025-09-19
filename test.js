@@ -16,3 +16,9 @@ const text = undercoreAndUppFromSpace('cartao de credito');
 console.log(text);
 // let paymentMethod = 'Credit card';
 
+const obj = {
+    name : 'jair',
+    lastname : 'messias'
+}
+
+console.log(obj.length);
