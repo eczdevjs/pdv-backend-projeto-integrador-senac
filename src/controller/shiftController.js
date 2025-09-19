@@ -51,6 +51,11 @@ class ShiftController {
 
     }
 
+
+
+    /* SHOW ALL OPERATIONS OF ONE USER : USER CAN SEE JUST SHIFT HE OWNS */
+
+
     // async index(req, res) {
     //     try {
     //         const shifts = await shift.findAll({
@@ -89,6 +94,7 @@ class ShiftController {
     //     }
     // }
 
+    /* FILTER BY DATE? SHOW  ALL OF THE DAY*/
     //     async show(req, res) {
     //         try {
     //             if (!req.params.id) {
@@ -141,6 +147,8 @@ class ShiftController {
     }
 
 
+    /* ONLY ADM CAN UPDATE? */
+    /* ONLY ADM CAN DELETE?  */
     //     async delete(req, res) {
     //           if (!req.params.id) {
     //            return req.status(400).json({ msg: "Id paramether required" });
@@ -158,7 +166,5 @@ class ShiftController {
     //     }
 
 }
-
-
 
 module.exports = new ShiftController();
