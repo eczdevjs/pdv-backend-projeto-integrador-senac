@@ -35,10 +35,8 @@ class Shift extends Model {
             difference: {
                 type: Sequelize.DECIMAL(10, 2),
                 allowNull: true
-            },
-
+            }
         },
-
             {
                 sequelize,
                 modelName: 'Shift',

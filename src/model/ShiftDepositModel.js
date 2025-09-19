@@ -1,5 +1,4 @@
 const { Sequelize, Model } = require('sequelize');
-const Shift = require('./ShiftModel');
 
 class ShiftDeposit extends Model {
     static init(sequelize) {
