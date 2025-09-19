@@ -10,6 +10,7 @@ const orderController = require('./src/controller/orderController');
 const shiftController = require('./src/controller/shiftController');
 const shiftDepositController = require('./src/controller/shiftDepositController');
 const shiftWithdrawController = require('./src/controller/shiftWithdrawController');
+const shiftTransactionController = require('./src/controller/shiftTransactionController')
 
 const routes = express.Router();
 
@@ -74,6 +75,12 @@ routes.patch('/shifts/close/:shiftId', shiftController.close)
 
 routes.post('/shift/deposit', shiftDepositController.store);
 routes.post('/shift/withdraw', shiftWithdrawController.store);
+
+
+//SHIFT TRANSACTION TYPE ROUTES
+routes.post('/shift/shifttransaction/register', shiftTransactionController.store);
+routes.get('/shift/shifttransaction/list', shiftTransactionController.index);
+
 
 
 module.exports = routes;
