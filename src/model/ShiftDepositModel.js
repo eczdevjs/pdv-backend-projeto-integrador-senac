@@ -38,6 +38,11 @@ class ShiftDeposit extends Model {
             foreignKey: 'shiftId',
             as: 'shift'
         })
+
+        this.hasMany(models.ShiftTransaction, {
+            foreignKey: 'depositId',
+            as: 'transactions'
+        })
     }
 
 }

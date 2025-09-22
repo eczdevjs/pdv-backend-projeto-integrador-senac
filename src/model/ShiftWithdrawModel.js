@@ -45,6 +45,11 @@ class ShiftWithdraw extends Model {
             foreignKey: 'shiftId',
             as: 'shift'
         });
+
+        this.hasMany(models.ShiftTransaction, {
+            foreignKey: 'withdrawId',
+            as:'transactions'
+        })
     }
 
 }

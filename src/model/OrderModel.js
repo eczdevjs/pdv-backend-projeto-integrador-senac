@@ -55,6 +55,11 @@ class Order extends Model {
             foreignKey: 'order_id',
             as: 'suborders'
         });
+
+        this.hasMany(models.ShiftTransaction, {
+            model: 'ShiftTransaction',
+            as: 'order'
+        });
     }
 }
 

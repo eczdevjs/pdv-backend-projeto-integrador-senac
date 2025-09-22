@@ -99,6 +99,11 @@ class User extends Model {
             foreignKey: 'userId',
             as: 'shifts'
         });
+
+        this.hasMany(models.ShiftTransaction, {
+            model: 'ShiftTransaction',
+            as: 'user'
+        });
     }
 
 

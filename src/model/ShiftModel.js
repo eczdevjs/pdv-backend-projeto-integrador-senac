@@ -1,6 +1,5 @@
 const { Sequelize, Model } = require('sequelize');
 
-
 class Shift extends Model {
     static init(sequelize) {
         super.init({
@@ -44,8 +43,8 @@ class Shift extends Model {
                 timestamps: false,
                 underscored: true,
                 hooks: {
-                    beforeUpdate: (shift, options)=>{
-                        if(options.fields.includes('closingBalance') && !shift.endTime){
+                    beforeUpdate: (shift, options) => {
+                        if (options.fields.includes('closingBalance') && !shift.endTime) {
                             shift.endTime = new Date();
                         }
                     }
@@ -61,6 +60,11 @@ class Shift extends Model {
         Shift.belongsTo(models.User, {
             foreignKey: 'userId',
             as: 'user'
+        });
+
+        this.hasMany(models.ShiftTransaction, {
+            foreignKey: 'shiftId',
+            as: 'shift'
         });
 
 

@@ -20,6 +20,15 @@ class ShiftTransactionType extends Model {
         return this;
     }
 
+
+    static associate(models){
+   
+        this.hasMany(models.ShiftTransaction, {
+            foreignKey: 'transactionTypeId',
+            as: 'transactions'
+        });
+    }
+
 }
 
 module.exports = ShiftTransactionType;
