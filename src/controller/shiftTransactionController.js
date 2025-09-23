@@ -1,3 +1,5 @@
+const sequelize = require('../database/connection');
+
 const Order = require('../model/OrderModel');
 const User = require('../model/UserModel');
 const PaymentMethod = require('../model/PaymentMethod');
@@ -6,7 +8,7 @@ const ShiftTransctionType = require('../model/ShiftTransactionType');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const ShiftWithdraw = require('../model/ShiftWithdrawModel');
 const ShiftDeposit = require('../model/ShiftDepositModel');
-
+const Suborder = require('../model/SuborderModel');
 
 
 class ShiftTransactionController {
@@ -19,29 +21,38 @@ class ShiftTransactionController {
 
         try {
 
-            const order = await Order.create(req.body);
+            await sequelize.transaction(async (t) => {
+                const order = await Order.create(req.body, {
+                    include: [{
+                        model: Suborder,
+                        as: 'suborders'
+                    }],
+                    transaction: t
+                });
 
-            if(!order){
-               return res.status(400).json({msg: "Error creating new order: Operation aborted"});
-            }
+                if (!order) {
+                    return res.status(400).json({ msg: "Error creating new order: Operation aborted" });
+                }
 
-        
-            const shiftTransaction = {
-                shiftId: 1,
-                amount : order.totalOrder,
-                userId: 1,
-                transactionTypeId: 1,
-                paymentMethodId: order.paymentMethodId,
-                orderId: order.id
-            }
+                const shiftTransaction = {
+                    // order must have a field shiftId todo:implement it
+                    shiftId: 1,
+                    amount: order.totalOrder,
+                    userId: order.userId,
+                    transactionTypeId: 1,// SALE 
+                    paymentMethodId: order.paymentMethodId,
+                    orderId: order.id
+                }
 
-            const transactionCreated = await ShiftTransaction.create(shiftTransaction);
-            
-            if(!transactionCreated){
-                return res.status(400).json({msg: "Error creating transaction"});
-            }
+                const transactionCreated = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
-            res.status(201).json({order, transactionCreated});
+                if (!transactionCreated) {
+                    return res.status(400).json({ msg: "Error creating transaction" });
+                }
+
+                res.status(201).json({ order, transaction: ShiftTransactionController.filterNullFields(shiftTransaction) });
+
+            });
 
         } catch (error) {
             console.log(error);
@@ -49,6 +60,7 @@ class ShiftTransactionController {
         }
 
     }
+
 
     async createDepositTransaction(req, res) {
 
@@ -76,7 +88,7 @@ class ShiftTransactionController {
 
             const shiftTransaction = await ShiftTransaction.create(req.body);
 
-            console.log('shiftTransaction return: ',shiftTransaction)
+            console.log('shiftTransaction return: ', shiftTransaction)
 
             if (!shiftTransaction) {
                 return res.status(401).json({ msg: "error creating shift" });
@@ -124,7 +136,7 @@ class ShiftTransactionController {
 
             const shiftTransaction = await ShiftTransaction.create(req.body);
 
-            console.log('shiftTransaction return: ',shiftTransaction)
+            console.log('shiftTransaction return: ', shiftTransaction)
 
             if (!shiftTransaction) {
                 return res.status(401).json({ msg: "error creating shift" });
@@ -137,7 +149,7 @@ class ShiftTransactionController {
             //     openingBalance: shift.openingBalance
             // };
 
-            return res.status(201).json(shiftTransaction);
+            return res.status(201).json(this.filterNullFields(shiftTransaction));
 
         } catch (error) {
             console.log(error);
@@ -146,166 +158,17 @@ class ShiftTransactionController {
 
     }
 
-    async createReturnTransaction(req, res) {
-
-        if (!req.body) {
-            return res.status(400).json({ msg: "Body requisition must be provided" })
-        }
-        // i need to grant all fields were provided
-
-        // at least userId and opening Balance must be provided;
-        // if (Object.keys(req.body).length < 2) {
-        //     return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
-        // }
-        // // check if fields are right, think about it
 
 
-        // // fields are required and can not be null
-        // for (let key in req.body) {
-        //     if (!req.body[key]) {
-        //         return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
-        //     }
-        // }
-
-
-        try {
-
-            const shiftTransaction = await ShiftTransaction.create(req.body);
-
-            console.log('shiftTransaction return: ',shiftTransaction)
-
-            if (!shiftTransaction) {
-                return res.status(401).json({ msg: "error creating shift" });
+    static filterNullFields(obj) {
+        return Object.keys(obj).reduce((accumulator, key) => {
+            const value = obj[key];
+            if (value !== null && value !== undefined) {
+                accumulator[key] = value;
             }
-
-            // const shiftFiltered = {
-            //     id: shift.id,
-            //     userId: shift.userId,
-            //     startTime: shift.startTime,
-            //     openingBalance: shift.openingBalance
-            // };
-
-            return res.status(201).json(shiftTransaction);
-
-        } catch (error) {
-            console.log(error);
-            res.status(402).json(error);
-        }
-
+            return accumulator;
+        }, {});
     }
-
-    /* SHOW ALL OPERATIONS OF ONE USER : USER CAN SEE JUST SHIFT HE OWNS */
-
-
-    // async index(req, res) {
-    //     try {
-    //         const shifts = await shift.findAll({
-    //             attributes: ['id', 'totalshift', 'createdAt'],
-    //             include: [{
-    //                 model: Client,
-    //                 as: 'client',
-    //                 attributes: ['id', 'name', 'lastName']
-    //             }, {
-    //                 model: User,
-    //                 as: 'user',
-    //                 attributes: ['id', 'name']
-    //             }, {
-    //                 model: PaymentMethod,
-    //                 as: 'paymentMethod',
-    //                 attributes: ['name']
-    //             }, {
-    //                 model: Subshift,
-    //                 as: 'subshifts'
-    //                 // include: ['']
-    //             }]
-    //         });
-    //         console.log("shifts: ", shifts);
-
-
-    //         if (!shifts) {
-    //             return res.json({ message: 'shift list empty  or not found' })
-    //         }
-
-    //         return res.json(shifts);
-
-    //     } catch (error) {
-    //         console.log(error);
-
-    //         res.json(error);
-    //     }
-    // }
-
-    /* FILTER BY DATE? SHOW  ALL OF THE DAY*/
-    //     async show(req, res) {
-    //         try {
-    //             if (!req.params.id) {
-    //                 req.status(400).json({ msg: "Id paramether required" });
-    //             }
-
-    //             const shift = await shift.findByPk(req.params.id, {
-    //                 attributes: ['id', 'totalshift','createdAt'],
-    //                 include:[{
-    //                     model: Client,
-    //                     as: 'client',
-    //                     attributes: ['id','name', 'lastName']
-    //                 },{
-    //                     model: User,
-    //                     as: 'user',
-    //                     attributes: ['id','name']
-    //                 },{
-    //                     model: PaymentMethod,
-    //                     as: 'paymentMethod',
-    //                     attributes: ['name']
-    //                 }] 
-    //             });
-
-    //             if (!shift) {
-    //                 res.status(404).json({ msg: "Client not foud" });
-    //             }
-
-    //             res.status(200).json(shift);
-
-
-    //         } catch (error) {
-    //             res.status(400).json(error);
-    //         }
-    //     }
-
-    // async update(req, res) {
-    //     if (!req.params.id) {
-    //         return req.status(400).json({ msg: "Id paramether required" });
-    //     }
-
-    //     const shift = await shift.findByPk(req.params.id);
-
-    //     if (!shift) {
-    //         return res.status(404).json({ msg: "Client not foud" });
-    //     }
-
-    //     const updated = await shift.update(req.body);
-
-    //     return res.status(200).json(updated);
-    // }
-
-
-    /* ONLY ADM CAN UPDATE? */
-    /* ONLY ADM CAN DELETE?  */
-    //     async delete(req, res) {
-    //           if (!req.params.id) {
-    //            return req.status(400).json({ msg: "Id paramether required" });
-    //         }
-
-    //         const shift = await shift.findByPk(req.params.id);
-
-    //         if (!shift) {
-    //             return res.status(404).json({ msg: "Client not foud" });
-    //         }
-
-    //         await shift.destroy();
-
-    //        return res.status(204).json({msg: "Client deleted"});
-    //     }
-
 }
 
 module.exports = new ShiftTransactionController();

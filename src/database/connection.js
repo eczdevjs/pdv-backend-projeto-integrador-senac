@@ -34,3 +34,5 @@ models.forEach(model => model.init(connection));
 // adicionado aqui para sanar o problema de assciacao
 //aparentemente este era o problema
 models.forEach(model => model.associate && model.associate(connection.models));
+
+module.exports = connection;
