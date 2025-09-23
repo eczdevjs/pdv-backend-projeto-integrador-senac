@@ -13,7 +13,14 @@ class ShiftDeposit extends Model {
             },
             amount: {
                 type: Sequelize.DECIMAL(10,2),
-                allowNull: false
+                allowNull: false,
+                validate: {
+                    isPositive(value){
+                        if(value < 0){
+                            throw new Error("Deposit value must be positibe (more than 0)")
+                        }
+                    }
+                }
             }
         },
 

@@ -87,6 +87,8 @@ routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.in
 // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
 
 routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
+routes.post('/shift-transactions/withdraw', shiftTransactionController.createWithdrawTransaction);
+routes.post('/shift-transactions/deposit', shiftTransactionController.createDepositTransaction);
 
 module.exports = routes;
 

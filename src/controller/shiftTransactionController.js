@@ -47,7 +47,7 @@ class ShiftTransactionController {
                 const transactionCreated = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
                 if (!transactionCreated) {
-                    return res.status(400).json({ msg: "Error creating transaction" });
+                    return res.status(400).json({ msg: "Error creating transaction: Aborted" });
                 }
 
                 res.status(201).json({ order, transaction: ShiftTransactionController.filterNullFields(shiftTransaction) });
@@ -62,105 +62,105 @@ class ShiftTransactionController {
     }
 
 
-    async createDepositTransaction(req, res) {
-
-        if (!req.body) {
-            return res.status(400).json({ msg: "Body requisition must be provided" })
-        }
-        // i need to grant all fields were provided
-
-        // at least userId and opening Balance must be provided;
-        // if (Object.keys(req.body).length < 2) {
-        //     return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
-        // }
-        // // check if fields are right, think about it
-
-
-        // // fields are required and can not be null
-        // for (let key in req.body) {
-        //     if (!req.body[key]) {
-        //         return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
-        //     }
-        // }
-
-
-        try {
-
-            const shiftTransaction = await ShiftTransaction.create(req.body);
-
-            console.log('shiftTransaction return: ', shiftTransaction)
-
-            if (!shiftTransaction) {
-                return res.status(401).json({ msg: "error creating shift" });
-            }
-
-            // const shiftFiltered = {
-            //     id: shift.id,
-            //     userId: shift.userId,
-            //     startTime: shift.startTime,
-            //     openingBalance: shift.openingBalance
-            // };
-
-            return res.status(201).json(shiftTransaction);
-
-        } catch (error) {
-            console.log(error);
-            res.status(402).json(error);
-        }
-
-    }
-
     async createWithdrawTransaction(req, res) {
 
         if (!req.body) {
             return res.status(400).json({ msg: "Body requisition must be provided" })
         }
-        // i need to grant all fields were provided
-
-        // at least userId and opening Balance must be provided;
-        // if (Object.keys(req.body).length < 2) {
-        //     return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
-        // }
-        // // check if fields are right, think about it
-
-
-        // // fields are required and can not be null
-        // for (let key in req.body) {
-        //     if (!req.body[key]) {
-        //         return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
-        //     }
-        // }
 
 
         try {
 
-            const shiftTransaction = await ShiftTransaction.create(req.body);
+            await sequelize.transaction(async (t) => {
 
-            console.log('shiftTransaction return: ', shiftTransaction)
+                const withdraw = await ShiftWithdraw.create(req.body, { transaction: t });
 
-            if (!shiftTransaction) {
-                return res.status(401).json({ msg: "error creating shift" });
-            }
+                if (!withdraw) {
+                    return res.status(400).json({ msg: "error creating withdraw" });
+                }
 
-            // const shiftFiltered = {
-            //     id: shift.id,
-            //     userId: shift.userId,
-            //     startTime: shift.startTime,
-            //     openingBalance: shift.openingBalance
-            // };
+                const shiftWithdraw = {
+                    shiftId: 1,
+                    amount: withdraw.amount,
+                    userId: withdraw.userId,
+                    transactionTypeId: 3,// SALE 
+                    paymentMethodId: 2,
+                    withdrawId: withdraw.id
+                }
 
-            return res.status(201).json(this.filterNullFields(shiftTransaction));
 
+                const withdrawRegister = await ShiftTransaction.create(shiftWithdraw, { transaction: t });
+
+
+                if (!withdrawRegister) {
+                    return res.status(401).json({ msg: "error creating withdraw record" });
+                }
+
+                return res.status(201).json(ShiftTransactionController.filterNullFields(withdrawRegister));
+
+            });
+
+            
         } catch (error) {
             console.log(error);
-            res.status(402).json(error);
+            res.status(402).json({msg: "error creating withdraw register : aborted catch block"});
         }
 
     }
 
 
+    async createDepositTransaction(req, res) {
+
+        if (!req.body) {
+            return res.status(400).json({ msg: "Body requisition must be provided" })
+        }
+
+
+        try {
+
+            await sequelize.transaction(async (t) => {
+
+                const deposit = await ShiftDeposit.create(req.body, { transaction: t });
+
+                if (!deposit) {
+                    return res.status(400).json({ msg: "error creating withdraw" });
+                }
+
+                const shiftDeposit = {
+                    shiftId: 1,
+                    amount: deposit.amount,
+                    userId: deposit.userId,
+                    transactionTypeId: 2,// SALE 
+                    paymentMethodId: 2,
+                    depositId: deposit.id
+                }
+
+
+                const depositRegister = await ShiftTransaction.create(shiftDeposit, { transaction: t });
+
+
+                if (!depositRegister) {
+                    return res.status(401).json({ msg: error.message });
+                }
+
+                return res.status(201).json(ShiftTransactionController.filterNullFields(depositRegister));
+
+            });
+
+            
+        } catch (error) {
+            console.log(error);
+            res.status(402).json({msg: error.message});
+        }
+
+    }
 
     static filterNullFields(obj) {
+
+        if(typeof obj.toJSON === "function"){
+            obj = obj.toJSON();
+        }
+
         return Object.keys(obj).reduce((accumulator, key) => {
             const value = obj[key];
             if (value !== null && value !== undefined) {
