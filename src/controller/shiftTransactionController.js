@@ -5,10 +5,13 @@ const User = require('../model/UserModel');
 const PaymentMethod = require('../model/PaymentMethod');
 const Shift = require('../model/ShiftModel');
 const ShiftTransctionType = require('../model/ShiftTransactionType');
+
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const ShiftWithdraw = require('../model/ShiftWithdrawModel');
 const ShiftDeposit = require('../model/ShiftDepositModel');
 const Suborder = require('../model/SuborderModel');
+const Product = require('../model/ProductModel');
+
 
 
 class ShiftTransactionController {
@@ -36,7 +39,7 @@ class ShiftTransactionController {
 
                 const shiftTransaction = {
                     // order must have a field shiftId todo:implement it
-                    shiftId: 1,
+                    shiftId: 2,
                     amount: order.totalOrder,
                     userId: order.userId,
                     transactionTypeId: 1,// SALE 
@@ -67,7 +70,6 @@ class ShiftTransactionController {
         if (!req.body) {
             return res.status(400).json({ msg: "Body requisition must be provided" })
         }
-
 
         try {
 
@@ -100,10 +102,10 @@ class ShiftTransactionController {
 
             });
 
-            
+
         } catch (error) {
             console.log(error);
-            res.status(402).json({msg: "error creating withdraw register : aborted catch block"});
+            res.status(402).json({ msg: "error creating withdraw register : aborted catch block" });
         }
 
     }
@@ -147,17 +149,68 @@ class ShiftTransactionController {
 
             });
 
-            
+
         } catch (error) {
             console.log(error);
-            res.status(402).json({msg: error.message});
+            res.status(402).json({ msg: error.message });
         }
 
     }
 
+    
+    async index(req, res) {
+
+        const { shiftId } = req.body;
+
+        try {
+
+            const transactions = await ShiftTransaction.findAll({
+                where: { shiftId },
+                attributes: ['id', 'shiftId', 'amount'],
+                include: [{
+                    model: User,
+                    attributes: ['id', 'name'],
+                    as: 'user'
+                },{
+                    model: ShiftTransctionType,
+                    attributes: ['name'],
+                    as: 'type'
+                }, {
+                    model: PaymentMethod,
+                    attributes: ['name'],
+                    as: 'payment'
+                }, {
+                    model: Order,
+                    as: 'order',
+                    attributes: ['id', 'clientId', 'totalOrder'],
+                    include: [{
+                        model: Suborder,
+                        as: 'suborders',
+                        attributes: ['qtt', 'total'],
+                        include: [{
+                            model: Product,
+                            as: 'product',
+                            attributes: ['id', 'name', 'price']
+                        }]
+                    }]
+                }
+
+                ]
+            });
+
+            return res.status(200).json(transactions);
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: error.message });
+        }
+
+    }
+
+
     static filterNullFields(obj) {
 
-        if(typeof obj.toJSON === "function"){
+        if (typeof obj.toJSON === "function") {
             obj = obj.toJSON();
         }
 

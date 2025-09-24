@@ -68,7 +68,7 @@ routes.delete('/orders/delete/:id', orderController.delete);
 
 routes.post('/shifts/open', shiftController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
-routes.patch('/shifts/close/:shiftId', shiftController.close)
+routes.patch('/shifts/close/', shiftController.close)
 
 
 
@@ -89,6 +89,7 @@ routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.in
 routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
 routes.post('/shift-transactions/withdraw', shiftTransactionController.createWithdrawTransaction);
 routes.post('/shift-transactions/deposit', shiftTransactionController.createDepositTransaction);
+routes.get('/shift-transactions/list', shiftTransactionController.index);
 
 module.exports = routes;
 
