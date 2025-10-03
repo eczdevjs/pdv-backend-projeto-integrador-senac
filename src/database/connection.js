@@ -11,6 +11,7 @@ const ShiftDeposit = require('../model/ShiftDepositModel');
 const ShiftWithdraw = require('../model/ShiftWithdrawModel');
 const ShiftTransactionType = require('../model/ShiftTransactionType');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
+const Stock = require('../model/StockModel');
 
 
 const models = [
@@ -24,7 +25,8 @@ const models = [
     ShiftDeposit,
     ShiftWithdraw,
     ShiftTransactionType,
-    ShiftTransaction
+    ShiftTransaction,
+    Stock
 ];
 
 const connection = new Sequelize(databaseConfig);
