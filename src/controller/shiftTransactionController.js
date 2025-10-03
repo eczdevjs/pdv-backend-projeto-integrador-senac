@@ -5,7 +5,6 @@ const User = require('../model/UserModel');
 const PaymentMethod = require('../model/PaymentMethod');
 const Shift = require('../model/ShiftModel');
 const ShiftTransctionType = require('../model/ShiftTransactionType');
-
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const ShiftWithdraw = require('../model/ShiftWithdrawModel');
 const ShiftDeposit = require('../model/ShiftDepositModel');
@@ -66,6 +65,7 @@ class ShiftTransactionController {
 
 
     async createWithdrawTransaction(req, res) {
+        //implementing security checks
 
         if (!req.body) {
             return res.status(400).json({ msg: "Body requisition must be provided" })
@@ -80,7 +80,7 @@ class ShiftTransactionController {
                 if (!withdraw) {
                     return res.status(400).json({ msg: "error creating withdraw" });
                 }
-
+                // ajustar aqui, esta uma bosta
                 const shiftWithdraw = {
                     shiftId: 1,
                     amount: withdraw.amount,
@@ -117,7 +117,6 @@ class ShiftTransactionController {
             return res.status(400).json({ msg: "Body requisition must be provided" })
         }
 
-
         try {
 
             await sequelize.transaction(async (t) => {
@@ -127,6 +126,11 @@ class ShiftTransactionController {
                 if (!deposit) {
                     return res.status(400).json({ msg: "error creating withdraw" });
                 }
+
+
+                // using destructuring
+                // const { amount , userId, depositId } = deposit;
+                // const shiftRecord = { amount , userId, depositId }
 
                 const shiftDeposit = {
                     shiftId: 1,
@@ -157,7 +161,6 @@ class ShiftTransactionController {
 
     }
 
-    
     async index(req, res) {
 
         const { shiftId } = req.body;

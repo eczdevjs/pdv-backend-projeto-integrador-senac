@@ -16,13 +16,12 @@ const shiftTransactionController = require('./src/controller/shiftTransactionCon
 const routes = express.Router();
 
 
-/* PRODUCTS  ROUTES */
+/* PRODUCTS  ROUTES  */
 routes.post('/products/register', productController.store);
 routes.get('/products/product/:id', productController.show);
 routes.get('/products/list', productController.index);
 routes.put('/products/edit/:id', productController.update);
 routes.delete('/products/delete/:id', productController.delete);
-
 
 /*USER ROUTES*/ 
 routes.post('/users/register',userController.store);
@@ -37,17 +36,14 @@ routes.delete('/users/',loginRequired , userController.delete);
 //TOKEN ROUTES
 routes.post('/tokens/', tokenController.store);
 
-
 // CLIENT ROUTES
-
 routes.post('/clients/register/', clientContrller.store);
 routes.get('/clients/list/', clientController.index);
 routes.get('/clients/:id', clientController.show);
 routes.put("/clients/edit/:id", clientController.update);
 routes.delete("/clients/delete/:id", clientController.delete);
 
-
-//PAYMENT METHOD ROUTES
+//PAYMENT METHOD ROUTES: ADMIN ONLY
 // Access: loginRequired add or exclude as well admin access.
 routes.post('/paymentmethod/register', paymentMethodController.store)
 routes.get('/paymentmethod/list', paymentMethodController.index);
@@ -55,37 +51,30 @@ routes.get('/paymentmethod/:id', paymentMethodController.show);
 routes.put('/paymentmethod/:id', paymentMethodController.update);
 routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
 
-
-// ORDER ROUTES
+// ORDER ROUTES 
 //LOGIN REQUIRED HERE
 routes.post('/order/store', orderController.store);
 routes.get('/orders/list', orderController.index);
 routes.get('/orders/order/:id', orderController.show);
 routes.delete('/orders/delete/:id', orderController.delete);
 
-
 //SHIFT ROUTES
-
 routes.post('/shifts/open', shiftController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
 routes.patch('/shifts/close/', shiftController.close)
 
-
-
-// SHIFT DEPOSIT ROUTES
-
+// !!!!!!!!!!!!!!!!!!THIS ENDPOINT SHOULD NOT BE KEPT
+// SHIFT DEPOSIT ROUTES : TEST ONLY, THIS ENDPOINT SHOULD NOT EXIST
 routes.post('/shift/deposit', shiftDepositController.store);
 routes.post('/shift/withdraw', shiftWithdrawController.store);
 
-
+/*!!!!!! ADMIN ONLY!!!!!!!!!!!!! */
 //SHIFT TRANSACTION TYPE ROUTES
-
 routes.post('/shift/shifttransactiontype/register', shiftTransactionTypeController.store);
 routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
 
-
 // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
-
+// every transaction of shift, Sale, Deposit, Withdraw, Refund
 routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
 routes.post('/shift-transactions/withdraw', shiftTransactionController.createWithdrawTransaction);
 routes.post('/shift-transactions/deposit', shiftTransactionController.createDepositTransaction);
