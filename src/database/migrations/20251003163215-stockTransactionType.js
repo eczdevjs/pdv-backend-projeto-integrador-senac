@@ -37,15 +37,17 @@ module.exports = {
     });
 
     await queryInterface.bulkInsert('stock_transaction_type', [
-      { code: 'purchase', description: 'Stock coming from supplier', created_at: new Date(), updated_at: new Date() },
+      { code: 'in_purchase', description: 'Stock coming from supplier', created_at: new Date(), updated_at: new Date() },
 
-      { code: 'sale', description: 'Stock leaving due to customer sale', created_at: new Date(), updated_at: new Date() },
+      { code: 'out_sale', description: 'Stock going out from a customer sale', created_at: new Date(), updated_at: new Date() },
 
-      { code: 'refund', description: 'Stock added back due to customer return', created_at: new Date(), updated_at: new Date() },
+      { code: 'in_return', description: 'Stock returned by customer', created_at: new Date(), updated_at: new Date() },
 
-      { code: 'adjustment', description: 'Manual correction', created_at: new Date(), updated_at: new Date() },
-      
-      { code: 'transfer', description: 'Movement between warehouses', created_at: new Date(), updated_at: new Date() },
+      { code: 'out_damage', description: 'Stock removed due to spoilage', created_at: new Date(), updated_at: new Date() },
+
+      { code: 'adj_up', description: 'Manual positive adjustment', created_at: new Date(), updated_at: new Date() },
+
+      { code: 'adj_down', description: 'Manual negative adjustment', created_at: new Date(), updated_at: new Date() },
     ]);
   },
 
