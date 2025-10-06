@@ -22,10 +22,15 @@ class StockTransactionType extends Model {
         })
     }
 
-    // associate to stock transactions
-    // static assciate(models){
+    
+    static assciate(models){
 
-    // }
+        this.hasMany(models.StockTransactions,{
+            foreignKey: 'typeId',
+            as: 'type'
+        });
+
+    }
 }
 
 module.exports = StockTransactionType;

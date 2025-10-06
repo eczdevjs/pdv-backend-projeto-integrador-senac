@@ -13,6 +13,9 @@ const ShiftTransactionType = require('../model/ShiftTransactionType');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const Stock = require('../model/StockModel');
 const StockTransactionType = require('../model/StockTransactionTypeModel');
+const StockReferenceType = require('../model/StockReferenceTypeModel');
+const StockTransaction = require('../model/StockTransactionModel');
+
 
 const models = [
     Product,
@@ -27,7 +30,9 @@ const models = [
     ShiftTransactionType,
     ShiftTransaction,
     Stock,
-    StockTransactionType
+    StockTransactionType,
+    StockReferenceType,
+    StockTransaction
 ];
 
 const connection = new Sequelize(databaseConfig);

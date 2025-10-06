@@ -1,7 +1,7 @@
 const { Sequelize, Model } = require('sequelize');
 
 
-class StockRefereceType extends Model {
+class StockReferenceType extends Model {
     static init(sequelize) {
         super.init({
             code: {
@@ -9,6 +9,7 @@ class StockRefereceType extends Model {
                 allowNull: false,
                 unique: true
             },
+
             tableName: {
                 type: Sequelize.STRING,
                 allowNull: true,
@@ -21,7 +22,7 @@ class StockRefereceType extends Model {
             }
         }, {
             sequelize,
-            modelName: 'StockRefereceType',
+            modelName: 'StockReferenceType',
             tableName: 'stock_reference_type',
             timestamps: true,
             underscored: true
@@ -29,9 +30,12 @@ class StockRefereceType extends Model {
     }
 
     // associate to stock transactions
-    // static assciate(models){
-
-    // }
+    static assciate(models){
+        this.hasMany(models.StocTransaction, {
+            foreignKey: 'referenceTypeId',
+            as: 'referenceType'
+        })
+    }
 }
 
-module.exports = StockRefereceType;
+module.exports = StockReferenceType;
