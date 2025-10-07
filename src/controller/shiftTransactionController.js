@@ -10,11 +10,21 @@ const ShiftWithdraw = require('../model/ShiftWithdrawModel');
 const ShiftDeposit = require('../model/ShiftDepositModel');
 const Suborder = require('../model/SuborderModel');
 const Product = require('../model/ProductModel');
+const Stock = require('../model/StockModel');
+const StockTransaction = require('../model/StockTransactionModel');
+
+
+//IMPLEMENTAR O CANCELAMENTO E DEVOLUCAO DA VENDA
+// STOCK
+// SHIFT
+
+
+
 
 
 
 class ShiftTransactionController {
-
+//  !!!!!!!!!!!!!   IMPLEMENTAR IDEMPOTENCIA  !!!!!!!!!!!!!!!!!
     async createSaleTransaction(req, res) {
 
         if (!req.body) {
@@ -23,7 +33,7 @@ class ShiftTransactionController {
 
         try {
 
-            await sequelize.transaction(async (t) => {
+           const result = await sequelize.transaction(async (t) => {
                 const order = await Order.create(req.body, {
                     include: [{
                         model: Suborder,
@@ -52,9 +62,30 @@ class ShiftTransactionController {
                     return res.status(400).json({ msg: "Error creating transaction: Aborted" });
                 }
 
-                res.status(201).json({ order, transaction: ShiftTransactionController.filterNullFields(shiftTransaction) });
 
+                const { suborders } = req.body;
+
+                for (let { productId, qtt, productPrice } of suborders) {
+                    await Stock.decrement('qty', {
+                        by: qtt,
+                        where: { productId: productId },
+                        transaction: t
+                    });
+
+                    await StockTransaction.create({
+                        productId: productId,
+                        qtyChange: qtt,
+                        unityCost: productPrice,
+                        typeId: 1,
+                        referenceTypeId: 1,
+                        referenceId: order.id
+                    });
+                }
+
+                return {order, shiftTransaction};
             });
+
+            res.status(201).json({ order: result.order, transaction: ShiftTransactionController.filterNullFields(result.shiftTransaction) });
 
         } catch (error) {
             console.log(error);
@@ -174,7 +205,7 @@ class ShiftTransactionController {
                     model: User,
                     attributes: ['id', 'name'],
                     as: 'user'
-                },{
+                }, {
                     model: ShiftTransctionType,
                     attributes: ['name'],
                     as: 'type'

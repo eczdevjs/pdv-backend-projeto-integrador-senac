@@ -17,6 +17,11 @@ class StockController {
         return res.status(201).json(register);
     }
 
+
+    async adjust(req, res){
+        
+    }
+
 }
 
 module.exports = new StockController();

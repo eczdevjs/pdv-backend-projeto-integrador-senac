@@ -11,7 +11,7 @@ class StockTransaction extends Model {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
-            unity_cost: {
+            unityCost: {
                 type: Sequelize.DECIMAL(10, 2),
                 allowNull: false
             },

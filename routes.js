@@ -84,6 +84,7 @@ routes.get('/shift-transactions/list', shiftTransactionController.index);
 // STOCK ROUTES
 
 routes.post('/stock/register/',stockController.store );
-
+//stock adjustment
+//routes.put('/stock/adjustes/:id', stockController.adjust)
 module.exports = routes;
 
