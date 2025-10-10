@@ -7,6 +7,10 @@ class StockTransaction extends Model {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
+            userId: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
             qtyChange: {
                 type: Sequelize.INTEGER,
                 allowNull: false
@@ -45,6 +49,11 @@ class StockTransaction extends Model {
             foreignKey: 'productId',
             as: 'products'
         });
+
+        this.belongsTo(models.User,{
+            foreignKey:'userId',
+            as: 'user'
+        })
 
         this.belongsTo(models.StockTransactionType, {
             foreignKey: 'typeId',
