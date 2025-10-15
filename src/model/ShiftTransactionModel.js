@@ -97,7 +97,7 @@ class ShiftTransaction extends Model {
                 timestamps: true,
                 underscored: true
             }
-        )
+        );
 
         return this;
     }

@@ -1,16 +1,12 @@
-const sequelize = require('../database/connection');
-
-const StockTransaction = require('../model/StockTransactionModel');
-const Stock = require('../model/StockModel');
-const EStockTransactionType = require('../model/enums/StockTransactionType');
-const EStockReferenceType = require('../model/enums/StockReferenceType')
-const StockAdjustment = require('../model/StockAdjustmentModel');
+const StockService = require('../service/StockService');
 
 
 
-class StockTransactionController {
+class StockController {
     //IMPLEMENTING IDEMPOTENCY
-    async store(req, res) {
+    // change store to purchase
+    // purchase purchaseline must be implemented before
+    async purchase(req, res) {
         if (!req.body) {
             return res.status(400).json({ msg: 'body requisition is required' });
         }
@@ -27,30 +23,15 @@ class StockTransactionController {
     //IMPLEMENTING INDEMPOTENCY
     async adjustment(req, res) {
         // check received values,  define strategy route, params or body
-        const { userId, qtyChange, reason, productId, productPrice } = req.body;
+        const { userId, qtyChange, reason, productId } = req.body;
 
         try {
 
-            await sequelize.transaction(async (t) => {
-
-                await Stock.increment('qty', { by: qtyChange, where: { productId }, transaction: t });
-
-                const { id } = await StockAdjustment.create({ productId, userId, qtyChange, reason, referenceCode: EStockReferenceType.ADJUSTMENT }, { transaction: t });
-
-                let typeId = qtyChange > 0 ? EStockTransactionType.ADJ_UP : EStockTransactionType.ADJ_DOWN;
-
-                const stock = await Stock.findByPk(productId);
-
-                await StockTransaction.create({
-                    userId,
-                    productId,
-                    qtyChange,
-                    unityCost: stock.avgCost,
-                    typeId,
-                    referenceTypeId: EStockReferenceType.ADJUSTMENT,
-                    referenceId: id
-                }, { transaction: t });
-            });
+            await StockService.adjustStock(
+                userId,
+                productId,
+                qtyChange,
+            );
 
             return res.status(201).json({ msg: 'Stock updated succesfuly' });
 
@@ -60,9 +41,9 @@ class StockTransactionController {
         }
     }
 
-    async purchase(req, res){
-        
+    async transference(req, res) {
+
     }
 }
 
-module.exports = new StockTransactionController;
+module.exports = new StockController;

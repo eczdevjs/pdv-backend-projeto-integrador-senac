@@ -16,6 +16,9 @@ const StockTransactionType = require('../model/StockTransactionTypeModel');
 const StockReferenceType = require('../model/StockReferenceTypeModel');
 const StockTransaction = require('../model/StockTransactionModel');
 const StockAdjustment = require('../model/StockAdjustmentModel');
+const Provider = require('../model/ProviderModel');
+const PurchaseOrder = require('../model/PurchaseOrderModel');
+const  PurchaseLine = require('../model/PurchaseLineModel');
 
 const models = [
     Product,
@@ -33,7 +36,10 @@ const models = [
     StockTransactionType,
     StockReferenceType,
     StockTransaction,
-    StockAdjustment
+    StockAdjustment,
+    Provider,
+    PurchaseOrder,
+    PurchaseLine,
 ];
 
 const connection = new Sequelize(databaseConfig);
