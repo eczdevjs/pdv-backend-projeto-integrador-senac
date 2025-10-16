@@ -28,7 +28,6 @@ class StockController {
 
     }
 
-
     //IMPLEMENTING INDEMPOTENCY
     async adjustment(req, res) {
         // check received values,  define strategy route, params or body

@@ -19,6 +19,10 @@ const StockAdjustment = require('../model/StockAdjustmentModel');
 const Provider = require('../model/ProviderModel');
 const PurchaseOrder = require('../model/PurchaseOrderModel');
 const  PurchaseLine = require('../model/PurchaseLineModel');
+const Store = require('../model/StoreModel');
+const StockTransfer = require('../model/StockTransfer');
+const StockTransferLine = require('../model/StockTransferLine');
+
 
 const models = [
     Product,
@@ -39,7 +43,10 @@ const models = [
     StockAdjustment,
     Provider,
     PurchaseOrder,
-    PurchaseLine,
+    PurchaseLine,,
+    Store,
+    StockTransfer,
+    StockTransferLine
 ];
 
 const connection = new Sequelize(databaseConfig);
