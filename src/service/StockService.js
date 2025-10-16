@@ -1,7 +1,7 @@
 
 const sequelize = require('../database/connection');
-const  Stock  = require('../model/StockModel');
-const StockTransaction  = require('../model/StockTransactionModel');
+const Stock = require('../model/StockModel');
+const StockTransaction = require('../model/StockTransactionModel');
 const EStockTransactionType = require('../model/enums/StockTransactionType');
 const EStockRerefenceType = require('../model/enums/StockReferenceType');
 const StockAdjustment = require('../model/StockAdjustmentModel');
@@ -13,20 +13,26 @@ const PurchaseOrder = require('../model/PurchaseOrderModel');
 class StockService {
     //IMPLEMENTAR AJUSTE
     static async adjustStock(userId, productId, qtyChange, reason) {
+
         const referenceTypeId = qtyChange > 0 ? EStockRerefenceType.ADJ_UP : EStockRerefenceType.ADJ_DOW;
 
-        const adjustment = await StockAdjustment.create({
-            productId,
-            userId,
-            qtyChange,
-            reason,
-            referenceCode: referenceTypeId
-        }, { transaction: t });
+        sequelize.transaction(async (t) => {
+
+            const adjustment = await StockAdjustment.create({
+                productId,
+                userId,
+                qtyChange,
+                reason,
+                referenceCode: referenceTypeId
+            }, { transaction: t });
+
+        })
+
     }
 
-    static async createPurchase(userId,productId, providerId, invoiceNumber, total, products) {
+    static async createPurchase(userId, productId, providerId, invoiceNumber, total, products) {
 
-        const response =  await sequelize.transaction(async (t) => {
+        const response = await sequelize.transaction(async (t) => {
 
             const purchase = await PurchaseOrder.create({ userId, providerId, invoiceNumber, total }, { transaction: t });
 
@@ -43,14 +49,15 @@ class StockService {
                     transaction: t
                 });
 
-                await this.stockPurchaseRecord(userId,productId, qty, unityCost, id, t);
+                await this.stockPurchaseRecord(userId, productId, qty, unityCost, id, t);
             }
             return purchase;
         });
 
+        return response;
     }
 
-    static async stockPurchaseRecord(userId,productId, qty, unityCost, purchaseLineId, transaction) {
+    static async stockPurchaseRecord(userId, productId, qty, unityCost, purchaseLineId, transaction) {
 
         const stock = await Stock.findOne({ where: { productId } });
 
@@ -70,7 +77,7 @@ class StockService {
                 transaction
             });
 
-            return {register, stockTransaction};
+            return { register, stockTransaction };
         }
 
         const oldQty = stock.qty;
