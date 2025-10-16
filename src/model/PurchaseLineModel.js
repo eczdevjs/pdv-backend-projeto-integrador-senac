@@ -35,8 +35,8 @@ class PurchaseLine extends Model {
         }, 
         {
             sequelize,
-            modelName: 'PurchaseOrder',
-            tableName: 'purchase_orders',
+            modelName: 'PurchaseLine',
+            tableName: 'purchase_line',
             underscored: true,
             timestamps:true
         });

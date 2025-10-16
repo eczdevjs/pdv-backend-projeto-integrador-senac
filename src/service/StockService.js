@@ -1,11 +1,12 @@
 
 const sequelize = require('../database/connection');
-const { Stock } = require('../model/StockModel');
-const { StockTransaction } = require('../model/StockTransactionModel');
-const EStockTransactionType  = require('../model/enums/StockTransactionType');
+const  Stock  = require('../model/StockModel');
+const StockTransaction  = require('../model/StockTransactionModel');
+const EStockTransactionType = require('../model/enums/StockTransactionType');
 const EStockRerefenceType = require('../model/enums/StockReferenceType');
 const StockAdjustment = require('../model/StockAdjustmentModel');
-const StockReferenceType = require('../model/StockReferenceTypeModel');
+const PurchaseLine = require('../model/PurchaseLineModel');
+const PurchaseOrder = require('../model/PurchaseOrderModel');
 
 
 
@@ -23,49 +24,85 @@ class StockService {
         }, { transaction: t });
     }
 
-    // insert items into stock
-    static async createPurchase(userId, productId, qtyChange) {
+    static async createPurchase(userId,productId, providerId, invoiceNumber, total, products) {
 
-        return await sequelize.transaction(async (t) => {
-            
-            const stock = await Stock.findOne({ where: { product_id: productId } });
+        const response =  await sequelize.transaction(async (t) => {
 
-            if (!stock) {
-                throw new Error('Stock not found');
+            const purchase = await PurchaseOrder.create({ userId, providerId, invoiceNumber, total }, { transaction: t });
+
+            const purchaseId = purchase.id;
+
+            for (let { productId, qty, unityCost } of products) {
+
+                const { id } = await PurchaseLine.create({
+                    purchaseId,
+                    productId,
+                    qty,
+                    unityCost
+                }, {
+                    transaction: t
+                });
+
+                await this.stockPurchaseRecord(userId,productId, qty, unityCost, id, t);
             }
+            return purchase;
+        });
 
-            const oldQty = stock.qty;
-            const oldAvg = stock.avgPrice
+    }
 
-            let newAvg = oldAvg;
+    static async stockPurchaseRecord(userId,productId, qty, unityCost, purchaseLineId, transaction) {
 
-            if (qtyChange > 0) {
-                newAvg = (oldQty * oldAvg + qtyChange * unityCost) / (oldQty + qtyChange);
-            }
+        const stock = await Stock.findOne({ where: { productId } });
 
-            await stock.update({
-                qty: oldQty + qtyChange,
-                avgPrice: newAvg,
-            }, {
-                transaction: t
-            });
+        if (!stock) {
 
-            await StockTransaction.create({
+            const register = await Stock.create({ productId, qty, avgCost: unityCost });
+
+            const stockTransaction = await StockTransaction.create({
+                userId,
                 productId,
-                qtyChange,
+                qtyChange: qty,
                 unityCost,
-                typeId: EStockTransactionType.PURCHASE,
-                // NAO EXISTE AINDA
-                referenceTypeId,
-                // REFERENCIA TABELA DE COMPRAS
-                referenceId: adjustment.id,
+                typeId: EStockTransactionType.IN_PURCHASE,
+                referenceTypeId: EStockRerefenceType.PURCHASE,
+                referenceId: purchaseLineId
             }, {
-                transaction: t
+                transaction
             });
 
+            return {register, stockTransaction};
+        }
+
+        const oldQty = stock.qty;
+        const oldAvg = stock.avgPrice
+
+        let newAvg = oldAvg;
+
+        if (qty > 0) {
+            newAvg = (oldQty * oldAvg + qty * unityCost) / (oldQty + qty);
+        }
+
+        await stock.update({
+            qty: oldQty + qty,
+            avgPrice: newAvg,
+        }, {
+            transaction
+        });
+
+        await StockTransaction.create({
+            userId,
+            productId,
+            qtyChange: qty,
+            unityCost,
+            typeId: EStockTransactionType.IN_PURCHASE,
+            referenceTypeId: EStockRerefenceType.PURCHASE,
+            referenceId: purchaseLineId
+        }, {
+            transaction
         });
     }
 }
 
 
 module.exports = StockService;
+

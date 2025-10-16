@@ -7,18 +7,30 @@ class StockController {
     // change store to purchase
     // purchase purchaseline must be implemented before
     async purchase(req, res) {
+
         if (!req.body) {
             return res.status(400).json({ msg: 'body requisition is required' });
         }
 
-        const register = await Stock.create(req.body);
+        try {
 
-        if (!register) {
-            return res.status(404).json({ msg: 'Error creating stock register: Operation aborted' });
+            const { userId,productId, providerId, invoiceNumber, total, products } = req.body;
+
+            // const { products } = req.body;
+            // nao estou retornando nada no metodo createPurchase, mesmo com sucesso 
+            const register = await StockService.createPurchase(userId,productId, providerId, invoiceNumber, total, products);
+
+            if (!register) {
+                return res.status(404).json({ msg: 'Error creating stock register: Operation aborted' });
+            }
+            return res.status(201).json(register);
+        } catch (error) {
+            console.log(error)
+            return res.json(error);
         }
 
-        return res.status(201).json(register);
     }
+
 
     //IMPLEMENTING INDEMPOTENCY
     async adjustment(req, res) {
