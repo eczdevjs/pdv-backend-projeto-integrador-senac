@@ -1,4 +1,4 @@
-const EStoqueRerefenceType = Object.freeze({
+const EStockRerefenceType = Object.freeze({
     PURCHASE: 1,
     SALE: 2,
     REFUND: 3,
@@ -6,4 +6,4 @@ const EStoqueRerefenceType = Object.freeze({
     TRANSFER: 5
 });
 
-module.exports = EStoqueRerefenceType;
+module.exports = EStockRerefenceType;

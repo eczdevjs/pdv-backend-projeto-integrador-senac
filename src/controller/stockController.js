@@ -3,9 +3,8 @@ const StockService = require('../service/StockService');
 
 
 class StockController {
-    //IMPLEMENTING IDEMPOTENCY
-    // change store to purchase
-    // purchase purchaseline must be implemented before
+    
+   //IMPLEMENTING IDEMPOTENCY
     async purchase(req, res) {
 
         if (!req.body) {
@@ -14,11 +13,9 @@ class StockController {
 
         try {
 
-            const { userId,productId, providerId, invoiceNumber, total, products } = req.body;
+            const { userId, providerId, invoiceNumber, total, products } = req.body;
 
-            // const { products } = req.body;
-            // nao estou retornando nada no metodo createPurchase, mesmo com sucesso 
-            const register = await StockService.createPurchase(userId,productId, providerId, invoiceNumber, total, products);
+            const register = await StockService.createPurchase(userId, providerId, invoiceNumber, total, products);
 
             if (!register) {
                 return res.status(404).json({ msg: 'Error creating stock register: Operation aborted' });
@@ -26,7 +23,7 @@ class StockController {
             return res.status(201).json(register);
         } catch (error) {
             console.log(error)
-            return res.json(error);
+            return res.json({msg:'Error creating purchase register operation aborted'});
         }
 
     }
@@ -39,13 +36,18 @@ class StockController {
 
         try {
 
-            await StockService.adjustStock(
+            const adjObject = await StockService.adjustStock(
                 userId,
                 productId,
                 qtyChange,
+                reason
             );
 
-            return res.status(201).json({ msg: 'Stock updated succesfuly' });
+            if (adjObject) {
+                return res.status(201).json(adjObject);
+            } else {
+                return res.status(400).json({msg: "Error during adjustment , operation aborted"});
+            }
 
         } catch (error) {
             console.log(error);

@@ -2,8 +2,8 @@
 const sequelize = require('../database/connection');
 const Stock = require('../model/StockModel');
 const StockTransaction = require('../model/StockTransactionModel');
-const EStockTransactionType = require('../model/enums/StockTransactionType');
 const EStockRerefenceType = require('../model/enums/StockReferenceType');
+const EStockTransactionType = require('../model/enums/StockTransactionType');
 const StockAdjustment = require('../model/StockAdjustmentModel');
 const PurchaseLine = require('../model/PurchaseLineModel');
 const PurchaseOrder = require('../model/PurchaseOrderModel');
@@ -11,13 +11,26 @@ const PurchaseOrder = require('../model/PurchaseOrderModel');
 
 
 class StockService {
-    //IMPLEMENTAR AJUSTE
+
     static async adjustStock(userId, productId, qtyChange, reason) {
 
-        const referenceTypeId = qtyChange > 0 ? EStockRerefenceType.ADJ_UP : EStockRerefenceType.ADJ_DOW;
+        let referenceTypeId = qtyChange > 0 ? EStockTransactionType.ADJ_UP : EStockTransactionType.ADJ_DOWN;
 
-        sequelize.transaction(async (t) => {
+        const response = sequelize.transaction(async (t) => {
 
+            const [rows] = await Stock.increment('qty', {
+                by: qtyChange,
+                where: { productId },
+                transaction: t,
+                returning: true,
+            });
+            
+            const updated = {
+                newQty: rows[0][0].qty
+            };
+
+        
+            
             const adjustment = await StockAdjustment.create({
                 productId,
                 userId,
@@ -26,11 +39,30 @@ class StockService {
                 referenceCode: referenceTypeId
             }, { transaction: t });
 
-        })
+            const stockunityCost = await  Stock.findOne({
+                where: {productId},
+                attributes: ['avgCost'],
+                transaction: t
+            });
 
+            const stockTransaction = await StockTransaction.create({
+                userId,
+                productId,
+                qtyChange,
+                unityCost: stockunityCost.avgCost,
+                typeId: referenceTypeId,
+                referenceTypeId: EStockRerefenceType.ADJUSTMENT,
+                referenceId: adjustment.id
+            }, {transaction: t});
+
+            return { updated };
+        });
+
+        return response;
     }
 
-    static async createPurchase(userId, productId, providerId, invoiceNumber, total, products) {
+
+    static async createPurchase(userId, providerId, invoiceNumber, total, products) {
 
         const response = await sequelize.transaction(async (t) => {
 
@@ -56,6 +88,7 @@ class StockService {
 
         return response;
     }
+
 
     static async stockPurchaseRecord(userId, productId, qty, unityCost, purchaseLineId, transaction) {
 
@@ -108,8 +141,12 @@ class StockService {
             transaction
         });
     }
-}
 
+    // implement it further, dependos on Stores, 
+    static async transference(){
+
+    }
+}
 
 module.exports = StockService;
 
