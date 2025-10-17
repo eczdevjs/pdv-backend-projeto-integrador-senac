@@ -14,11 +14,13 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true
       },
 
       cnpj: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
       },
       phone: {
         type: Sequelize.STRING,

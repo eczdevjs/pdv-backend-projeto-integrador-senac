@@ -1,10 +1,9 @@
 const StockService = require('../service/StockService');
 
 
-
 class StockController {
-    
-   //IMPLEMENTING IDEMPOTENCY
+
+    //IDEMPOTENCY
     async purchase(req, res) {
 
         if (!req.body) {
@@ -23,12 +22,12 @@ class StockController {
             return res.status(201).json(register);
         } catch (error) {
             console.log(error)
-            return res.json({msg:'Error creating purchase register operation aborted'});
+            return res.json({ msg: 'Error creating purchase register operation aborted' });
         }
 
     }
 
-    //IMPLEMENTING INDEMPOTENCY
+    //INDEMPOTENCY
     async adjustment(req, res) {
         // check received values,  define strategy route, params or body
         const { userId, qtyChange, reason, productId } = req.body;
@@ -45,7 +44,7 @@ class StockController {
             if (adjObject) {
                 return res.status(201).json(adjObject);
             } else {
-                return res.status(400).json({msg: "Error during adjustment , operation aborted"});
+                return res.status(400).json({ msg: "Error during adjustment , operation aborted" });
             }
 
         } catch (error) {
@@ -54,8 +53,33 @@ class StockController {
         }
     }
 
+
+    // parei aqui
+
     async transference(req, res) {
 
+        const { fromStoreId, toStoreId, userId, reason, products } = req.body;
+
+        try {
+
+            const transferObject = await StockService.transference(
+                fromStoreId,
+                toStoreId,
+                userId,
+                reason,
+                products
+            );
+
+            if (transferObject) {
+                return res.status(201).json(adjObject);
+            } else {
+                return res.status(400).json({ msg: "Error transference register , operation aborted" });
+            }
+
+        } catch (error) {
+            console.log(error);
+            res.status(404).json({ msg: 'error creating transference' })
+        }
     }
 }
 

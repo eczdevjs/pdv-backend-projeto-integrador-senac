@@ -1,4 +1,6 @@
 const express = require('express');
+const routes = express.Router();
+
 const productController = require('./src/controller/productController');
 const userController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
@@ -12,8 +14,10 @@ const shiftDepositController = require('./src/controller/shiftDepositController'
 const shiftWithdrawController = require('./src/controller/shiftWithdrawController');
 const shiftTransactionTypeController = require('./src/controller/shiftTransactionTypeController');
 const shiftTransactionController = require('./src/controller/shiftTransactionController');
-const stockContoller = require('./src/controller/stockController');
-const routes = express.Router();
+const stockController = require('./src/controller/stockController');
+const storeController = require('./src/controller/storeController');
+
+
 
 
 /* PRODUCTS  ROUTES  */
@@ -81,11 +85,20 @@ routes.post('/shift-transactions/deposit', shiftTransactionController.createDepo
 routes.get('/shift-transactions/list', shiftTransactionController.index);
 
 
+
+// STORE ROUTES
+routes.post('/store/register/', storeController.store);
+routes.get('/store/list', storeController.index);
+
 // STOCK ROUTES
 
-routes.post('/stock/purchase/register', stockContoller.purchase);
+routes.post('/stock/purchase/register', stockController.purchase);
+
 // //stock adjustment
-routes.put('/stock/adjustment/', stockContoller.adjustment);
+routes.put('/stock/adjustment/', stockController.adjustment);
+
+routes.post('/stock/transference/register', stockController.transference);
+
 
 module.exports = routes;
 

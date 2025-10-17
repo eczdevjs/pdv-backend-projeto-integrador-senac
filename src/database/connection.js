@@ -20,8 +20,8 @@ const Provider = require('../model/ProviderModel');
 const PurchaseOrder = require('../model/PurchaseOrderModel');
 const  PurchaseLine = require('../model/PurchaseLineModel');
 const Store = require('../model/StoreModel');
-const StockTransfer = require('../model/StockTransfer');
-const StockTransferLine = require('../model/StockTransferLine');
+const StockTransfer = require('../model/StockTransferModel');
+const StockTransferLine = require('../model/StockTransferLineModel');
 
 
 const models = [

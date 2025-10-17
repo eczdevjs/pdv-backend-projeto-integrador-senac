@@ -7,7 +7,8 @@ const EStockTransactionType = require('../model/enums/StockTransactionType');
 const StockAdjustment = require('../model/StockAdjustmentModel');
 const PurchaseLine = require('../model/PurchaseLineModel');
 const PurchaseOrder = require('../model/PurchaseOrderModel');
-
+const StockTransfer = require('../model/StockTransferModel');
+const StockTransferLine = require('../model/StockTransferLineModel');
 
 
 class StockService {
@@ -24,13 +25,13 @@ class StockService {
                 transaction: t,
                 returning: true,
             });
-            
+
             const updated = {
                 newQty: rows[0][0].qty
             };
 
-        
-            
+
+
             const adjustment = await StockAdjustment.create({
                 productId,
                 userId,
@@ -39,8 +40,8 @@ class StockService {
                 referenceCode: referenceTypeId
             }, { transaction: t });
 
-            const stockunityCost = await  Stock.findOne({
-                where: {productId},
+            const stockunityCost = await Stock.findOne({
+                where: { productId },
                 attributes: ['avgCost'],
                 transaction: t
             });
@@ -53,7 +54,7 @@ class StockService {
                 typeId: referenceTypeId,
                 referenceTypeId: EStockRerefenceType.ADJUSTMENT,
                 referenceId: adjustment.id
-            }, {transaction: t});
+            }, { transaction: t });
 
             return { updated };
         });
@@ -143,7 +144,43 @@ class StockService {
     }
 
     // implement it further, dependos on Stores, 
-    static async transference(){
+    static async transference(fromStoreId, toStoreId, userId, reason, products) {
+
+        sequelize.transaction(async (t) => {
+
+            const stockTransfer = await StockTransfer.create({ fromStoreId, toStoreId, userId, reason });
+
+            for (let { productId, qty } of products) {
+
+                let unityCost = await Stock.findOne({
+                    where: { productId },
+                    attributes: ['avgCost']
+                }, {transaction: t});
+
+                const transferLine = await StockTransferLine.create({
+                    transferId: stockTransfer.id,
+                    productId,
+                    qty,
+                    unityCost,
+                }, {transaction: t});
+
+                let typeId = qty > 0 ? EStockTransactionType.IN_TRANSFER : EStockTransactionType.OUT_TRANSFER;
+
+                await StockTransaction.create({
+                    userId,
+                    productId,
+                    qtyChange: qty,
+                    unityCost,
+                    typeId,
+                    referenceTypeId: EStockRerefenceType.TRANSFER,
+                    referenceId: transferLine.id
+                }, {transaction: t});
+
+            }
+
+            return stockTransfer;
+
+        })
 
     }
 }
