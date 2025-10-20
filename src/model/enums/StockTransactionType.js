@@ -5,8 +5,10 @@ const EStockTransactionType = Object.freeze({
     OUT_DAMAGE: 4,
     ADJ_UP : 5,
     ADJ_DOWN: 6,
-    IN_TRANSFER: 7,
-    OUT_TRANSFER: 8
+    IN_TRANSFER: 8,
+    OUT_TRANSFER: 9
 });
 
 module.exports = EStockTransactionType;
+
+// when it run firs time, creating a database it is hardcoded for fields above be a sequence, it was changed  because table were already created and i choose didn't update it;

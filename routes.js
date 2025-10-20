@@ -97,6 +97,7 @@ routes.post('/stock/purchase/register', stockController.purchase);
 // //stock adjustment
 routes.put('/stock/adjustment/', stockController.adjustment);
 
+
 routes.post('/stock/transference/register', stockController.transference);
 
 

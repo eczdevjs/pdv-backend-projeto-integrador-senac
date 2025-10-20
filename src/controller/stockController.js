@@ -34,7 +34,7 @@ class StockController {
 
         try {
 
-            const adjObject = await StockService.adjustStock(
+            const adjObject = await StockService.createAdjustment(
                 userId,
                 productId,
                 qtyChange,
@@ -62,7 +62,7 @@ class StockController {
 
         try {
 
-            const transferObject = await StockService.transference(
+            const transferObject = await StockService.createTransference(
                 fromStoreId,
                 toStoreId,
                 userId,
@@ -71,7 +71,7 @@ class StockController {
             );
 
             if (transferObject) {
-                return res.status(201).json(adjObject);
+                return res.status(201).json(transferObject);
             } else {
                 return res.status(400).json({ msg: "Error transference register , operation aborted" });
             }

@@ -9,7 +9,9 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
 
       code: {
@@ -48,6 +50,12 @@ module.exports = {
       { code: 'adj_up', description: 'Manual positive adjustment', created_at: new Date(), updated_at: new Date() },
 
       { code: 'adj_down', description: 'Manual negative adjustment', created_at: new Date(), updated_at: new Date() },
+
+
+      { code: 'in_transfer', description: 'Stock coming from another store', created_at: new Date(), updated_at: new Date() },
+
+      { code: 'out_transfer', description: 'Stock going out to another store', created_at: new Date(), updated_at: new Date() }
+      
     ]);
   },
 

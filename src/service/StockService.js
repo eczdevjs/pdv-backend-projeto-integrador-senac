@@ -13,7 +13,7 @@ const StockTransferLine = require('../model/StockTransferLineModel');
 
 class StockService {
 
-    static async adjustStock(userId, productId, qtyChange, reason) {
+    static async createAdjustment(userId, productId, qtyChange, reason) {
 
         let referenceTypeId = qtyChange > 0 ? EStockTransactionType.ADJ_UP : EStockTransactionType.ADJ_DOWN;
 
@@ -30,8 +30,6 @@ class StockService {
                 newQty: rows[0][0].qty
             };
 
-
-
             const adjustment = await StockAdjustment.create({
                 productId,
                 userId,
@@ -46,7 +44,7 @@ class StockService {
                 transaction: t
             });
 
-            const stockTransaction = await StockTransaction.create({
+            await StockTransaction.create({
                 userId,
                 productId,
                 qtyChange,
@@ -144,25 +142,46 @@ class StockService {
     }
 
     // implement it further, dependos on Stores, 
-    static async transference(fromStoreId, toStoreId, userId, reason, products) {
+    // problems to solve
+    // [] it must have some reference to current store. it is nos supposed to allow a transference register for stores that is not related to current store. 
 
-        sequelize.transaction(async (t) => {
+    // [] it must have any garantee that stock was updated correctly. I'am stuck into it now
 
-            const stockTransfer = await StockTransfer.create({ fromStoreId, toStoreId, userId, reason });
+    // [] Further: get rid of loops to create each line register, perfect scenario is mount a query and send it to database once. (Loop can be kept, it is  wisheble for connect each time into database)
+
+    // stock must not get negative
+
+
+    static async createTransference(fromStoreId, toStoreId, userId, reason, products) {
+
+        const result = await sequelize.transaction(async (t) => {
+
+            const stockTransfer = await StockTransfer.create({ fromStoreId, toStoreId, userId, reason }, { transaction: t, returning: ['id', 'from_store_id', 'to_store_id', 'user_id', 'reason', 'created_at', 'updated_at'] });
 
             for (let { productId, qty } of products) {
 
-                let unityCost = await Stock.findOne({
-                    where: { productId },
-                    attributes: ['avgCost']
-                }, {transaction: t});
+                const product = await Stock.findOne({ where: { productId }, transaction: t });
+
+                if (!product) {
+                    throw new Error('Stock update : Product not found');
+                }
+
+                const unityCost = product.avgCost
+
+                const result = await product.increment('qty', { by: qty })
+
+                // const affectedRows = Array.isArray(result) ? result[0] : result;
+
+                // // if (affectedRows !== 1) {
+                // //     throw new Error("Error updating stock quantity: aborted = " + affectedRows);
+                // // }
 
                 const transferLine = await StockTransferLine.create({
                     transferId: stockTransfer.id,
                     productId,
                     qty,
                     unityCost,
-                }, {transaction: t});
+                }, { transaction: t });
 
                 let typeId = qty > 0 ? EStockTransactionType.IN_TRANSFER : EStockTransactionType.OUT_TRANSFER;
 
@@ -174,14 +193,12 @@ class StockService {
                     typeId,
                     referenceTypeId: EStockRerefenceType.TRANSFER,
                     referenceId: transferLine.id
-                }, {transaction: t});
+                }, { transaction: t });
 
             }
-
             return stockTransfer;
-
-        })
-
+        });
+        return result;
     }
 }
 
