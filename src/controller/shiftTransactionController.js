@@ -18,11 +18,6 @@ const StockTransaction = require('../model/StockTransactionModel');
 // STOCK
 // SHIFT
 
-
-
-
-
-
 class ShiftTransactionController {
 //  !!!!!!!!!!!!!   IMPLEMENTAR IDEMPOTENCIA  !!!!!!!!!!!!!!!!!
     async createSaleTransaction(req, res) {
@@ -61,7 +56,6 @@ class ShiftTransactionController {
                 if (!transactionCreated) {
                     return res.status(400).json({ msg: "Error creating transaction: Aborted" });
                 }
-
 
                 const { suborders } = req.body;
 

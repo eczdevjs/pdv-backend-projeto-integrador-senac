@@ -1,3 +1,4 @@
+const StockTransaction = require('../model/StockTransactionModel');
 const StockService = require('../service/StockService');
 
 
@@ -86,31 +87,31 @@ class StockController {
         try {
             const list = await StockService.index();
 
-            if(!list){
-               return  res.status(500).json({msg: 'Error fetching stock list'});
+            if (!list) {
+                return res.status(500).json({ msg: 'Error fetching stock list' });
             }
 
-           return  res.status(200).json(list);
+            return res.status(200).json(list);
         } catch (error) {
             console.log(error);
         }
     }
 
-    
-    async show(req, res){
+
+    async show(req, res) {
 
         try {
 
             const productId = req.params.id;
-            if(!productId){
-                return res.status(400).json({msg: "Product id is missing"});
+            if (!productId) {
+                return res.status(400).json({ msg: "Product id is missing" });
             }
             const stock = await StockService.show(productId);
 
-            if(!stock){
-                return res.status(404).json({msg: 'Product stock not found'});
+            if (!stock) {
+                return res.status(404).json({ msg: 'Product stock not found' });
             }
-          
+
             return res.status(200).json(stock);
 
         } catch (error) {
@@ -118,6 +119,56 @@ class StockController {
             return new Error("Error: ", error.message);
         }
     }
+
+
+    async transactionsByDay(req, res) {
+
+        try {
+            const { day } = req.body;
+            if (!day) {
+                return res.status(400).json({ msg: 'date filter is missing' });
+
+            }
+
+            const transactions = await StockService.transactionsByDay(day);
+
+            if (!transactions) {
+                return res.status(404).json({ msg: 'transactions not found' });
+            }
+
+            return res.status(200).json(transactions);
+
+        } catch (error) {
+            console.log(error);
+            return new Error("Error: ", error.message);
+        }
+    }
+
+    async transactionsBetweenTwoDates(req, res) {
+
+        try {
+            const { start, end } = req.body;
+            if (!start || !end) {
+                return res.status(400).json({ msg: 'date filter is missing' });
+            }
+
+            const transactions = await StockService.transactionsBetweenTwoDates(start, end);
+
+            if (!transactions) {
+                return res.status(404).json({ msg: 'transactions not found' });
+            }
+
+            return res.status(200).json(transactions);
+
+        } catch (error) {
+            console.log(error);
+            return new Error("Error: ", error.message);
+        }
+    }
+
+
+
+
 }
 
 module.exports = new StockController();

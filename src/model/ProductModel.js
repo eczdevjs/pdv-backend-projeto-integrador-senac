@@ -25,6 +25,11 @@ class Product extends Model {
             as: 'suborders'
         });
 
+        this.hasMany(models.StockTransaction, {
+            foreignKey: 'productId',
+            as: 'product'
+        })
+
     }
 }
 

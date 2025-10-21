@@ -10,7 +10,9 @@ const PurchaseOrder = require('../model/PurchaseOrderModel');
 const StockTransfer = require('../model/StockTransferModel');
 const StockTransferLine = require('../model/StockTransferLineModel');
 const Product = require('../model/ProductModel');
-
+const User = require('../model/UserModel');
+const { Op } = require('sequelize');
+const StockReferenceType = require('../model/StockReferenceTypeModel');
 
 class StockService {
 
@@ -142,11 +144,6 @@ class StockService {
         });
     }
 
-    // [x] implement it further, dependos on Stores, 
-    // problems to solve
-    // [] it must have some reference to current store. it is nos supposed to allow a transference register for stores that is not related to current store. 
-
-    // [x] it must have any garantee that stock was updated correctly. I'am stuck into it now
 
     // [] Further: get rid of loops to create each line register, perfect scenario is building a query and send it to database once. (Loop can be kept, it is not desirable for connecting each time into database)
 
@@ -205,7 +202,7 @@ class StockService {
         return result;
     }
 
-    
+
     static async index() {
 
         try {
@@ -214,7 +211,7 @@ class StockService {
                 attributes: ['qty'],
                 include: [{
                     model: Product,
-                    attributes: ['id','name', 'brand', 'description', 'price'],
+                    attributes: ['id', 'name', 'brand', 'description', 'price'],
                     as: 'product'
                 }]
             });
@@ -236,21 +233,19 @@ class StockService {
         try {
 
             const stock = await Stock.findOne({
-                where: {productId},
+                where: { productId },
                 attributes: ['qty'],
                 include: [{
                     model: Product,
                     attributes: [
-                        'id','name', 'brand', 'description', 'price'],
+                        'id', 'name', 'brand', 'description', 'price'],
                     as: 'product'
                 }]
             });
 
-           
             if (!stock) {
                 return new Error("Product not found");
             }
-
 
             return stock;
 
@@ -259,6 +254,99 @@ class StockService {
             return new Error("Error: ", error.message);
         }
     }
+
+
+    static async transactionsByDay(day) {
+
+        try {
+
+            const startOfDay = new Date(`${day}T00:00:00`);
+            const endOfDay = new Date(`${day}T23:59:59`);
+
+            const transactions = await StockTransaction.findAll({
+                where: {
+                    createdAt: {
+                        [Op.between]: [startOfDay, endOfDay]
+                    }
+                },
+                attributes: ['id', 'qtyChange','referenceId', 'createdAt'],
+
+                include: [{
+                    model: User,
+                    attributes: ['name'],
+                    as: 'user'
+                },
+                {
+                    model: Product,
+                    attributes: ['name'],
+                    as: 'product'
+                },
+                {
+                    model: StockReferenceType,
+                    attributes: ['code'],
+                    as: 'referenceType'
+                }
+               ]
+
+            });
+
+            if (!transactions) {
+                return new Error("Stock transactions not found");
+            }
+
+            return transactions;
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    static async transactionsBetweenTwoDates(start, end) {
+
+        try {
+
+            const startDate = new Date(`${start}T00:00:00`);
+            const endDate = new Date(`${end}T23:59:59`);
+
+            const transactions = await StockTransaction.findAll({
+                where: {
+                    createdAt: {
+                        [Op.between]: [startDate, endDate]
+                    }
+                },
+                attributes: ['id', 'qtyChange','referenceId', 'createdAt'],
+
+                include: [{
+                    model: User,
+                    attributes: ['name'],
+                    as: 'user'
+                },
+                {
+                    model: Product,
+                    attributes: ['name'],
+                    as: 'product'
+                },
+                {
+                    model: StockReferenceType,
+                    attributes: ['code'],
+                    as: 'referenceType'
+                }
+               ]
+
+            });
+
+            if (!transactions) {
+                return new Error("Stock transactions not found");
+            }
+
+            return transactions;
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 }
 
 module.exports = StockService;

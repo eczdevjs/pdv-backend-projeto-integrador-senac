@@ -96,9 +96,11 @@ routes.post('/stock/purchase/register', stockController.purchase);
 routes.put('/stock/adjustment/', stockController.adjustment);
 routes.get('/stock/list/', stockController.index);
 routes.get('/stock/product/:id', stockController.show);
-
-
+routes.get('/stock/transactions/', stockController.transactionsByDay);
 routes.post('/stock/transference/register', stockController.transference);
+
+// pending testing it
+routes.get('/stock/transactions/filterbydate', stockController.transactionsBetweenTwoDates);
 
 
 module.exports = routes;

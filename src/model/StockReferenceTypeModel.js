@@ -31,7 +31,7 @@ class StockReferenceType extends Model {
 
     // associate to stock transactions
     static assciate(models){
-        this.hasMany(models.StocTransaction, {
+        this.hasMany(models.StockTransaction, {
             foreignKey: 'referenceTypeId',
             as: 'referenceType'
         })

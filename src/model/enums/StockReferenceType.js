@@ -1,6 +1,6 @@
 const EStockRerefenceType = Object.freeze({
-    PURCHASE: 1,
-    SALE: 2,
+    SALE: 1,
+    PURCHASE: 2,
     REFUND: 3,
     ADJUSTMENT: 4,
     TRANSFER: 5
