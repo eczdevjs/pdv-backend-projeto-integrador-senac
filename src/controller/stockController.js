@@ -27,6 +27,7 @@ class StockController {
 
     }
 
+
     //INDEMPOTENCY
     async adjustment(req, res) {
         // check received values,  define strategy route, params or body
@@ -54,8 +55,6 @@ class StockController {
     }
 
 
-    // parei aqui
-
     async transference(req, res) {
 
         const { fromStoreId, toStoreId, userId, reason, products } = req.body;
@@ -81,6 +80,44 @@ class StockController {
             res.status(404).json({ msg: 'error creating transference' })
         }
     }
+
+
+    async index(req, res) {
+        try {
+            const list = await StockService.index();
+
+            if(!list){
+               return  res.status(500).json({msg: 'Error fetching stock list'});
+            }
+
+           return  res.status(200).json(list);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    
+    async show(req, res){
+
+        try {
+
+            const productId = req.params.id;
+            if(!productId){
+                return res.status(400).json({msg: "Product id is missing"});
+            }
+            const stock = await StockService.show(productId);
+
+            if(!stock){
+                return res.status(404).json({msg: 'Product stock not found'});
+            }
+          
+            return res.status(200).json(stock);
+
+        } catch (error) {
+            console.log(error);
+            return new Error("Error: ", error.message);
+        }
+    }
 }
 
-module.exports = new StockController;
+module.exports = new StockController();

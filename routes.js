@@ -93,9 +93,9 @@ routes.get('/store/list', storeController.index);
 // STOCK ROUTES
 
 routes.post('/stock/purchase/register', stockController.purchase);
-
-// //stock adjustment
 routes.put('/stock/adjustment/', stockController.adjustment);
+routes.get('/stock/list/', stockController.index);
+routes.get('/stock/product/:id', stockController.show);
 
 
 routes.post('/stock/transference/register', stockController.transference);

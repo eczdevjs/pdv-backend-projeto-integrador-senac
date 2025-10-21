@@ -9,6 +9,7 @@ const PurchaseLine = require('../model/PurchaseLineModel');
 const PurchaseOrder = require('../model/PurchaseOrderModel');
 const StockTransfer = require('../model/StockTransferModel');
 const StockTransferLine = require('../model/StockTransferLineModel');
+const Product = require('../model/ProductModel');
 
 
 class StockService {
@@ -54,7 +55,7 @@ class StockService {
                 referenceId: adjustment.id
             }, { transaction: t });
 
-            return { updated };
+            return updated;
         });
 
         return response;
@@ -141,13 +142,13 @@ class StockService {
         });
     }
 
-    // implement it further, dependos on Stores, 
+    // [x] implement it further, dependos on Stores, 
     // problems to solve
     // [] it must have some reference to current store. it is nos supposed to allow a transference register for stores that is not related to current store. 
 
-    // [] it must have any garantee that stock was updated correctly. I'am stuck into it now
+    // [x] it must have any garantee that stock was updated correctly. I'am stuck into it now
 
-    // [] Further: get rid of loops to create each line register, perfect scenario is mount a query and send it to database once. (Loop can be kept, it is  wisheble for connect each time into database)
+    // [] Further: get rid of loops to create each line register, perfect scenario is building a query and send it to database once. (Loop can be kept, it is not desirable for connecting each time into database)
 
     // stock must not get negative
 
@@ -168,13 +169,16 @@ class StockService {
 
                 const unityCost = product.avgCost
 
-                const result = await product.increment('qty', { by: qty })
+                const result = await product.increment('qty', {
+                    by: qty, returning: true,
+                    transaction: t
+                });
 
-                // const affectedRows = Array.isArray(result) ? result[0] : result;
+                const dataValuesUpdated = result.dataValues;
 
-                // // if (affectedRows !== 1) {
-                // //     throw new Error("Error updating stock quantity: aborted = " + affectedRows);
-                // // }
+                if ((result._previousDataValues.qty + qty) != dataValuesUpdated.qty) {
+                    throw new Error("Error updating transference values: Operation aborted");
+                }
 
                 const transferLine = await StockTransferLine.create({
                     transferId: stockTransfer.id,
@@ -199,6 +203,61 @@ class StockService {
             return stockTransfer;
         });
         return result;
+    }
+
+    
+    static async index() {
+
+        try {
+
+            const list = await Stock.findAll({
+                attributes: ['qty'],
+                include: [{
+                    model: Product,
+                    attributes: ['id','name', 'brand', 'description', 'price'],
+                    as: 'product'
+                }]
+            });
+
+            if (!list) {
+                return new Error('It wasn\'t possible reach resources (stock list): Aborted ')
+            }
+
+            return list;
+        } catch (error) {
+            console.log(error);
+            return new Error("Error: ", error.message);
+        }
+    }
+
+
+    static async show(productId) {
+
+        try {
+
+            const stock = await Stock.findOne({
+                where: {productId},
+                attributes: ['qty'],
+                include: [{
+                    model: Product,
+                    attributes: [
+                        'id','name', 'brand', 'description', 'price'],
+                    as: 'product'
+                }]
+            });
+
+           
+            if (!stock) {
+                return new Error("Product not found");
+            }
+
+
+            return stock;
+
+        } catch (error) {
+            console.log(error);
+            return new Error("Error: ", error.message);
+        }
     }
 }
 
