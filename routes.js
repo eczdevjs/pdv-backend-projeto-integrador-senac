@@ -16,7 +16,7 @@ const shiftTransactionTypeController = require('./src/controller/shiftTransactio
 const shiftTransactionController = require('./src/controller/shiftTransactionController');
 const stockController = require('./src/controller/stockController');
 const storeController = require('./src/controller/storeController');
-
+const SaleController = require('./src/controller/saleController');
 
 
 
@@ -77,9 +77,21 @@ routes.post('/shift/withdraw', shiftWithdrawController.store);
 routes.post('/shift/shifttransactiontype/register', shiftTransactionTypeController.store);
 routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
 
+
+
+// SALE ROUTES
+
+routes.post('/sales/create', SaleController.createSale);
+
+
+
+
+
+
+
 // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
 // every transaction of shift, Sale, Deposit, Withdraw, Refund
-routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
+// routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
 routes.post('/shift-transactions/withdraw', shiftTransactionController.createWithdrawTransaction);
 routes.post('/shift-transactions/deposit', shiftTransactionController.createDepositTransaction);
 routes.get('/shift-transactions/list', shiftTransactionController.index);

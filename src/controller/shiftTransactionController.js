@@ -3,7 +3,6 @@ const sequelize = require('../database/connection');
 const Order = require('../model/OrderModel');
 const User = require('../model/UserModel');
 const PaymentMethod = require('../model/PaymentMethod');
-const Shift = require('../model/ShiftModel');
 const ShiftTransctionType = require('../model/ShiftTransactionType');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const ShiftWithdraw = require('../model/ShiftWithdrawModel');
@@ -13,6 +12,7 @@ const Product = require('../model/ProductModel');
 const Stock = require('../model/StockModel');
 const StockTransaction = require('../model/StockTransactionModel');
 
+// APAGAR ESTE ARQUIVO, IMPLEMENTAR SHIFTSERVICE QUE SERA RESPONSAVEL POR GERENCIAR OPERACOES DE CAIXA, VENDA E OUTRAS OPERACOES SERAO FEITAS CADA UM POR SEU CONTROLLER
 
 //IMPLEMENTAR O CANCELAMENTO E DEVOLUCAO DA VENDA
 // STOCK
