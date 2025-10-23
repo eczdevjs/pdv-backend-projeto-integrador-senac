@@ -49,6 +49,7 @@ routes.delete("/clients/delete/:id", clientController.delete);
 
 //PAYMENT METHOD ROUTES: ADMIN ONLY
 // Access: loginRequired add or exclude as well admin access.
+
 routes.post('/paymentmethod/register', paymentMethodController.store)
 routes.get('/paymentmethod/list', paymentMethodController.index);
 routes.get('/paymentmethod/:id', paymentMethodController.show);
@@ -82,11 +83,8 @@ routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.in
 // SALE ROUTES
 
 routes.post('/sales/create', SaleController.createSale);
-
-
-
-
-
+routes.get('/sales/list/daily', SaleController.getDailySales);
+routes.get('/sales/:id', SaleController.getSale);
 
 
 // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************

@@ -7,8 +7,11 @@ const StockTransaction = require('../model/StockTransactionModel');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const EStockRerefenceType = require('../model/enums/StockReferenceType');
 const EStockTransactionType = require('../model/enums/StockTransactionType');
-
+const Product = require('../model/ProductModel');
+const Client = require('../model/ClientModel');
+const PaymentMethod = require('../model/PaymentMethod');
 const Stock = require('../model/StockModel');
+
 
 class SaleService {
 
@@ -43,9 +46,9 @@ class SaleService {
                 orderId: order.id
             };
 
-            console.log("shiftTransactionObject =====>>",shiftTransaction)
+            console.log("shiftTransactionObject =====>>", shiftTransaction)
 
-            const transactionCreated = await ShiftTransaction.create(shiftTransaction, { transaction: t});
+            const transactionCreated = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
             if (!transactionCreated) {
                 throw new Error("Error creating transaction register: Aborted");
@@ -66,31 +69,99 @@ class SaleService {
                     typeId: EStockTransactionType.OUT_SALE,
                     referenceTypeId: EStockRerefenceType.SALE,
                     referenceId: order.id
-                }, {transaction:t});
+                }, { transaction: t });
             }
-            return {order, shiftTransaction};
+            return { order, shiftTransaction };
         });
         return result;
     }
 
-    static async dailySales(shiftId) {
-        
+
+    static async getDailySales(shiftId, userId) {
+        try {
+
+            const transactions = await ShiftTransaction.findAll({
+                where: { shiftId, userId },
+                attributes: ['id'],
+                include: [
+                    {
+                        model: Order,
+                        attributes: ['id', 'totalOrder', 'createdAt'],
+                        as: 'order',
+                        include: [
+                            {
+                                model: Client,
+                                attributes: ['id', 'name'],
+                                as: 'client'
+                            },
+                            {
+                                model: PaymentMethod,
+                                attributes: ['id', 'name'],
+                                as: 'paymentMethod'
+                            }
+                        ],
+                        order: [['createdAt', 'DESC']]
+                    }
+                ]
+            });
+
+
+            if (!transactions) {
+                throw new Error("Orders not found");
+            }
+            return transactions;
+
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error: ", error.message);
+        }
 
     }
 
-    static async filterSalesByDate(begin, end){
+
+    static async getSale(id) {
+
+        try {
+            const sale = Order.findByPk(id, {
+                attributes: ['id', 'totalOrder', 'createdAt'],
+                include: [{
+                    model: Suborder,
+                    as: 'suborders',
+                    attributes: ['productPrice', 'qtt', 'total'],
+                    include: [{
+                        model: Product,
+                        as: 'product',
+                        attributes: ['id', 'name', 'brand', 'description', 'size']
+                    }]
+                }]
+            });
+
+            if (!sale) {
+                throw new Error('Sale not found');
+            }
+
+            return sale;
+        } catch (error) {
+            console.log(error);
+            throw new Error('Error fetching sale');
+        }
+    }
+
+
+    static async filterSalesByDate(begin, end) {
 
     }
+
 
     static async updateSale() {
 
     }
+
 
     static async createRefund() {
 
     }
 
 }
-
 
 module.exports = SaleService;

@@ -1,11 +1,11 @@
 const { Sequelize, Model } = require('sequelize');
-const Order = require('../model/OrderModel');
-const Product = require('../model/ProductModel');
 
 class Suborder extends Model {
+
     static init(sequelize) {
+
         super.init({
-            order_id: {
+            orderId: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
                 allowNull: false
@@ -36,20 +36,18 @@ class Suborder extends Model {
                 tableName: 'suborders',
                 underscored: true
             }
-        )
-
-
+        );
         return this;
     }
 
     static associate(models) {
         Suborder.belongsTo(models.Order, {
-            foreignKey: 'order_id',
+            foreignKey: 'orderId',
             as: 'order'
         });
 
         Suborder.belongsTo(models.Product, {
-            foreignKey: 'product_id',
+            foreignKey: 'productId',
             as: 'product'
         });
     }
