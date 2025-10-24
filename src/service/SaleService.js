@@ -105,7 +105,6 @@ class SaleService {
                 ]
             });
 
-
             if (!transactions) {
                 throw new Error("Orders not found");
             }

@@ -5,7 +5,7 @@ const productController = require('./src/controller/productController');
 const userController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
 const loginRequired = require('./src/middlewares/loginRequired');
-const clientContrller = require('./src/controller/clientController');
+const ClientController = require('./src/controller/clientController');
 const clientController = require('./src/controller/clientController');
 const paymentMethodController = require('./src/controller/paymentMethodController');
 const orderController = require('./src/controller/orderController');
@@ -40,12 +40,23 @@ routes.delete('/users/',loginRequired , userController.delete);
 //TOKEN ROUTES
 routes.post('/tokens/', tokenController.store);
 
+
+
+
+
+
 // CLIENT ROUTES
-routes.post('/clients/register/', clientContrller.store);
-routes.get('/clients/list/', clientController.index);
-routes.get('/clients/:id', clientController.show);
-routes.put("/clients/edit/:id", clientController.update);
-routes.delete("/clients/delete/:id", clientController.delete);
+routes.post('/clients/register/', ClientController.store);
+routes.get('/clients/list/', ClientController.index);
+routes.get('/clients/:id', ClientController.show);
+routes.put("/clients/edit/:id", ClientController.update);
+routes.delete("/clients/delete/:id", ClientController.delete);
+
+
+
+
+
+
 
 //PAYMENT METHOD ROUTES: ADMIN ONLY
 // Access: loginRequired add or exclude as well admin access.

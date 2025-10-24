@@ -1,27 +1,41 @@
-const Client = require('../model/ClientModel');
+const ClientService = require('../service/ClientService');
 
 
 class ClientController {
-    async store(req, res) {
+
+    static async store(req, res) {
+
         try {
-            const client = await Client.create(req.body);
+
+            let bodyKeys = Object.keys(req.body);
+
+            if (bodyKeys.length === 0) {
+                return req.status(400).json({ msg: "Body requisition is missing" });
+            }
+
+            const { name, lastName, email, phone, addressId } = req.body;
+
+            const client = await ClientService.store(name, lastName, email, phone, addressId);
+
             if (!client) {
                 return res.status(400).json({ msg: "error creating client" });
             }
             return res.status(201).json(client);
 
         } catch (error) {
+            console.log(error)
             res.status(400).json(error);
         }
-
     }
 
-    async index(req, res) {
+
+    static async index(req, res) {
         try {
 
-            const clients = await Client.findAll({attributes: ['name', 'lastName', 'email', 'phone']});
+            const clients = await ClientService.index();
+
             if (!clients) {
-                return res.status(404).json({ message: 'client list empty  or not found' })
+                return res.status(400).json({ msg: "Clients not found" });
             }
 
             return res.status(200).json(clients);
@@ -30,61 +44,82 @@ class ClientController {
             res.status(400).json(error);
         }
     }
-    // neste caso para localizar cliente o ideal e que possa ser buscado por nome ou outro parametro, eventualmente cpf;
-    async show(req, res) {
+
+
+    static async show(req, res) {
         try {
             if (!req.params.id) {
                 req.status(400).json({ msg: "Id paramether required" });
             }
+            const { id } = req.params;
 
-            const client = await Client.findByPk(req.params.id);
+            const client = await ClientService.show(id);
 
             if (!client) {
-                res.status(404).json({ msg: "Client not foud" });
+                return res.status(400).json({ msg: "Clients not found" });
             }
 
             res.status(200).json(client);
-
 
         } catch (error) {
             res.status(400).json(error);
         }
     }
 
-    async update(req, res) {
+
+    static async update(req, res) {
+
         if (!req.params.id) {
-           return req.status(400).json({ msg: "Id paramether required" });
+            return req.status(400).json({ msg: "Id paramether required" });
         }
 
-        const client = await Client.findByPk(req.params.id);
+        let keysBody = Object.keys(req.body);
 
-        if (!client) {
-            return res.status(404).json({ msg: "Client not foud" });
+        if (keysBody.length === 0) {
+            return res.status(404).json({ msg: 'Body requisition is missing : Aborted' });
         }
 
-       const updated = await client.update(req.body);
+        const clientToUpdate = req.body;
 
-       return res.status(200).json(updated);
+        const { id } = req.params;
+
+        const updated = await ClientService.update(id, clientToUpdate);
+
+        if (!updated) {
+            return res.status(400).json({ msg: "Error updating client: aborted" });
+        }
+
+        return res.status(200).json(updated);
     }
 
-    async delete(req, res) {
-          if (!req.params.id) {
-           return req.status(400).json({ msg: "Id paramether required" });
+
+    static async delete(req, res) {
+
+        try {
+
+            if (!req.params.id) {
+                return req.status(400).json({ msg: "Id paramether required" });
+            }
+
+            const { id } = req.params;
+
+            const success = await ClientService.delete(id);
+
+            if (!success) {
+                return res.status(500).json({ msg: "Error deleting client: aborted" });
+            }
+
+            return res.status(200).json({msg: 'Register deleted'});
+
+        } catch (error) {
+            console.log(error.message);
+            if(error.message == 'Client not found'){
+                res.status(404).json({msg: 'client not found, check id paramether'});
+            }
+
+            res.status(500).json({msg: error.messsage});
         }
-
-        const client = await Client.findByPk(req.params.id);
-
-        if (!client) {
-            return res.status(404).json({ msg: "Client not foud" });
-        }
-
-        await client.destroy();
-
-       return res.status(204).json({msg: "Client deleted"});
     }
-
 }
 
-
-
-module.exports = new ClientController();
+module.exports = ClientController;
