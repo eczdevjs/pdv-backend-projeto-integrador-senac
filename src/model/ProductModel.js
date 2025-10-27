@@ -21,7 +21,7 @@ class Product extends Model {
 
     static associate(models) {
         this.hasMany(models.Suborder, {
-            foreignKey: 'product_id',
+            foreignKey: 'productId',
             as: 'suborders'
         });
 

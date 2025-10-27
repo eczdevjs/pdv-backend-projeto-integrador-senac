@@ -1,30 +1,39 @@
-const Product = require('../model/ProductModel');
+const ProductService = require('../service/ProductService');
+
 
 class ProductController {
-    async store(req, res) {
 
-        if (!req.body) {
-            return res.status(400).json({ msg: "body product is missing" })
+    static async store(req, res) {
+
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).json({ msg: "Body requisition is missing" });
         }
+
+        const { id, name, brand, productModel, size, description, price } = req.body;
 
         try {
 
-            const newProduct = await Product.create(req.body);
+            const newProduct = await ProductService.store(id, name, brand, productModel, size, description, price);
+
             if (!newProduct) {
                 return res.status(500).json({ msg: "Error creating product" })
             }
+
             res.status(201).json(newProduct);
         } catch (e) {
-            res.json(e);
+            console.log(e)
+            res.status(500).json(e);
         }
 
     }
 
-     
-      async index(req, res) {
-        try {
 
-            const products = await Product.findAll({attributes: ['id','name', 'brand', 'productModel', 'description', 'price', 'size']});
+    static async index(req, res) {
+
+        try {
+            console.log('product controller')
+            const products = await ProductService.index();
+
             if (!products) {
                 return res.status(404).json({ message: 'Product list empty  or not found' });
             }
@@ -37,13 +46,16 @@ class ProductController {
     }
 
 
-    async show(req, res) {
+    static async show(req, res) {
         try {
+
             if (!req.params.id) {
                 req.status(400).json({ msg: "Id paramether required" });
             }
 
-            const product = await Product.findByPk(req.params.id);
+            const { id } = req.params;
+
+            const product = await ProductService.show(id);
 
             if (!product) {
                 res.status(404).json({ msg: "Product not foud" });
@@ -57,38 +69,54 @@ class ProductController {
         }
     }
 
-    async update(req, res) {
-        if (!req.params.id) {
-           return req.status(400).json({ msg: "Id paramether required" });
+
+
+    static async update(req, res) {
+        try {
+
+            if (!req.params.id) {
+                return req.status(400).json({ msg: "Id paramether required" });
+            }
+
+            const { id } = req.params;
+            const productToUpdate = req.body;
+
+            const productUpdated = await ProductService.update(id, productToUpdate);
+
+            if (!productUpdated) {
+                return res.status(500).json({ msg: "Error updating product: aborted" });
+            }
+
+            return res.status(200).json(productUpdated);
+
+        } catch (error) {
+
+            console.log(error);
+            return res.status(500).json({ msg: `Error updating product: aborted, error: ${error.message}` });
         }
-
-        const product = await Product.findByPk(req.params.id);
-
-        if (!product) {
-            return res.status(404).json({ msg: "Client not foud" });
-        }
-
-       const updated = await product.update(req.body);
-
-       return res.status(200).json(updated);
     }
 
-    async delete(req, res) {
+
+    static async delete(req, res) {
+      try {
           if (!req.params.id) {
-           return req.status(400).json({ msg: "Id paramether required" });
+            return req.status(400).json({ msg: "Id paramether required" });
         }
 
-        const product = await Product.findByPk(req.params.id);
+        const {id} = req.params;
 
-        if (!product) {
-            return res.status(404).json({ msg: "Product not foud" });
+        const success = await ProductService.delete(id);
+
+        if(!success){
+        return res.status(500).json({ msg: "Error deleting product : aborted" });
         }
-
-        await product.destroy();
-
-       return res.status(204).json({msg: "Product deleted"});
+        
+        return res.status(200).json({ msg: "Product deleted" });
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({msg: `Error deleting: ${error.message}`});
+      }
     }
-
 }
 
-module.exports = new ProductController();
+module.exports = ProductController;
