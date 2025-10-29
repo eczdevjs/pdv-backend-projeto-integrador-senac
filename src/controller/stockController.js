@@ -1,67 +1,48 @@
-const StockTransaction = require('../model/StockTransactionModel');
 const StockService = require('../service/StockService');
 
 
 class StockController {
-
     //IDEMPOTENCY
-    async purchase(req, res) {
-
-        if (!req.body) {
-            return res.status(400).json({ msg: 'body requisition is required' });
-        }
+    static async purchase(req, res, next) {
 
         try {
 
             const { userId, providerId, invoiceNumber, total, products } = req.body;
-
             const register = await StockService.createPurchase(userId, providerId, invoiceNumber, total, products);
-
             if (!register) {
-                return res.status(404).json({ msg: 'Error creating stock register: Operation aborted' });
+                throw new AppError("Error creating store register, aborted", 500);
             }
             return res.status(201).json(register);
         } catch (error) {
-            console.log(error)
-            return res.json({ msg: 'Error creating purchase register operation aborted' });
+            next(error);
         }
-
     }
-
-
     //INDEMPOTENCY
-    async adjustment(req, res) {
+    static async adjustment(req, res, next) {
         // check received values,  define strategy route, params or body
-        const { userId, qtyChange, reason, productId } = req.body;
-
         try {
-
+            const { userId, qtyChange, reason, productId } = req.body;
             const adjObject = await StockService.createAdjustment(
                 userId,
                 productId,
                 qtyChange,
                 reason
             );
-
             if (adjObject) {
-                return res.status(201).json(adjObject);
+                throw new AppError("Error creating store register, aborted", 500);
             } else {
                 return res.status(400).json({ msg: "Error during adjustment , operation aborted" });
             }
 
         } catch (error) {
-            console.log(error);
-            res.status(404).json({ msg: 'error creating adjustment' })
+            next(error);
         }
     }
 
-
-    async transference(req, res) {
-
-        const { fromStoreId, toStoreId, userId, reason, products } = req.body;
+    static async transference(req, res, next) {
 
         try {
-
+            const { fromStoreId, toStoreId, userId, reason, products } = req.body;
             const transferObject = await StockService.createTransference(
                 fromStoreId,
                 toStoreId,
@@ -69,106 +50,78 @@ class StockController {
                 reason,
                 products
             );
-
-            if (transferObject) {
-                return res.status(201).json(transferObject);
-            } else {
-                return res.status(400).json({ msg: "Error transference register , operation aborted" });
+            if (!transferObject) {
+                throw new AppError("Error creating transfer register, aborted", 500);
             }
-
+            return res.status(201).json(transferObject);
         } catch (error) {
-            console.log(error);
-            res.status(404).json({ msg: 'error creating transference' })
+            next(error);
         }
     }
 
-
-    async index(req, res) {
+    static async index(req, res, next) {
         try {
             const list = await StockService.index();
-
             if (!list) {
-                return res.status(500).json({ msg: 'Error fetching stock list' });
+                throw new AppError("Error fetching store data, aborted", 500);
             }
-
             return res.status(200).json(list);
         } catch (error) {
-            console.log(error);
+            next(error);
         }
     }
 
-
-    async show(req, res) {
-
+    static async show(req, res, next) {
         try {
-
             const productId = req.params.id;
             if (!productId) {
-                return res.status(400).json({ msg: "Product id is missing" });
+                throw new AppError("Product id is required, it's missing, aborted", 500);
             }
             const stock = await StockService.show(productId);
-
             if (!stock) {
-                return res.status(404).json({ msg: 'Product stock not found' });
+                throw new AppError("Product not found", 404);
             }
-
             return res.status(200).json(stock);
-
         } catch (error) {
-            console.log(error);
-            return new Error("Error: ", error.message);
+            next(error);
         }
     }
 
-
-    async transactionsByDay(req, res) {
+    static async transactionsByDay(req, res, next) {
 
         try {
             const { day } = req.body;
             if (!day) {
-                return res.status(400).json({ msg: 'date filter is missing' });
-
+                throw new AppError("Day field is missing", 400);
             }
-
             const transactions = await StockService.transactionsByDay(day);
-
             if (!transactions) {
-                return res.status(404).json({ msg: 'transactions not found' });
+                throw new AppError("Transactions not found", 404);
             }
-
             return res.status(200).json(transactions);
-
         } catch (error) {
-            console.log(error);
-            return new Error("Error: ", error.message);
+            next(error);
         }
     }
 
-    async transactionsBetweenTwoDates(req, res) {
+    static async transactionsBetweenTwoDates(req, res, next) {
 
         try {
             const { start, end } = req.body;
             if (!start || !end) {
-                return res.status(400).json({ msg: 'date filter is missing' });
+                throw new AppError("required fields (date) missing", 500);
             }
 
             const transactions = await StockService.transactionsBetweenTwoDates(start, end);
 
             if (!transactions) {
-                return res.status(404).json({ msg: 'transactions not found' });
+                throw new AppError("Transactions not found", 404);
             }
-
             return res.status(200).json(transactions);
-
         } catch (error) {
-            console.log(error);
-            return new Error("Error: ", error.message);
+            next(error);
         }
     }
-
-
-
-
 }
 
-module.exports = new StockController();
+module.exports =  StockController;

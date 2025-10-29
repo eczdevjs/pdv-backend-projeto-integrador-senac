@@ -1,123 +1,81 @@
 const ClientService = require('../service/ClientService');
-
+const AppError = require('../utils/AppError');
 
 class ClientController {
 
-    static async store(req, res) {
-
+    static async store(req, res, next) {
         try {
-
-            let bodyKeys = Object.keys(req.body);
-
-            if (bodyKeys.length === 0) {
-                return req.status(400).json({ msg: "Body requisition is missing" });
-            }
-
             const { name, lastName, email, phone, addressId } = req.body;
-
             const client = await ClientService.store(name, lastName, email, phone, addressId);
 
             if (!client) {
-                return res.status(400).json({ msg: "error creating client" });
+                throw new AppError("Error creating client", 500);
             }
             return res.status(201).json(client);
-
         } catch (error) {
-            console.log(error)
-            res.status(400).json(error);
+            next(error);
         }
     }
 
-
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
-
             const clients = await ClientService.index();
-
             if (!clients) {
-                return res.status(400).json({ msg: "Clients not found" });
+                throw new AppError("Clients not found", 404);
             }
-
             return res.status(200).json(clients);
-
         } catch (error) {
-            res.status(400).json(error);
+            next(error);
         }
     }
 
 
-    static async show(req, res) {
+    static async show(req, res, next) {
         try {
             if (!req.params.id) {
                 req.status(400).json({ msg: "Id paramether required" });
             }
             const { id } = req.params;
-
             const client = await ClientService.show(id);
-
             if (!client) {
-                return res.status(400).json({ msg: "Clients not found" });
+                throw new AppError("Client not found", 404);
             }
-
             res.status(200).json(client);
-
         } catch (error) {
-            res.status(400).json(error);
+            next(error);
         }
     }
 
-
-    static async update(req, res) {
-
-        if (!req.params.id) {
-            return req.status(400).json({ msg: "Id paramether required" });
-        }
-
-        let keysBody = Object.keys(req.body);
-
-        if (keysBody.length === 0) {
-            return res.status(404).json({ msg: 'Body requisition is missing : Aborted' });
-        }
-
-        const clientToUpdate = req.body;
-
-        const { id } = req.params;
-
-        const updated = await ClientService.update(id, clientToUpdate);
-
-        if (!updated) {
-            return res.status(400).json({ msg: "Error updating client: aborted" });
-        }
-
-        return res.status(200).json(updated);
-    }
-
-
-    static async delete(req, res) {
-
+    static async update(req, res, next) {
         try {
-
             if (!req.params.id) {
-                return req.status(400).json({ msg: "Id paramether required" });
+                throw new AppError("id paramether is missing", 400);
             }
-
+            const clientToUpdate = req.body;
             const { id } = req.params;
-
-            const success = await ClientService.delete(id);
-
-            if (!success) {
-                return res.status(500).json({ msg: "Error deleting client: aborted" });
+            const updated = await ClientService.update(id, clientToUpdate);
+            if (!updated) {
+                throw new AppError("Error updating register, aborted", 500);
             }
-
-            return res.status(200).json({msg: 'Register deleted'});
-
+            return res.status(200).json(updated);
         } catch (error) {
-            console.log(error.message);
-            if(error.message == 'Client not found'){
-                res.status(404).json({msg: 'client not found, check id paramether'});
-            }
+            next(error);
+        }
+    }
 
-            res.status(500).json({msg: error.messsage});
+    static async delete(req, res, next) {
+        try {
+            if (!req.params.id) {
+                throw new AppError("id paramether is missing", 400);
+            }
+            const { id } = req.params;
+            const success = await ClientService.delete(id);
+            if (!success) {
+                throw new AppError("Error deleting register: aborted", 500);
+            }
+            return res.status(200).json({ msg: 'Register deleted' });
+        } catch (error) {
+            next(error);
         }
     }
 }

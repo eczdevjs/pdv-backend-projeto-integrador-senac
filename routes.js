@@ -14,7 +14,7 @@ const shiftDepositController = require('./src/controller/shiftDepositController'
 const shiftWithdrawController = require('./src/controller/shiftWithdrawController');
 const shiftTransactionTypeController = require('./src/controller/shiftTransactionTypeController');
 const shiftTransactionController = require('./src/controller/shiftTransactionController');
-const stockController = require('./src/controller/stockController');
+const StockController = require('./src/controller/stockController');
 const storeController = require('./src/controller/storeController');
 const SaleController = require('./src/controller/saleController');
 const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
@@ -165,15 +165,15 @@ routes.get('/store/list', storeController.index);
 
 
 // STOCK ROUTES
-routes.post('/stock/purchase/register',jsonBodyRequired, stockController.purchase);
-routes.put('/stock/adjustment/',jsonBodyRequired, stockController.adjustment);
-routes.get('/stock/list/', stockController.index);
-routes.get('/stock/product/:id', stockController.show);
-routes.get('/stock/transactions/', stockController.transactionsByDay);
-routes.post('/stock/transference/register',jsonBodyRequired, stockController.transference);
+routes.post('/stock/purchase/register',jsonBodyRequired, StockController.purchase);
+routes.put('/stock/adjustment/',jsonBodyRequired, StockController.adjustment);
+routes.get('/stock/list/', StockController.index);
+routes.get('/stock/product/:id', StockController.show);
+routes.get('/stock/transactions/', StockController.transactionsByDay);
+routes.post('/stock/transference/register',jsonBodyRequired, StockController.transference);
 
 // pending testing it
-routes.get('/stock/transactions/filterbydate', stockController.transactionsBetweenTwoDates);
+routes.get('/stock/transactions/filterbydate', StockController.transactionsBetweenTwoDates);
 
 
 module.exports = routes;

@@ -1,66 +1,40 @@
 const StoreService = require('../service/StoreService');
 
-
+const AppError = require('../utils/AppError');
 class StoreController {
 
-    async store(req, res) {
+    async store(req, res, next) {
 
         try {
-
-            if (!req.body || Object.keys(req.body) == 0) {
-                console.log('entrou no if')
-                return res.status(422).json({ msg: 'Body requisition is missing' })
-            }
-
             const { name, cnpj, phone } = req.body;
-
-
             if (!name) {
-                return res.status(400).json({ msg: 'required name field is missing' })
+                throw new AppError("name field is required, it's missing", 400);
             }
-
-
-            console.log({ name, cnpj, phone })
             const store = await StoreService.store({ name, cnpj, phone });
             console.log(store)
-
             if (!store) {
-                return res.status(500).json({ msg: "error creating store register" });
+                throw new AppError("Error creating store register, aborted", 500);
             }
-
             return res.status(201).json(store);
-
         } catch (error) {
-            console.log(error);
-            res.status(500).json(error.message)
-        }
-
-
-    } 
-
-    async index(req, res) {
-
-        try {
-
-            const stores = await StoreService.index();
-
-            if(!stores){
-                return res.status(500).json({msg: 'error fetching stores'})
-            }
-
-            return res.status(200).json(stores);
-
-        } catch (error) {
-            return res.status(500).json({msg: 'error fetching stores'})
+            next(error);
         }
     }
 
+    async index(req, res, next) {
+
+        try {
+            const stores = await StoreService.index();
+            if (!stores) {
+                throw new AppError("Error fetching stores", 500);
+            }
+            return res.status(200).json(stores);
+        } catch (error) {
+            next(error);
+        }
+    }
     // update
-
     // delete
-
 }
-
-
 
 module.exports = new StoreController();
