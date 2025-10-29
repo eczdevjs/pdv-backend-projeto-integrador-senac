@@ -1,30 +1,24 @@
 const UserService = require('../service/UserService');
+const AppError = require('../utils/AppError');
 
 class UserController {
     // adming required []
-    static async store(req, res) {
+    static async store(req, res, next) {
         try {
             const { name, lastName, email, phone, password } = req.body;
             const newUser = await UserService.store(name, lastName, email, phone, password);
             if (!newUser) {
-
-                return res.status(400).json({ msg: 'Error creating user , aborted' });
+              throw new AppError("Error creating user")
             }
             res.status(201).json(newUser);
         } catch (e) {
-            switch (e.name) {
-                case "SequelizeUniqueConstraintError":
-                    return res.status(400).json({ msg: "User email has already been registered" });
-                    break;
-                case "SequelizeValidationError":
-                    return res.status(400).json({msg: "verify sent data: missing required data"})
-                default: return res.status(500).json({msg: 'Unexpected server error while creating user'});
-            }
+            next(e)
         }
     }
 
+
     //  adminRequired []
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const users = await UserService.index();
             if (!users) {
@@ -33,12 +27,12 @@ class UserController {
             return res.status(200).json(users);
 
         } catch (e) {
-            console.log("Error fetching users : ", e);
-            res.status(400).json(e);
+            next(e);
         }
     }
+
     // login required [x]
-    static async show(req, res) {
+    static async show(req, res,next) {
         try {
 
             if (!req.userId) {
@@ -50,32 +44,26 @@ class UserController {
             const user = await UserService.show(id);
 
             if (!user) {
-                return res.status(400).json({
-                    message: "Error fetching user",
-                    error: "user not found"
-                });
+                throw new AppError("User not found", 404);
             }
 
             return res.status(200).json(user);
 
         } catch (e) {
-            console.log("Error creating user: ", e);
-            res.status(400).json(e);
+           next(e);
         }
 
     }
     // login required alterar rota [x]
-    static async update(req, res) {
+    static async update(req, res, next) {
         try {
 
             if (!req.userId) {
-                return res.status(400).json({ message: "user id is required, token expired" });
+                throw new AppError("User id required: It's missing");
             }
 
             if (req.body.password === '') {
-                return res.status(400).json(
-                    { message: "password can not be null" }
-                );
+             throw new AppError("Password can not be null", 400);
             }
 
             const is = req.userId;
@@ -84,34 +72,27 @@ class UserController {
             const updatedUser = await UserService.update(id, toUpdate);
 
             if (!updatedUser) {
-                return res.status(400).json(
-                    { message: "Error updating  user" }
-                );
+              throw new AppError('Error updating user: aborted', 500);
             }
 
             return res.status(200).json(updatedUser);
         } catch (e) {
-            console.log("Error creating user: ", e);
-            res.status(400).json(e);
+            next(e);
         }
     }
     // admin required
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         try {
-
             if (!req.params.id) {
-                return res.status(400).json({ message: "user id is required" });
+                throw new AppError("Required paramether (id) is missing");
             }
             const id = req.params.userId;
             await UserService.delete(id);
             return res.status(204).send();
         } catch (e) {
-            console.log("Error creating user: ", e);
-            res.status(400).json(e);
+            next(e);
         }
-
     }
-
 }
 
 module.exports = UserController;
