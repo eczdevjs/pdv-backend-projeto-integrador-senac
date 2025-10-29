@@ -1,55 +1,62 @@
-const User = require('../model/UserModel');
+const UserService = require('../service/UserService');
 
 class UserController {
-// adming required []
-    async store(req, res) {
+    // adming required []
+    static async store(req, res) {
         try {
-            if (!req.body) {
-                console.log("body request is required");
-                console.log(req.body);
-                return res.status(400).json({ message: "body request is required" });
-            }
-            const newUser = await User.create(req.body);
-            res.status(201).json(newUser);
+            const { name, lastName, email, phone, password } = req.body;
+            const newUser = await UserService.store(name, lastName, email, phone, password);
+            if (!newUser) {
 
+                return res.status(400).json({ msg: 'Error creating user , aborted' });
+            }
+            res.status(201).json(newUser);
         } catch (e) {
-            console.log("Error creating user: ", e);
-            res.status(400).json(e);
+            switch (e.name) {
+                case "SequelizeUniqueConstraintError":
+                    return res.status(400).json({ msg: "User email has already been registered" });
+                    break;
+                case "SequelizeValidationError":
+                    return res.status(400).json({msg: "verify sent data: missing required data"})
+                default: return res.status(500).json({msg: 'Unexpected server error while creating user'});
+            }
         }
     }
-//  adminRequired []
-    async index(req, res) {
+
+    //  adminRequired []
+    static async index(req, res) {
         try {
-           const users = await User.findAll({attributes: ['id','name','lastName','email']});
-           if(!users){
-            return res.status(400).json(e);
-           }
-           return res.status(200).json(users);
+            const users = await UserService.index();
+            if (!users) {
+                return res.status(400).json(e);
+            }
+            return res.status(200).json(users);
 
         } catch (e) {
             console.log("Error fetching users : ", e);
             res.status(400).json(e);
         }
-
     }
-// login required [x]
-    async show(req, res) {
+    // login required [x]
+    static async show(req, res) {
         try {
 
-            if(!req.userId){
-               return res.status(400).json({message: "user id is required"});
+            if (!req.userId) {
+                return res.status(400).json({ message: "user id is required" });
             }
-           
-            const user = await User.findByPk(req.userId,{attributes: ['id', 'name','lastName', 'email']});
-            
 
-            if(!user){
-               return res.status(400).json({message: "Error fetching user",
-                error: "user not found"
-               });
+            const id = req.userId;
+
+            const user = await UserService.show(id);
+
+            if (!user) {
+                return res.status(400).json({
+                    message: "Error fetching user",
+                    error: "user not found"
+                });
             }
-            
-            return res.status(200).json(user );
+
+            return res.status(200).json(user);
 
         } catch (e) {
             console.log("Error creating user: ", e);
@@ -57,35 +64,28 @@ class UserController {
         }
 
     }
-// login required alterar rota [x]
-    async update(req, res) {
+    // login required alterar rota [x]
+    static async update(req, res) {
         try {
-            
-            if(!req.userId){
-               return res.status(400).json({message: "user id is required, token expired"});
-            }
-            if(!req.body){
-               return res.status(400).json({message: "requisition body is required"});
 
-            }
-            const user = await User.findByPk(req.userId);
-
-            if(!user){
-               return res.status(400).json({message: "Error fetching user",
-                error: "user not found"
-               });
+            if (!req.userId) {
+                return res.status(400).json({ message: "user id is required, token expired" });
             }
 
-            if(req.body.password === ''){
+            if (req.body.password === '') {
                 return res.status(400).json(
-                    {message: "password can not be null"}
+                    { message: "password can not be null" }
                 );
             }
-            const updatedUser = await user.update(req.body);
 
-            if(!updatedUser){
-                 return res.status(400).json(
-                    {message: "Error updating  user"}
+            const is = req.userId;
+            const toUpdate = req.body;
+
+            const updatedUser = await UserService.update(id, toUpdate);
+
+            if (!updatedUser) {
+                return res.status(400).json(
+                    { message: "Error updating  user" }
                 );
             }
 
@@ -94,27 +94,17 @@ class UserController {
             console.log("Error creating user: ", e);
             res.status(400).json(e);
         }
-
     }
-a// admin required
-    async delete(req, res) {
+    // admin required
+    static async delete(req, res) {
         try {
-              if(!req.params.id){
-               return res.status(400).json({message: "user id is required"});
+
+            if (!req.params.id) {
+                return res.status(400).json({ message: "user id is required" });
             }
-           
-            const user = await User.findByPk(req.params.id);
-
-            if(!user){
-               return res.status(400).json({message: "Error fetching user",
-                error: "user not found"
-               });
-            }
-
-            await user.destroy();
-
-            return res.status(204).json({msg: "User deletetion succeed"});
-
+            const id = req.params.userId;
+            await UserService.delete(id);
+            return res.status(204).send();
         } catch (e) {
             console.log("Error creating user: ", e);
             res.status(400).json(e);
@@ -122,7 +112,6 @@ a// admin required
 
     }
 
-
 }
 
-module.exports = new UserController();
+module.exports = UserController;

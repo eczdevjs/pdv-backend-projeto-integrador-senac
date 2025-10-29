@@ -2,7 +2,7 @@ const express = require('express');
 const routes = express.Router();
 
 const ProductController = require('./src/controller/productController');
-const userController = require('./src/controller/userController');
+const UserController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
 const loginRequired = require('./src/middlewares/loginRequired');
 const ClientController = require('./src/controller/clientController');
@@ -34,13 +34,13 @@ routes.delete('/products/delete/:id', ProductController.delete);
 
 
 /*USER ROUTES*/ 
-routes.post('/users/register',jsonBodyRequired,userController.store);
+routes.post('/users/register',jsonBodyRequired,UserController.store);
 // only admins are supposed to see all registered users
-routes.get('/users/', loginRequired , userController.index);
-routes.get('/users/user',loginRequired , userController.show);
-routes.put('/users/',loginRequired ,jsonBodyRequired, userController.update);
+routes.get('/users/', loginRequired , UserController.index);
+routes.get('/users/user',loginRequired , UserController.show);
+routes.put('/users/',loginRequired ,jsonBodyRequired, UserController.update);
 // deve ser deletado apenas por adm, se nao for o usuario nao deve excluir o proprio registro, mas pode setar a flag do tipo isActive para falso
-routes.delete('/users/',loginRequired , userController.delete);
+routes.delete('/users/',loginRequired , UserController.delete);
 
 
 

@@ -28,7 +28,7 @@ module.exports = {
 
       phone: {
         type: Sequelize.STRING,
-        allowNull:false
+        allowNull: false
       },
 
       password_hash: {
@@ -45,6 +45,7 @@ module.exports = {
         allowNull: false
       }
     });
+
   },
 
   async down(queryInterface, Sequelize) {

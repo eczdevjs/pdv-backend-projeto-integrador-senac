@@ -68,6 +68,9 @@ class User extends Model {
                     len: {
                         args: [6, 18],
                         msg: "Password too short, it must be between 6 and 18 characters"
+                    },
+                    notEmpty: {
+                        msg: 'password is required',
                     }
                 }
             }
@@ -88,7 +91,6 @@ class User extends Model {
         return bcrypt.compare(password, this.password_hash)
     }
 
-
     static associate(models){
         User.hasMany(models.Order, {
             foreignKey: 'userId',
@@ -105,8 +107,6 @@ class User extends Model {
             as: 'user'
         });
     }
-
-
 }
 
 module.exports = User;
