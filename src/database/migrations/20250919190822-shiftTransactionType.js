@@ -25,6 +25,8 @@ module.exports = {
       }
 
     });
+
+    // povoar tabela
   },
 
   async down(queryInterface, Sequelize) {

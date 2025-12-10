@@ -46,8 +46,6 @@ class SaleService {
                 orderId: order.id
             };
 
-            console.log("shiftTransactionObject =====>>", shiftTransaction)
-
             const transactionCreated = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
             if (!transactionCreated) {
@@ -98,6 +96,18 @@ class SaleService {
                                 model: PaymentMethod,
                                 attributes: ['id', 'name'],
                                 as: 'paymentMethod'
+                            },
+                            {
+                                model: Suborder,
+                                attributes: ['productPrice', 'qtt', 'total'],
+                                as: 'suborders',
+                                include: [
+                                    {
+                                        model: Product,
+                                        attributes: ['id', 'name', 'brand', 'productModel', 'description'],
+                                        as: 'product'
+                                    }
+                                ]
                             }
                         ],
                         order: [['createdAt', 'DESC']]

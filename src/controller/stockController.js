@@ -1,5 +1,5 @@
 const StockService = require('../service/StockService');
-
+const AppError = require('../utils/AppError');
 
 class StockController {
     //IDEMPOTENCY
@@ -28,11 +28,12 @@ class StockController {
                 qtyChange,
                 reason
             );
-            if (adjObject) {
-                throw new AppError("Error creating store register, aborted", 500);
-            } else {
-                return res.status(400).json({ msg: "Error during adjustment , operation aborted" });
+
+            if (!adjObject) {
+                throw new AppError("Error creating adjustment, aborted", 500);
             }
+
+            return  res.status(201).json(adjObject);
 
         } catch (error) {
             next(error);
@@ -64,6 +65,10 @@ class StockController {
             const list = await StockService.index();
             if (!list) {
                 throw new AppError("Error fetching store data, aborted", 500);
+            }
+
+            if(list.length === 0){
+                return   res.status(404).json({msg: 'Stock list is empty'});
             }
             return res.status(200).json(list);
         } catch (error) {

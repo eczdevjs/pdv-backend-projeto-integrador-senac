@@ -46,7 +46,7 @@ class SaleController {
             if (!orders) {
                 throw new AppError("Sales not found", 404);
             }
-            return res.status(200).json(orders);
+            return res.status(200).json({success: true, data:orders, errors: false});
         } catch (error) {
             next(error);
         }

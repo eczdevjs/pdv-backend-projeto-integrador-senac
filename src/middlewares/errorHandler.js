@@ -31,7 +31,7 @@ module.exports = (err, req, res, next) => {
     }
 
     if(err.isCustomError){
-        return res.status(err.statusCode || 400).json({msg: err.msg || "Bad request"})
+        return res.status(err.statusCode || 400).json({msg: err.message || "Bad request"})
     }
 
     return res.status(500).json({

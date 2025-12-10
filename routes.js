@@ -6,14 +6,10 @@ const UserController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
 const loginRequired = require('./src/middlewares/loginRequired');
 const ClientController = require('./src/controller/clientController');
-
-const paymentMethodController = require('./src/controller/paymentMethodController');
+const PaymentMethodController = require('./src/controller/paymentMethodController');
 const orderController = require('./src/controller/orderController');
-const shiftController = require('./src/controller/shiftController');
-const shiftDepositController = require('./src/controller/shiftDepositController');
-const shiftWithdrawController = require('./src/controller/shiftWithdrawController');
-const shiftTransactionTypeController = require('./src/controller/shiftTransactionTypeController');
-const shiftTransactionController = require('./src/controller/shiftTransactionController');
+const CashierController = require('./src/controller/cashierController');
+
 const StockController = require('./src/controller/stockController');
 const storeController = require('./src/controller/storeController');
 const SaleController = require('./src/controller/saleController');
@@ -22,8 +18,8 @@ const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
 
 
 /* PRODUCTS  ROUTES  */
-routes.post('/products/register',jsonBodyRequired, ProductController.store);
-routes.get('/products/product/:id', ProductController.show);
+routes.post('/products/create/',jsonBodyRequired, ProductController.store);
+routes.get('/products/:id', ProductController.show);
 routes.get('/products/list', ProductController.index);
 routes.put('/products/edit/:id',jsonBodyRequired, ProductController.update);
 routes.delete('/products/delete/:id', ProductController.delete);
@@ -34,11 +30,11 @@ routes.delete('/products/delete/:id', ProductController.delete);
 
 
 /*USER ROUTES*/ 
-routes.post('/users/register',jsonBodyRequired,UserController.store);
+routes.post('/users/create/',jsonBodyRequired,UserController.store);
 // only admins are supposed to see all registered users
 routes.get('/users/', loginRequired , UserController.index);
 routes.get('/users/user',loginRequired , UserController.show);
-routes.put('/users/',loginRequired ,jsonBodyRequired, UserController.update);
+routes.put('/users/update',loginRequired ,jsonBodyRequired, UserController.update);
 // deve ser deletado apenas por adm, se nao for o usuario nao deve excluir o proprio registro, mas pode setar a flag do tipo isActive para falso
 routes.delete('/users/',loginRequired , UserController.delete);
 
@@ -48,10 +44,6 @@ routes.delete('/users/',loginRequired , UserController.delete);
 
 //TOKEN ROUTES
 routes.post('/tokens/',jsonBodyRequired,tokenController.store);
-
-
-
-
 
 
 // CLIENT ROUTES
@@ -70,11 +62,11 @@ routes.delete("/clients/delete/:id", ClientController.delete);
 //PAYMENT METHOD ROUTES: ADMIN ONLY
 // Access: loginRequired add or exclude as well admin access.
 
-routes.post('/paymentmethod/register',jsonBodyRequired, paymentMethodController.store)
-routes.get('/paymentmethod/list', paymentMethodController.index);
-routes.get('/paymentmethod/:id', paymentMethodController.show);
-routes.put('/paymentmethod/:id',jsonBodyRequired, paymentMethodController.update);
-routes.delete('/paymentmethod/delete/:id', paymentMethodController.delete);
+routes.post('/paymentmethod/register',jsonBodyRequired, PaymentMethodController.store)
+routes.get('/paymentmethod/list', PaymentMethodController.index);
+routes.get('/paymentmethod/:id', PaymentMethodController.show);
+routes.put('/paymentmethod/:id',jsonBodyRequired, PaymentMethodController.update);
+routes.delete('/paymentmethod/delete/:id', PaymentMethodController.delete);
 
 
 
@@ -93,23 +85,18 @@ routes.delete('/orders/delete/:id', orderController.delete);
 
 
 
-
-//SHIFT ROUTES
-routes.post('/shifts/open',jsonBodyRequired, shiftController.open);
+// CASHIER ROUTES
+routes.post('/cashier/open',jsonBodyRequired, CashierController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
-routes.patch('/shifts/close/',jsonBodyRequired, shiftController.close)
+routes.patch('/cashier/close/',jsonBodyRequired, CashierController.close);
+routes.get('/cashier/shifts/',jsonBodyRequired, CashierController.getShift)
 
 
 
-
-
-
-
-
-// !!!!!!!!!!!!!!!!!!THIS ENDPOINT SHOULD NOT BE KEPT
-// SHIFT DEPOSIT ROUTES : TEST ONLY, THIS ENDPOINT SHOULD NOT EXIST
-routes.post('/shift/deposit',jsonBodyRequired, shiftDepositController.store);
-routes.post('/shift/withdraw',jsonBodyRequired, shiftWithdrawController.store);
+// // !!!!!!!!!!!!!!!!!!THIS ENDPOINT SHOULD NOT BE KEPT
+// // SHIFT DEPOSIT ROUTES : TEST ONLY, THIS ENDPOINT SHOULD NOT EXIST
+// routes.post('/shift/deposit',jsonBodyRequired, shiftDepositController.store);
+// routes.post('/shift/withdraw',jsonBodyRequired, shiftWithdrawController.store);
 
 
 
@@ -118,8 +105,8 @@ routes.post('/shift/withdraw',jsonBodyRequired, shiftWithdrawController.store);
 
 /*!!!!!! ADMIN ONLY!!!!!!!!!!!!! */
 //SHIFT TRANSACTION TYPE ROUTES
-routes.post('/shift/shifttransactiontype/register',jsonBodyRequired, shiftTransactionTypeController.store);
-routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
+// routes.post('/shift/shifttransactiontype/register',jsonBodyRequired, shiftTransactionTypeController.store);
+// routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
 
 
 
@@ -137,13 +124,12 @@ routes.get('/sales/:id', SaleController.getSale);
 
 
 
-
 // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
-// every transaction of shift, Sale, Deposit, Withdraw, Refund
-// routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
-routes.post('/shift-transactions/withdraw',jsonBodyRequired, shiftTransactionController.createWithdrawTransaction);
-routes.post('/shift-transactions/deposit', jsonBodyRequired,shiftTransactionController.createDepositTransaction);
-routes.get('/shift-transactions/list', shiftTransactionController.index);
+// // every transaction of shift, Sale, Deposit, Withdraw, Refund
+// // routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
+// routes.post('/shift-transactions/withdraw',jsonBodyRequired, shiftTransactionController.createWithdrawTransaction);
+// routes.post('/shift-transactions/deposit', jsonBodyRequired,shiftTransactionController.createDepositTransaction);
+// routes.get('/shift-transactions/list', shiftTransactionController.index);
 
 
 
@@ -165,12 +151,13 @@ routes.get('/store/list', storeController.index);
 
 
 // STOCK ROUTES
-routes.post('/stock/purchase/register',jsonBodyRequired, StockController.purchase);
-routes.put('/stock/adjustment/',jsonBodyRequired, StockController.adjustment);
-routes.get('/stock/list/', StockController.index);
+routes.get('/stock/index/', StockController.index);
+routes.post('/stock/purchase/create/',jsonBodyRequired, StockController.purchase);
+routes.put('/stock/adjustment/create/',jsonBodyRequired, StockController.adjustment);
 routes.get('/stock/product/:id', StockController.show);
 routes.get('/stock/transactions/', StockController.transactionsByDay);
-routes.post('/stock/transference/register',jsonBodyRequired, StockController.transference);
+routes.post('/stock/transference/create/',jsonBodyRequired, StockController.transference);
+
 
 // pending testing it
 routes.get('/stock/transactions/filterbydate', StockController.transactionsBetweenTwoDates);

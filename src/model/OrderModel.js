@@ -52,7 +52,7 @@ class Order extends Model {
         });
 
         Order.hasMany(models.Suborder, {
-            foreignKey: 'order_id',
+            foreignKey: 'orderId',
             as: 'suborders'
         });
 

@@ -1,17 +1,11 @@
-const Order = require('../model/OrderModel');
-const Client = require('../model/ClientModel');
-const User = require('../model/UserModel');
-const PaymentMethod = require('../model/PaymentMethod');
-const Suborder = require('../model/SuborderModel');
-const ShiftTransaction = require('../model/ShiftTransactionModel');
-const Shift = require('../model/ShiftModel');
-const { where } = require('sequelize');
+const ShiftService = require('../service/CashierService');
+const CashierService = require('../service/CashierService');
 
 
 
-class ShiftController {
+class CashierController {
 
-    async open(req, res) {
+    static async open(req, res, next) {
 
         if (!req.body) {
             return res.status(400).json({ msg: "Body requisition must be provided" })
@@ -32,61 +26,58 @@ class ShiftController {
             }
         }
 
-
         try {
-
-            const shift = await Shift.create(req.body);
-            if (!shift) {
-                return res.status(401).json({ msg: "error creating shift" });
-            }
-
-            const shiftFiltered = {
-                id: shift.id,
-                userId: shift.userId,
-                startTime: shift.startTime,
-                openingBalance: shift.openingBalance
-            };
-
-            return res.status(201).json(shiftFiltered);
-
+            const {userId, openingBalance} = req.body;
+            const shift = await CashierService.open(userId,openingBalance);
+            return res.status(201).json(shift);
         } catch (error) {
-            console.log(error);
-            res.status(402).json(error);
+          next(error)
         }
-
     }
 
-    async close(req, res) {
+    static async close(req, res, next) {
 
-        if(!req.body){
-            return res.status(400).json({ msg: "Bdy requisition is missing" });
+        if (!req.body) {
+            return res.status(400).json({ msg: "Body requisition must be provided" })
+        }
+        // i need to grant all fields were provided
+
+        // at least userId and opening Balance must be provided;
+        if (Object.keys(req.body).length < 2) {
+            return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
+        }
+        // check if fields are right, think about it
+
+
+        // fields are required and can not be null
+        for (let key in req.body) {
+            if (!req.body[key]) {
+                return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
+            }
         }
 
-        const { shiftId, closingBalance } = req.body;
+        try {
+            const {shiftId, closingBalance} = req.body;
+            const shift = await CashierService.close(shiftId, closingBalance);
+            return res.status(201).json(shift);
+        } catch (error) {
+          next(error)
+        }
+    }
+    
+    static async getShift(req, res, next){
+       try {
+        const {shiftId, userId} = req.body;
 
-        const shift = (await Shift.findByPk(req.body.shiftId));
-
-        if (!shift) {
-            return res.status(404).json({ msg: "shift  not foud" });
-        }                                  
-
-        const openingBalance = parseFloat(shift.dataValues.openingBalance);
-                                      
-        const sum = parseFloat(await ShiftTransaction.sum('amount', { where: { shiftId: shiftId } }));
-
-        const finalBalance = sum + openingBalance;
-
-        const difference = closingBalance - finalBalance;
-
-        await shift.update({closingBalance ,difference });
-
-        return res.status(200).json(shift);
-        
-    }                 
-                                                                                          
+            const shift = await ShiftService.getShift(shiftId, userId);
+            return res.status(200).json(shift);
+       } catch (error) {
+            next(error)
+       }
+    }
 }
 
-module.exports = new ShiftController();
+module.exports = CashierController;
                                                                             
                                                                          
                                                     

@@ -1,8 +1,16 @@
 const User = require('../model/UserModel');
+const AppError = require('../utils/AppError');
 
 class UserService {
-    static async store(name, lastName, email, phone, password) {
+    static async store(props) {
         try {
+
+            const {name, lastName, email, phone, password} = props;
+
+            // if(!email || !password){
+            //     throw new AppError("Email and Password are required, either both or one  is missing", 400);
+            // }
+
             const newUser = await User.create({ name, lastName, email, phone, password });
             if (newUser) {
                 return newUser;
@@ -11,6 +19,7 @@ class UserService {
             throw error;
         }
     }
+
     static async show(id) {
         try {
             const user = await User.findByPk(id);
@@ -20,9 +29,10 @@ class UserService {
 
             return user;
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
+
     static async index() {
         try {
             const users = await User.findAll({ attributes: ['id', 'name', 'lastName', 'email'] });
@@ -31,24 +41,27 @@ class UserService {
             }
             return users;
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
-    static async update(id, user) {
+
+    static async update(id, fieldsToUpdate) {
         try {
             const user = await User.findByPk(id);
             if (!user) {
                 throw new Error('Error fetching users: aborted');
             }
-            const updated = await user.update(user);
+            const updated = await user.update(fieldsToUpdate);
 
             if (!updated) {
                 throw new Error("Error updating user: Aborted");
             }
+            return updated;
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
+
     static async delete(id) {
         // flag based, not exclud change flag to unavalible or something like that
         try {
@@ -59,7 +72,7 @@ class UserService {
             await user.destroy();
 
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 }

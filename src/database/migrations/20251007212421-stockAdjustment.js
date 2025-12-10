@@ -48,7 +48,7 @@ module.exports = {
       },
 
       reference_code: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
 

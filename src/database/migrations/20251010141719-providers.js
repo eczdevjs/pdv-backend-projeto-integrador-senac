@@ -59,7 +59,6 @@ module.exports = {
       { name: 'NIKE', created_at: new Date(), updated_at: new Date() },
       { name: 'ADIDAS', created_at: new Date(), updated_at: new Date() }
     ]);
-
   },
 
 

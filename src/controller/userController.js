@@ -6,11 +6,21 @@ class UserController {
     static async store(req, res, next) {
         try {
             const { name, lastName, email, phone, password } = req.body;
-            const newUser = await UserService.store(name, lastName, email, phone, password);
+            const newUser = await UserService.store({ name, lastName, email, phone, password });
             if (!newUser) {
-              throw new AppError("Error creating user")
+                throw new AppError("Error creating user")
             }
-            res.status(201).json(newUser);
+
+            res.status(201).json({
+                success: true,
+                data: {
+                    name: newUser.name,
+                    email: newUser.email,
+                    createdAt: newUser.createdAt
+                },
+                errors: null
+            });
+
         } catch (e) {
             next(e)
         }
@@ -32,7 +42,7 @@ class UserController {
     }
 
     // login required [x]
-    static async show(req, res,next) {
+    static async show(req, res, next) {
         try {
 
             if (!req.userId) {
@@ -50,7 +60,7 @@ class UserController {
             return res.status(200).json(user);
 
         } catch (e) {
-           next(e);
+            next(e);
         }
 
     }
@@ -62,20 +72,32 @@ class UserController {
                 throw new AppError("User id required: It's missing");
             }
 
-            if (req.body.password === '') {
-             throw new AppError("Password can not be null", 400);
+            if (req.body.password && req.body.password === '') {
+                throw new AppError("Password can not be null", 400);
             }
 
-            const is = req.userId;
+            const id = req.userId;
             const toUpdate = req.body;
 
             const updatedUser = await UserService.update(id, toUpdate);
 
             if (!updatedUser) {
-              throw new AppError('Error updating user: aborted', 500);
+                throw new AppError('Error updating user: aborted', 500);
             }
 
-            return res.status(200).json(updatedUser);
+            const response = {
+                success: true,
+                data: {
+                    name: updatedUser.name,
+                    lastName: updatedUser.lastName,
+                    email: updatedUser.email,
+                    phone: updatedUser.phone,
+                    updatedAt: updatedUser.updatedAt
+                },
+                errors: null
+            }
+
+            return res.status(200).json(response);
         } catch (e) {
             next(e);
         }

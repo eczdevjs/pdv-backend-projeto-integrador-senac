@@ -1,7 +1,7 @@
 const PaymentMethod = require('../model/PaymentMethod');
 
 class PaymentMethodController {
-    async store(req, res) {
+     static async store(req, res) {
         if (!req.body) {
             return res.status(400).json({ msg: 'body requisition is required' });
         }
@@ -25,7 +25,7 @@ class PaymentMethodController {
         }
     }
 
-    async index(req, res) {
+    static async index(req, res) {
 
         try {
             const list = await PaymentMethod.findAll({ attributes: ['id', 'name'] });
@@ -41,7 +41,7 @@ class PaymentMethodController {
 
     }
 
-    async show(req, res) {
+    static async show(req, res) {
         if (!req.params.id) {
             return res.status(404).json({ msg: 'id paramether missing' });
         }
@@ -61,7 +61,7 @@ class PaymentMethodController {
 
     }
 
-    async update(req, res) {
+    static async update(req, res) {
 
         if (!req.params.id) {
             return res.status(404).json({ msg: 'id paramether missing' });
@@ -91,7 +91,7 @@ class PaymentMethodController {
 
     }
 
-    async delete(req, res) {
+    static async delete(req, res) {
 
         if (!req.params.id) {
             return res.status(404).json({ msg: 'id paramether missing' });
@@ -115,4 +115,4 @@ class PaymentMethodController {
     }
 }
 
-module.exports = new PaymentMethodController();
+module.exports =  PaymentMethodController;

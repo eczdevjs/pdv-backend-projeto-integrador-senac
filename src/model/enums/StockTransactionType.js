@@ -5,8 +5,8 @@ const EStockTransactionType = Object.freeze({
     OUT_DAMAGE: 4,
     ADJ_UP : 5,
     ADJ_DOWN: 6,
-    IN_TRANSFER: 8,
-    OUT_TRANSFER: 9
+    IN_TRANSFER: 7,
+    OUT_TRANSFER: 8
 });
 
 module.exports = EStockTransactionType;

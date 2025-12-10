@@ -10,7 +10,7 @@ class StockTransfer extends Model {
 
             toStoreId: {
                 type: Sequelize.INTEGER,
-                allowNull: true,
+                allowNull: false,
             },
 
             userId: {

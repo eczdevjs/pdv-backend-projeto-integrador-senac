@@ -1,6 +1,5 @@
 const { Sequelize, Model } = require('sequelize');
 const validator = require('validator');
-
 const bcrypt = require('bcryptjs');
 
 class User extends Model {
@@ -64,14 +63,29 @@ class User extends Model {
             },
             password: {
                 type: Sequelize.VIRTUAL,
+                defaultValue: '',
                 validate: {
+
                     len: {
                         args: [6, 18],
                         msg: "Password too short, it must be between 6 and 18 characters"
                     },
                     notEmpty: {
+
                         msg: 'password is required',
+
+                    },
+                    
+                    isPasswordRequired(value) {
+                    
+                        if (this.isNewRecord && (!value)) {
+                            throw new Error('Password is required for user creation.');
+                        }
+             
                     }
+                },
+                set(value) {
+                    this.setDataValue('password', value);
                 }
             }
         }, {
@@ -80,18 +94,18 @@ class User extends Model {
 
 
         this.addHook('beforeSave', async (user, options) => {
-            if(user.changed('password')){
+            if (user.changed('password')) {
                 user.password_hash = await bcrypt.hash(user.password, 8);
             }
         });
         return this;
     }
 
-    validatePassword(password){
+    validatePassword(password) {
         return bcrypt.compare(password, this.password_hash)
     }
 
-    static associate(models){
+    static associate(models) {
         User.hasMany(models.Order, {
             foreignKey: 'userId',
             as: 'orders'
