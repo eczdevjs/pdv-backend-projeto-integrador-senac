@@ -32,14 +32,17 @@ class ProductController {
     static async show(req, res, next) {
         try {
             if (!req.params.id) {
-                req.status(400).json({ msg: "Id paramether required" });
+                throw new Error("Id paramether is required, or given id mismatched");
             }
+
+            if (!parseInt(req.params.id)) {
+                throw new AppError("given id mismatched",404);
+            }
+
             const { id } = req.params;
             const product = await ProductService.show(id);
-            if (!product) {
-                throw new AppError("Error not found: Aborted", 404);
-            }
             res.status(200).json(product);
+
         } catch (error) {
             next(error);
         }
@@ -73,6 +76,34 @@ class ProductController {
                 throw new AppError("Error deleting product register: Aborted", 500);
             }
             return res.status(200).json({ msg: "Product deleted" });
+        } catch (error) {
+            next(error);
+        }
+    }          
+    
+    static async getAllDeleted(req, res, next) {
+        try {
+            const products = await ProductService.getAllDeleted();
+            if (!products) {
+                throw new AppError("Product not found: Aborted", 404);
+            }
+            return res.status(200).json(products);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async restore(req, res, next) {
+        try {
+            if (!req.params.id) {
+                return req.status(400).json({ msg: "Id paramether required" });
+            }
+            const { id } = req.params;
+            const success = await ProductService.restore(id);
+            if (!success) {
+                throw new AppError("Error deleting product register: Aborted", 500);
+            }
+            return res.status(200).json({ msg: "Product restored" });
         } catch (error) {
             next(error);
         }

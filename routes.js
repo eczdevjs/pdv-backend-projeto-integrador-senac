@@ -14,15 +14,19 @@ const StockController = require('./src/controller/stockController');
 const storeController = require('./src/controller/storeController');
 const SaleController = require('./src/controller/saleController');
 const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
+const Product = require('./src/model/ProductModel');
 
 
 
 /* PRODUCTS  ROUTES  */
 routes.post('/products/create/',jsonBodyRequired, ProductController.store);
+routes.get('/products/delete/index/', ProductController.getAllDeleted);
+
+routes.get('/products/', ProductController.index);
 routes.get('/products/:id', ProductController.show);
-routes.get('/products/list', ProductController.index);
 routes.put('/products/edit/:id',jsonBodyRequired, ProductController.update);
 routes.delete('/products/delete/:id', ProductController.delete);
+routes.patch ('/products/restore/:id', ProductController.restore);
 
 
 

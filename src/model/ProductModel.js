@@ -10,10 +10,13 @@ class Product extends Model {
             description: Sequelize.STRING,
             price: Sequelize.DOUBLE,
             size: Sequelize.STRING,
+            isDeleted: Sequelize.BOOLEAN
         },
 
             {
-                sequelize
+                sequelize,
+                timestamps: true,
+                underscored:true
             });
 
         return this;
