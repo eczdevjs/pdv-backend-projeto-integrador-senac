@@ -7,18 +7,6 @@ class CashierController {
 
     static async open(req, res, next) {
 
-        if (!req.body) {
-            return res.status(400).json({ msg: "Body requisition must be provided" })
-        }
-        // i need to grant all fields were provided
-
-        // at least userId and opening Balance must be provided;
-        if (Object.keys(req.body).length < 2) {
-            return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
-        }
-        // check if fields are right, think about it
-
-
         // fields are required and can not be null
         for (let key in req.body) {
             if (!req.body[key]) {
@@ -27,11 +15,16 @@ class CashierController {
         }
 
         try {
-            const {userId, openingBalance} = req.body;
-            const shift = await CashierService.open(userId,openingBalance);
+            const { openingBalance } = req.body;
+            const userId = req.userId;
+            console.log("#############user id from req ")
+            console.log("req.userId >>>>>>>>>>>")
+            console.log(req.userId);
+            console.log(userId)
+            const shift = await CashierService.open(userId, openingBalance);
             return res.status(201).json(shift);
         } catch (error) {
-          next(error)
+            next(error);
         }
     }
 
@@ -57,30 +50,48 @@ class CashierController {
         }
 
         try {
-            const {shiftId, closingBalance} = req.body;
+            const { shiftId, closingBalance } = req.body;
             const shift = await CashierService.close(shiftId, closingBalance);
             return res.status(201).json(shift);
         } catch (error) {
-          next(error)
+            next(error)
         }
     }
-    
-    static async getShift(req, res, next){
-       try {
-        const {shiftId, userId} = req.body;
+
+    static async getShift(req, res, next) {
+        try {
+            const { shiftId, userId } = req.body;
 
             const shift = await ShiftService.getShift(shiftId, userId);
             return res.status(200).json(shift);
-       } catch (error) {
+        } catch (error) {
             next(error)
-       }
+        }
+    }
+
+    static async filterByDate(req, res, next) {
+        try {
+            const {initialDate, endDate} = req.body;
+            const {userId} = req;
+
+            const shifts = await CashierService.filterByDate(initialDate, endDate, userId);
+
+            if (!shifts) {
+                throw new AppError("Transactions not found", 404);
+            }
+
+            return res.status(200).json(shifts);
+
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
 module.exports = CashierController;
-                                                                            
-                                                                         
-                                                    
+
+
+
 
 
 

@@ -30,6 +30,27 @@ routes.patch ('/products/restore/:id', ProductController.restore);
 
 
 
+// STOCK ROUTES
+routes.get('/stock/index/', StockController.index);
+routes.post('/stock/purchase/create/',jsonBodyRequired, StockController.purchase);
+routes.put('/stock/adjustment/create/',jsonBodyRequired, StockController.adjustment);
+routes.get('/stock/product/:id', StockController.show);
+routes.get('/stock/transactions/', StockController.transactionsByDay);
+routes.post('/stock/transference/create/',jsonBodyRequired, StockController.transference);
+
+
+
+
+
+
+// CASHIER ROUTES
+routes.post('/cashier/open',loginRequired,jsonBodyRequired, CashierController.open);
+// O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
+routes.patch('/cashier/close/',loginRequired,jsonBodyRequired, CashierController.close);
+routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
+routes.get('/cashier/shifts/list/', loginRequired, jsonBodyRequired, CashierController.filterByDate);
+
+
 
 
 
@@ -90,10 +111,10 @@ routes.delete('/orders/delete/:id', orderController.delete);
 
 
 // CASHIER ROUTES
-routes.post('/cashier/open',jsonBodyRequired, CashierController.open);
+routes.post('/cashier/open/',loginRequired,jsonBodyRequired, CashierController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
 routes.patch('/cashier/close/',jsonBodyRequired, CashierController.close);
-routes.get('/cashier/shifts/',jsonBodyRequired, CashierController.getShift)
+routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
 
 
 
@@ -154,13 +175,7 @@ routes.get('/store/list', storeController.index);
 
 
 
-// STOCK ROUTES
-routes.get('/stock/index/', StockController.index);
-routes.post('/stock/purchase/create/',jsonBodyRequired, StockController.purchase);
-routes.put('/stock/adjustment/create/',jsonBodyRequired, StockController.adjustment);
-routes.get('/stock/product/:id', StockController.show);
-routes.get('/stock/transactions/', StockController.transactionsByDay);
-routes.post('/stock/transference/create/',jsonBodyRequired, StockController.transference);
+
 
 
 // pending testing it

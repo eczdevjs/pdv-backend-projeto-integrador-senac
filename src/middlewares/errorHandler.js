@@ -9,19 +9,20 @@ module.exports = (err, req, res, next) => {
                 });
             case "SequelizeValidationError":
                 return res.status(400).json({
-                    msg:  err.message || 'Validation error: Check input data',
+                    msg: err.message || 'Validation error: Check input data',
                     details: err.fields || []
                 });
 
-            case "SequelizeforeignKeyConstraintError":
+            case "SequelizeForeignKeyConstraintError":
                 return res.status(400).json({
-                    msg: "Record is linked to another entity",
+                    msg: "Record is linked to another entity, or data sent is not matching references verify data",
                     details: err.fields || []
                 })
             case "SequelizeDatabaseError":
                 return res.status(500).json({
                     msg: "Database error: check server logs for details"
                 });
+
             default:
                 return res.status(500).json({
                     msg: 'Unhandled error'
@@ -30,8 +31,8 @@ module.exports = (err, req, res, next) => {
 
     }
 
-if(err.isCustomError){
-        return res.status(err.statusCode || 400).json({msg: err.message || "Bad request"})
+    if (err.isCustomError) {
+        return res.status(err.statusCode || 400).json({ msg: err.message || "Bad request" })
     }
 
     return res.status(500).json({

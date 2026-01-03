@@ -1,22 +1,22 @@
 const Shift = require('../model/ShiftModel');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const AppError = require('../utils/AppError');
+const {Op} = require('sequelize');
 
 
-
-class ShiftService {
+class CashierService {
 
     static async open(user, openingValue) {
         try {
 
-            const openShift = await Shift.findOne({where: {
+            const openedShift = await Shift.findOne({where: {
                 userId: user,
                 endTime: null
             }});
 
-            console.log(openShift);
+            console.log(openedShift);
 
-            if(openShift){
+            if(openedShift){
                 throw new AppError("Shift transaction has already been  opened",400);
             }
 
@@ -31,7 +31,7 @@ class ShiftService {
         }
     }
 
-    //1-shift id exists 2- if has it already been closed
+    //1-shift id exists? 2- if so ,has it already been closed?
     static async close(shiftId, closingBalance) {
         try {
             if (!shiftId || !closingBalance) throw new AppError("Required field is missing");
@@ -68,16 +68,28 @@ class ShiftService {
         }
     }
 
-    // index method: show transactions of user
     
-    static async filterByDate(initialDate, endDate) {
+    static async filterByDate(initialDate, endDate, userId) {
         try {
+            const shifts = await Shift.findAll({where: {
+                startTime:{
+                [Op.gte]: `${initialDate} 00:00:00`,
+                [Op.lt]:`${endDate} 23:59:59`
+                },
+                userId
+            }});
+
+            if(!shifts){
+                throw new AppError("Transactions not found check dates paramethers and try again");
+            }
             
+            return shifts;
+
         } catch (error) {
-            
+            throw error;
         }
     }
 
 }
 
-module.exports = ShiftService;
+module.exports = CashierService;

@@ -14,6 +14,7 @@ class UserController {
             res.status(201).json({
                 success: true,
                 data: {
+                    id: newUser.id,
                     name: newUser.name,
                     email: newUser.email,
                     createdAt: newUser.createdAt
