@@ -1,23 +1,25 @@
 const Shift = require('../model/ShiftModel');
 const ShiftTransaction = require('../model/ShiftTransactionModel');
 const AppError = require('../utils/AppError');
-const {Op} = require('sequelize');
-
-
+const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
+const PaymentMethod = require('../model/PaymentMethod');
 class CashierService {
 
     static async open(user, openingValue) {
         try {
 
-            const openedShift = await Shift.findOne({where: {
-                userId: user,
-                endTime: null
-            }});
+            const openedShift = await Shift.findOne({
+                where: {
+                    userId: user,
+                    endTime: null
+                }
+            });
 
             console.log(openedShift);
 
-            if(openedShift){
-                throw new AppError("Shift transaction has already been  opened",400);
+            if (openedShift) {
+                throw new AppError("Shift transaction has already been  opened", 400);
             }
 
             const shift = await Shift.create({
@@ -45,7 +47,7 @@ class CashierService {
 
             const finalBalance = sum + openingBalance;
             const difference = closingBalance - finalBalance;
-    
+
             await shift.update({ closingBalance, difference });
 
             return shift;
@@ -57,34 +59,67 @@ class CashierService {
     // logged user can access only his shift history;
     static async getShift(shiftId, userId) {
         try {
-            const shift = await Shift.findOne({where:{id:shiftId, userId}});
+            const shift = await Shift.findOne({ where: { id: shiftId, userId } });
 
-            if(!shift) throw new AppError("Shift transaction not found, or it does not belong to user", 404);
-            
+            if (!shift) throw new AppError("Shift transaction not found, or it does not belong to user", 404);
+
             return shift;
-            
+
         } catch (error) {
             throw error;
         }
     }
 
-    
+
     static async filterByDate(initialDate, endDate, userId) {
         try {
-            const shifts = await Shift.findAll({where: {
-                startTime:{
-                [Op.gte]: `${initialDate} 00:00:00`,
-                [Op.lt]:`${endDate} 23:59:59`
-                },
-                userId
-            }});
+            const shifts = await Shift.findAll({
+                where: {
+                    startTime: {
+                        [Op.gte]: `${initialDate} 00:00:00`,
+                        [Op.lt]: `${endDate} 23:59:59`
+                    },
+                    userId
+                }
+            });
 
-            if(!shifts){
+            if (!shifts) {
                 throw new AppError("Transactions not found check dates paramethers and try again");
             }
-            
+
             return shifts;
 
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async currentBalance(shiftId) {
+        try {
+
+            const balances = await ShiftTransaction.findAll({
+                where: {shiftId },
+                attributes: [
+                    [Sequelize.col('payment_method_id'), 'paymentMethodId'],
+                    // Realiza a soma do campo amount
+                    [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
+                ],
+                include: [
+                    {
+                        model: PaymentMethod,
+                        as: 'payment', // Nome da associação definida no seu model
+                        attributes: ['name'] // Traz apenas o nome do método (ex: Pix, Dinheiro)
+                    }
+                ],
+                group: [
+                    'ShiftTransaction.payment_method_id',
+                    'payment.id' // Necessário agrupar pelo ID da tabela incluída no Postgres
+                ],
+                raw: true, // Retorna um objeto JSON simples, facilitando o uso no front-end
+                nest: true
+            });
+
+            return balances;
         } catch (error) {
             throw error;
         }

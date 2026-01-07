@@ -26,7 +26,39 @@ module.exports = {
 
     });
 
-    // povoar tabela
+    await queryInterface.bulkInsert('shift_transaction_types', [
+        {
+        name: 'OPENING',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: 'SALE',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+       {
+        name: 'DEPOSIT',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+       {
+        name: 'WITHDRAW',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+       {
+        name: 'RETURN',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+        {
+        name: 'CLOSING',
+        created_at: new Date(),
+        updated_at: new Date()
+      }
+    ])
+
   },
 
   async down(queryInterface, Sequelize) {

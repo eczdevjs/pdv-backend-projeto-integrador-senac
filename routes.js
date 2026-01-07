@@ -49,8 +49,7 @@ routes.post('/cashier/open',loginRequired,jsonBodyRequired, CashierController.op
 routes.patch('/cashier/close/',loginRequired,jsonBodyRequired, CashierController.close);
 routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
 routes.get('/cashier/shifts/list/', loginRequired, jsonBodyRequired, CashierController.filterByDate);
-
-
+routes.get('/cashier/balances/', loginRequired, jsonBodyRequired, CashierController.currentBalances);
 
 
 

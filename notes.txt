@@ -10,15 +10,17 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0b3VyaW5nY29tcGxldEB
 
 O usuário básico do sistema deve conseguir:
  -Logar no sistema [token endpoint]
- 
+
  -Abrir o caixa
-    -Consultar transações caixa atual
  -Fechar o caixa
+
  -Realizar uma venda
     - Acessar historico de vendas do caixa atual
     - Cancelar uma venda
+
  -Cadastrar um cliente
     -Buscar por cliente
+    
  -Adicionar produtos ao estóque
     -Consultar produtos junto ao estóque
     -Consultar as transações realizadas por ele mesmo de estoque

@@ -86,6 +86,24 @@ class CashierController {
             throw error;
         }
     }
+
+       static async currentBalances(req, res, next) {
+        try {
+            const {shiftId} = req.body;
+            console.log("ShifId =---------",shiftId);
+         
+            const balances = await CashierService.currentBalance(shiftId);
+            if (!balances) {
+                throw new AppError("It was not possible get balances, check if cashier has already been opened", 404);
+            }
+
+            return res.status(200).json(balances);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 module.exports = CashierController;
