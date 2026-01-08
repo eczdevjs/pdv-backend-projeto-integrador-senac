@@ -140,9 +140,8 @@ routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.
 // SALE ROUTES
 
 routes.post('/sales/create', jsonBodyRequired,SaleController.createSale);
-routes.get('/sales/list/daily', SaleController.getDailySales);
+routes.get('/sales/list/daily/:shiftId',loginRequired, SaleController.getDailySales);
 routes.get('/sales/:id', SaleController.getSale);
-
 
 
 

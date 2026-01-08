@@ -11,7 +11,7 @@ const Product = require('../model/ProductModel');
 const Client = require('../model/ClientModel');
 const PaymentMethod = require('../model/PaymentMethod');
 const Stock = require('../model/StockModel');
-
+const CashierService = require('../service/CashierService');
 
 class SaleService {
 
@@ -69,9 +69,11 @@ class SaleService {
                     referenceId: order.id
                 }, { transaction: t });
             }
-            return { order, shiftTransaction };
+            
+            return order ;
         });
-        return result;
+        const updatedBalances = await CashierService.currentBalance(shiftId);
+        return {result, updatedBalances};
     }
 
 
@@ -158,17 +160,19 @@ class SaleService {
 
 
     static async filterSalesByDate(begin, end) {
-
+        // buscar vendasdentro de um periodo
     }
 
 
     static async updateSale() {
-
+        // alterar informacoes do pedido
     }
 
 
-    static async createRefund() {
-
+    static async createRefund(orderId) {
+        // descontar valor da venda caixa
+        // adicionar produtos estoque
+        // alterar status pedido para canceled
     }
 
 }

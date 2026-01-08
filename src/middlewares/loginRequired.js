@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 const loginRequired  = (req, res, next) => {
-    console.log(">>>>>>> LOGIN REQUIRED CALLED")
     const {authorization} = req.headers;
 
     if(!authorization){
@@ -13,7 +12,6 @@ const loginRequired  = (req, res, next) => {
     try {
         // extracting payload from token
         const data =  jwt.verify(token, process.env.TOKEN_SECRET);
-        console.log("data:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ",data);
         const {id, email} = data;
         // creating two fields with data from token into req
         req.userId = id;

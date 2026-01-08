@@ -36,8 +36,9 @@ class SaleController {
 
     static async getDailySales(req, res, next) {
         try {
-            const { userId, shiftId } = req.body;
-
+            const {userId} = req;
+            const { shiftId } = req.params;
+            console.log(userId, shiftId);
             if (!userId || !shiftId) {
                 throw new AppError("Required field missing", 400);
             }
