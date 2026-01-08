@@ -1,9 +1,11 @@
 
 const ShiftTransactionTypeEnum = Object.freeze({
-    SALE: 1,
-    DEPOSIT: 2,
-    WITHDRAW: 3,
-    RETURN: 4
+    OPENING: 1,
+    SALE: 2,
+    DEPOSIT: 3,
+    WITHDRAW: 4,
+    RETURN: 5,
+    CLOSING: 6
 });
 
 module.exports = ShiftTransactionTypeEnum;

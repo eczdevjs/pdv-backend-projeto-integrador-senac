@@ -26,7 +26,7 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
-
+//todo: em todo registro a referencia do registro na tabela original, sendo obrigatorio que um dos 5 campos que referenciam a tabela ser preenchido com o respectivo id
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -65,6 +65,17 @@ module.exports = {
         allowNull: true
       },
 
+      opening_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'shifts',
+          key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        }
+      },
+
       order_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
@@ -101,14 +112,8 @@ module.exports = {
       return_id: {
         type: Sequelize.INTEGER,
         allowNull: true
-        // references: {
-        //   model: 'shift_',
-        //   key: 'id',
-        //   onUpdate: 'CASCADE',
-        //   onDelete: 'CASCADE'
-        // }
       },
-      
+
       created_at: {
         type: Sequelize.DATE,
         allowNull: false

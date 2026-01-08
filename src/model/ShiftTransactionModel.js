@@ -81,14 +81,16 @@ class ShiftTransaction extends Model {
             returnId: {
                 type: Sequelize.INTEGER,
                 allowNull: true
-                // references: {
-                //   model: 'shift_',
-                //   key: 'id',
-                //   onUpdate: 'CASCADE',
-                //   onDelete: 'CASCADE'
-                // }
-            }
+            },
 
+            openingId: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+                references: {
+                    model: 'shifts',
+                    key: 'id',
+                }
+            }
         },
             {
                 sequelize,
@@ -105,7 +107,7 @@ class ShiftTransaction extends Model {
     static associate(models) {
         this.belongsTo(models.Shift, {
             foreignKey: 'shiftId',
-            as: 'shift' 
+            as: 'shift'
         });
 
         this.belongsTo(models.User, {
