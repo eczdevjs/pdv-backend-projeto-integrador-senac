@@ -46,11 +46,12 @@ class CashierController {
     static async getShift(req, res, next) {
         try {
             const {userId } = req;
-            const {shiftId} = req.params
+            const {shiftId} = req.params;
+
             if(typeof shiftId !== 'number'){
                 throw new AppError("Data type mismatch",400);
             }
-            
+
             const shift = await ShiftService.getShift(shiftId, userId);
             return res.status(200).json(shift);
         } catch (error) {
@@ -60,9 +61,12 @@ class CashierController {
 
     static async filterByDate(req, res, next) {
         try {
-            const {initialDate, endDate} = req.body;
+            console.log(req.query);
+            const {initialDate, endDate} = req.query;
             const {userId} = req;
-
+            if(!initialDate || ! endDate){
+                throw new AppError("Both initial date and end date must be provided",400);
+            }
             const shifts = await CashierService.filterByDate(initialDate, endDate, userId);
 
             if (!shifts) {
@@ -70,6 +74,7 @@ class CashierController {
             }
 
             return res.status(200).json(shifts);
+       
 
         } catch (error) {
             throw error;
