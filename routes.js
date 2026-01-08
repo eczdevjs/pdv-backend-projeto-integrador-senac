@@ -56,7 +56,7 @@ routes.post('/stock/transference/create/',jsonBodyRequired, StockController.tran
 routes.post('/cashier/open',loginRequired,jsonBodyRequired, CashierController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
 routes.patch('/cashier/close/:shiftId',loginRequired, CashierController.close);
-routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
+routes.get('/cashier/shifts/:shiftId', loginRequired, CashierController.getShift)
 routes.get('/cashier/shifts/list/', loginRequired, jsonBodyRequired, CashierController.filterByDate);
 routes.get('/cashier/balances/', loginRequired, jsonBodyRequired, CashierController.currentBalances);
 

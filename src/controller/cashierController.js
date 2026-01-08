@@ -45,8 +45,8 @@ class CashierController {
 
     static async getShift(req, res, next) {
         try {
-            const { shiftId, userId } = req.body;
-
+            const {userId } = req;
+            const {shiftId} = req.params
             const shift = await ShiftService.getShift(shiftId, userId);
             return res.status(200).json(shift);
         } catch (error) {
