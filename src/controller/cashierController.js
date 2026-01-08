@@ -1,6 +1,6 @@
 const ShiftService = require('../service/CashierService');
 const CashierService = require('../service/CashierService');
-
+const AppError = require('../utils/AppError');
 
 
 class CashierController {
@@ -29,11 +29,11 @@ class CashierController {
             const {closingBalance} = req.body;
             const {shiftId} = req.params;
             if(!shiftId || !closingBalance){
-                return res.status(400).json("shiftId and closing balance must be provided");
+                throw new AppError("shiftId and closing balance must be provided", 400);
             }
 
             if(typeof closingBalance !== 'number' || typeof shiftId !== number){
-                return res.status(400).json("Data type mismatch");
+                throw new AppError("Data type mismatch",400);
             }
 
             const shift = await CashierService.close( shiftId, closingBalance);
@@ -47,6 +47,10 @@ class CashierController {
         try {
             const {userId } = req;
             const {shiftId} = req.params
+            if(typeof shiftId !== 'number'){
+                throw new AppError("Data type mismatch",400);
+            }
+            
             const shift = await ShiftService.getShift(shiftId, userId);
             return res.status(200).json(shift);
         } catch (error) {
