@@ -43,13 +43,28 @@ routes.post('/stock/transference/create/',jsonBodyRequired, StockController.tran
 
 
 
+
+
+
+
+
+
+
+
+
 // CASHIER ROUTES
 routes.post('/cashier/open',loginRequired,jsonBodyRequired, CashierController.open);
 // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
-routes.patch('/cashier/close/',loginRequired,jsonBodyRequired, CashierController.close);
+routes.patch('/cashier/close/:shiftId',loginRequired, CashierController.close);
 routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
 routes.get('/cashier/shifts/list/', loginRequired, jsonBodyRequired, CashierController.filterByDate);
 routes.get('/cashier/balances/', loginRequired, jsonBodyRequired, CashierController.currentBalances);
+
+
+
+
+
+
 
 
 
@@ -109,11 +124,11 @@ routes.delete('/orders/delete/:id', orderController.delete);
 
 
 
-// CASHIER ROUTES
-routes.post('/cashier/open/',loginRequired,jsonBodyRequired, CashierController.open);
-// O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
-routes.patch('/cashier/close/',jsonBodyRequired, CashierController.close);
-routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
+// // CASHIER ROUTES
+// routes.post('/cashier/open/',loginRequired,jsonBodyRequired, CashierController.open);
+// // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
+// routes.patch('/cashier/close/:shiftId',jsonBodyRequired, CashierController.close);
+// routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
 
 
 

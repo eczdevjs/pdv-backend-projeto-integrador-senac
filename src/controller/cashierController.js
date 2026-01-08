@@ -17,10 +17,6 @@ class CashierController {
         try {
             const { openingBalance } = req.body;
             const userId = req.userId;
-            console.log("#############user id from req ")
-            console.log("req.userId >>>>>>>>>>>")
-            console.log(req.userId);
-            console.log(userId)
             const shift = await CashierService.open(userId, openingBalance);
             return res.status(201).json(shift);
         } catch (error) {
@@ -29,29 +25,18 @@ class CashierController {
     }
 
     static async close(req, res, next) {
-
-        if (!req.body) {
-            return res.status(400).json({ msg: "Body requisition must be provided" })
-        }
-        // i need to grant all fields were provided
-
-        // at least userId and opening Balance must be provided;
-        if (Object.keys(req.body).length < 2) {
-            return res.status(400).json({ msg: "Operation can not be perfomed: information is missing" })
-        }
-        // check if fields are right, think about it
-
-
-        // fields are required and can not be null
-        for (let key in req.body) {
-            if (!req.body[key]) {
-                return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
-            }
-        }
-
         try {
-            const { shiftId, closingBalance } = req.body;
-            const shift = await CashierService.close(shiftId, closingBalance);
+            const {closingBalance} = req.body;
+            const {shiftId} = req.params;
+            if(!shiftId || !closingBalance){
+                return res.status(400).json("shiftId and closing balance must be provided");
+            }
+
+            if(typeof closingBalance !== 'number' || typeof shiftId !== number){
+                return res.status(400).json("Data type mismatch");
+            }
+
+            const shift = await CashierService.close( shiftId, closingBalance);
             return res.status(201).json(shift);
         } catch (error) {
             next(error)
