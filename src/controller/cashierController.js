@@ -26,30 +26,65 @@ class CashierController {
 
     static async close(req, res, next) {
         try {
-            const {closingBalance} = req.body;
-            const {shiftId} = req.params;
-            if(!shiftId || !closingBalance){
+            const { closingBalance } = req.body;
+            const { shiftId } = req.params;
+            if (!shiftId || !closingBalance) {
                 throw new AppError("shiftId and closing balance must be provided", 400);
             }
 
-            if(typeof closingBalance !== 'number' || typeof shiftId !== number){
-                throw new AppError("Data type mismatch",400);
+            if (typeof closingBalance !== 'number' || typeof shiftId !== number) {
+                throw new AppError("Data type mismatch", 400);
             }
 
-            const shift = await CashierService.close( shiftId, closingBalance);
+            const shift = await CashierService.close(shiftId, closingBalance);
             return res.status(201).json(shift);
         } catch (error) {
             next(error)
         }
     }
 
+    static async deposit(req, res, next) {
+        const { shiftId } = req.params;
+        const { userId } = req;
+        const { amount } = req.body;
+
+        if (amount <= 0) {
+            throw new AppError("Deposit value must be greater than zero", 400);
+        }
+
+        const deposit = await CashierService.deposit(shiftId, userId, amount);
+
+        if (!deposit) {
+            throw new AppError("Error creating deposit register, operation aborted!");
+        }
+
+        return res.status(201).json({ success: true, data: deposit });
+    }
+
+    static async withdraw(req, res, next) {
+        const { shiftId } = req.params;
+        const { userId } = req;
+        const { amount } = req.body;
+
+        if (amount >= 0) {
+            throw new AppError("withdraw amount must be less than zero (negative)", 400);
+        }
+
+        const withdraw = await CashierService.withdraw( userId, shiftId,amount);
+
+        if (!withdraw) {
+            throw new AppError("Error creating withdraw register, operation aborted!");
+        }
+
+        return res.status(201).json({ success: true, data: withdraw });
+    }
     static async getShift(req, res, next) {
         try {
-            const {userId } = req;
-            const {shiftId} = req.params;
+            const { userId } = req;
+            const { shiftId } = req.params;
 
-            if(typeof shiftId !== 'number'){
-                throw new AppError("Data type mismatch",400);
+            if (typeof shiftId !== 'number') {
+                throw new AppError("Data type mismatch", 400);
             }
 
             const shift = await ShiftService.getShift(shiftId, userId);
@@ -62,10 +97,10 @@ class CashierController {
     static async filterByDate(req, res, next) {
         try {
             console.log(req.query);
-            const {initialDate, endDate} = req.query;
-            const {userId} = req;
-            if(!initialDate || ! endDate){
-                throw new AppError("Both initial date and end date must be provided",400);
+            const { initialDate, endDate } = req.query;
+            const { userId } = req;
+            if (!initialDate || !endDate) {
+                throw new AppError("Both initial date and end date must be provided", 400);
             }
             const shifts = await CashierService.filterByDate(initialDate, endDate, userId);
 
@@ -74,19 +109,24 @@ class CashierController {
             }
 
             return res.status(200).json(shifts);
-       
+
 
         } catch (error) {
             throw error;
         }
     }
 
-       static async currentBalances(req, res, next) {
+
+    static async currentBalances(req, res, next) {
         try {
-            const {shiftId} = req.body;
-            console.log("ShifId =---------",shiftId);
-         
+            const { shiftId } = req.params;
+
+            if (typeof Number(shiftId) !== 'number') {
+                throw new AppError('Invalid ID', 400);
+            }
+
             const balances = await CashierService.currentBalance(shiftId);
+
             if (!balances) {
                 throw new AppError("It was not possible get balances, check if cashier has already been opened", 404);
             }
@@ -97,7 +137,6 @@ class CashierController {
             throw error;
         }
     }
-
 }
 
 module.exports = CashierController;

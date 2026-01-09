@@ -7,6 +7,9 @@ const Sequelize = require('sequelize');
 const PaymentMethod = require('../model/PaymentMethod');
 const ShiftTransactionTypeEnum = require('../model/enums/ShiftTransactionTypeEnum');
 const ClientService = require('./ClientService');
+const Deposit = require('../model/ShiftDepositModel');
+const Withdraw = require('../model/ShiftWithdrawModel');
+
 class CashierService {
 
     static async open(user, openingValue) {
@@ -38,7 +41,7 @@ class CashierService {
                     paymentMethodId: 4,
                     openingId: shift.id
                 }
-                
+
                 const transactionRegister = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
                 const { id, userId, startTime, openingBalance } = shift;
@@ -51,22 +54,84 @@ class CashierService {
         }
     }
 
+    static async deposit(shiftId, userId, depositValue) {
+        try {
+            const shift = await Shift.findOne({
+                where: {
+                    id: shiftId,
+                    endTime: null
+                }
+            });
+
+            if (!shift) {
+                throw new Error("shift is already closed or does not exist");
+            }
+
+            const transaction = await sequelize.transaction(async (t) => {
+                const deposit = await Deposit.create({
+                    userId,
+                    shiftId,
+                    amount: depositValue
+                }, { transaction: t });
+
+                const shiftTransaction = {
+                    shiftId: shift.id,
+                    amount: depositValue,
+                    userId: userId,
+                    transactionTypeId: ShiftTransactionTypeEnum.DEPOSIT,
+                    paymentMethodId: 4,
+                    depositId: deposit.id
+                }
+
+                const shiftTransactionRegister = await ShiftTransaction.create(shiftTransaction, { transaction: t });
+
+                return deposit;
+            });
+            const balances = await CashierService.currentBalance(shiftId);
+            return {transaction, balances};
+        }
+        catch (e) {
+            throw e;
+        }
+    }
+
+    static async withdraw(userId, shiftId, amount) {
+        const transaction = await sequelize.transaction(async (t) => {
+            const withdraw = await Withdraw.create({ userId, shiftId, amount }, { transaction: t });
+
+            const shiftTransaction = {
+                shiftId,
+                amount,
+                userId,
+                transactionTypeId: ShiftTransactionTypeEnum.WITHDRAW,
+                paymentMethodId: 4,
+                withdrawId: withdraw.id
+            }
+
+            const shiftRegister = await ShiftTransaction.create(shiftTransaction, {transaction: t});
+            
+            return withdraw;
+        });
+        const balances = await CashierService.currentBalance(shiftId);
+        return {transaction, balances}; 
+    }
+
 
     //1-shift id exists? 2- if so ,has it already been closed?
     static async close(shiftId, closingBalance) {
-  
+
         try {
 
             if (!shiftId || !closingBalance) throw new AppError("Required field is missing");
             const shift = await Shift.findByPk(shiftId);
-          
+
             if (!shift) throw new AppError("Shift not found");
             if (shift.dataValues.endTime) throw new AppError("Shift transaction has already been closed", 400);
 
             const result = sequelize.transaction(async (t) => {
 
-                const shift = await Shift.findByPk(shiftId,{transaction:t});
-              
+                const shift = await Shift.findByPk(shiftId, { transaction: t });
+
                 if (!shift) throw new AppError("Shift not found");
                 if (shift.dataValues.endTime) throw new AppError("Shift transaction has already been closed", 400);
 
@@ -86,7 +151,7 @@ class CashierService {
 
                 const transactionRegister = await ShiftTransaction.create(shiftTransaction, { transaction: t });
 
-                return  shift;
+                return shift;
             });
             return result;
         } catch (error) {
@@ -145,7 +210,7 @@ class CashierService {
                 include: [
                     {
                         model: PaymentMethod,
-                        as: 'payment', 
+                        as: 'payment',
                         attributes: ['name']
                     }
                 ],

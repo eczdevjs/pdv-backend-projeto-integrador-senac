@@ -54,18 +54,19 @@ routes.post('/stock/transference/create/',jsonBodyRequired, StockController.tran
 
 // CASHIER ROUTES
 routes.post('/cashier/open',loginRequired,jsonBodyRequired, CashierController.open);
-// O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
+
 routes.patch('/cashier/close/:shiftId',loginRequired, CashierController.close);
 
 routes.get('/cashier/shifts/list', loginRequired, CashierController.filterByDate);
 
 routes.get('/cashier/shifts/:shiftId', loginRequired, CashierController.getShift);
 
+routes.get('/cashier/balances/:shiftId', loginRequired,CashierController.currentBalances);
 
-
-routes.get('/cashier/balances/', loginRequired, jsonBodyRequired, CashierController.currentBalances);
-
-
+// deposit
+routes.post('/cashier/deposit/:shiftId',loginRequired, CashierController.deposit);
+// withdraw
+routes.post('/cashier/withdraw/:shiftId',loginRequired, CashierController.withdraw);
 
 
 
@@ -129,18 +130,7 @@ routes.delete('/orders/delete/:id', orderController.delete);
 
 
 
-// // CASHIER ROUTES
-// routes.post('/cashier/open/',loginRequired,jsonBodyRequired, CashierController.open);
-// // O ideal e que haja um metodo shiftContoler.closeShift() que recebe um shiftId como parametro na url , usa o metodo update 
-// routes.patch('/cashier/close/:shiftId',jsonBodyRequired, CashierController.close);
-// routes.get('/cashier/shifts/',loginRequired,jsonBodyRequired, CashierController.getShift)
-
-
-
-// // !!!!!!!!!!!!!!!!!!THIS ENDPOINT SHOULD NOT BE KEPT
-// // SHIFT DEPOSIT ROUTES : TEST ONLY, THIS ENDPOINT SHOULD NOT EXIST
-// routes.post('/shift/deposit',jsonBodyRequired, shiftDepositController.store);
-// routes.post('/shift/withdraw',jsonBodyRequired, shiftWithdrawController.store);
+                                                                                                                                                                                                                                                                                                                                                                              
 
 
 
