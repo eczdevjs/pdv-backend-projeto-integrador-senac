@@ -9,6 +9,10 @@ const ShiftTransactionTypeEnum = require('../model/enums/ShiftTransactionTypeEnu
 const ClientService = require('./ClientService');
 const Deposit = require('../model/ShiftDepositModel');
 const Withdraw = require('../model/ShiftWithdrawModel');
+const ShiftTransactionType = require('../model/ShiftTransactionType');
+const User = require('../model/UserModel');
+const removeNullFields = require('../utils/removeNullFields');
+const ShiftTransatctionType = require('../model/ShiftTransactionType');
 
 class CashierService {
 
@@ -64,7 +68,7 @@ class CashierService {
             });
 
             if (!shift) {
-                throw new Error("shift is already closed or does not exist");
+                throw new AppError("shift is already closed or does not exist");
             }
 
             const transaction = await sequelize.transaction(async (t) => {
@@ -88,32 +92,36 @@ class CashierService {
                 return deposit;
             });
             const balances = await CashierService.currentBalance(shiftId);
-            return {transaction, balances};
+            return { transaction, balances };
         }
         catch (e) {
             throw e;
         }
     }
 
-    static async withdraw(userId, shiftId, amount) {
-        const transaction = await sequelize.transaction(async (t) => {
-            const withdraw = await Withdraw.create({ userId, shiftId, amount }, { transaction: t });
+    static async withdraw(userId, shiftId, amount, reason) {
+        try {
+            const transaction = await sequelize.transaction(async (t) => {
+                const withdraw = await Withdraw.create({ userId, shiftId, amount, reason }, { transaction: t });
 
-            const shiftTransaction = {
-                shiftId,
-                amount,
-                userId,
-                transactionTypeId: ShiftTransactionTypeEnum.WITHDRAW,
-                paymentMethodId: 4,
-                withdrawId: withdraw.id
-            }
+                const shiftTransaction = {
+                    shiftId,
+                    amount,
+                    userId,
+                    transactionTypeId: ShiftTransactionTypeEnum.WITHDRAW,
+                    paymentMethodId: 4,
+                    withdrawId: withdraw.id
+                }
 
-            const shiftRegister = await ShiftTransaction.create(shiftTransaction, {transaction: t});
-            
-            return withdraw;
-        });
-        const balances = await CashierService.currentBalance(shiftId);
-        return {transaction, balances}; 
+                const shiftRegister = await ShiftTransaction.create(shiftTransaction, { transaction: t });
+
+                return withdraw;
+            });
+            const balances = await CashierService.currentBalance(shiftId);
+            return { transaction, balances };
+        } catch (error) {
+            throw error;
+        }
     }
 
 
@@ -223,6 +231,52 @@ class CashierService {
             });
 
             return balances;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async cashierHistory(userId, shiftId) {
+        try {
+            let history = await ShiftTransaction.findAll({
+                where: {
+                    shiftId,
+                    userId
+                },
+                attributes: [
+                    'id', 'amount', 'orderId', 'withdrawId', 'depositId', 'returnId', 'openingId'
+                ],
+                include: [{
+                    model: User,
+                    attributes: [
+                        'id',
+                        'name'
+                    ],
+                    as: 'user'
+                }, {
+                    model: ShiftTransactionType,
+                    attributes: [
+                        'id',
+                        'name'
+                    ],
+                    as: 'type'
+                }, {
+                    model: PaymentMethod,
+                    attributes: [
+                        'id',
+                        'name'
+                    ],
+                    as: 'payment'
+                }]
+            });
+
+            if (!history) {
+                throw new AppError("Either there is no history for that cashier or  given id does not match");
+            }
+            history = history.map(item => item.toJSON())
+            const historyCleaned = history.map(x => removeNullFields(x));
+
+            return historyCleaned;
         } catch (error) {
             throw error;
         }

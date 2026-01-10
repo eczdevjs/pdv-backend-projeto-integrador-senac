@@ -44,39 +44,51 @@ class CashierController {
     }
 
     static async deposit(req, res, next) {
-        const { shiftId } = req.params;
-        const { userId } = req;
-        const { amount } = req.body;
+        try {
+            const { shiftId } = req.params;
+            const { userId } = req;
+            const { amount } = req.body;
 
-        if (amount <= 0) {
-            throw new AppError("Deposit value must be greater than zero", 400);
+            if (amount <= 0) {
+                throw new AppError("Deposit value must be greater than zero", 400);
+            }
+
+            const deposit = await CashierService.deposit(shiftId, userId, amount);
+
+            if (!deposit) {
+                throw new AppError("Error creating deposit register, operation aborted!");
+            }
+
+            return res.status(201).json({ success: true, data: deposit });
+        } catch (error) {
+            next(error);
         }
-
-        const deposit = await CashierService.deposit(shiftId, userId, amount);
-
-        if (!deposit) {
-            throw new AppError("Error creating deposit register, operation aborted!");
-        }
-
-        return res.status(201).json({ success: true, data: deposit });
     }
 
     static async withdraw(req, res, next) {
-        const { shiftId } = req.params;
-        const { userId } = req;
-        const { amount } = req.body;
+        try {
+            const { shiftId } = req.params;
+            const { userId } = req;
+            const { amount, reason } = req.body;
 
-        if (amount >= 0) {
-            throw new AppError("withdraw amount must be less than zero (negative)", 400);
+            if(!reason){
+                throw new AppError("Reason must be provided to withdraw operations");
+            }
+
+            if (amount >= 0) {
+                throw new AppError("withdraw amount must be less than zero (negative)", 400);
+            }
+
+            const withdraw = await CashierService.withdraw(userId, shiftId, amount, reason);
+
+            if (!withdraw) {
+                throw new AppError("Error creating withdraw register, operation aborted!");
+            }
+
+            return res.status(201).json({ success: true, data: withdraw });
+        } catch (error) {
+            next(error);
         }
-
-        const withdraw = await CashierService.withdraw( userId, shiftId,amount);
-
-        if (!withdraw) {
-            throw new AppError("Error creating withdraw register, operation aborted!");
-        }
-
-        return res.status(201).json({ success: true, data: withdraw });
     }
     static async getShift(req, res, next) {
         try {
@@ -116,7 +128,6 @@ class CashierController {
         }
     }
 
-
     static async currentBalances(req, res, next) {
         try {
             const { shiftId } = req.params;
@@ -135,6 +146,24 @@ class CashierController {
 
         } catch (error) {
             throw error;
+        }
+    }
+
+    static async cashierHistory(req, res, next){
+        try {
+            const {userId} = req
+            const {shiftId} = req.params;
+
+            if(!parseInt(shiftId)){
+                throw new AppError("Given id does not match type");
+            }
+
+            const history = await CashierService.cashierHistory(userId, shiftId);
+
+            return res.status(200).json({success: true, data: history});
+            
+        } catch (error) {
+            next(error);
         }
     }
 }

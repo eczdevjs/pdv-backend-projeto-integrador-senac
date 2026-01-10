@@ -68,6 +68,8 @@ routes.post('/cashier/deposit/:shiftId',loginRequired, CashierController.deposit
 // withdraw
 routes.post('/cashier/withdraw/:shiftId',loginRequired, CashierController.withdraw);
 
+routes.get('/cashier/history/:shiftId', loginRequired, CashierController.cashierHistory);
+
 
 
 
