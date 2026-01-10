@@ -21,6 +21,10 @@ class ShiftWithdraw extends Model {
                         }
                     }
                 }
+            },
+            reason: {
+                type: Sequelize.STRING,
+                allowNull: false
             }
         },
 
