@@ -26,6 +26,8 @@ module.exports = {
     });
   },
 
+  // criar mock dos dados
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('payment_methods');
   }

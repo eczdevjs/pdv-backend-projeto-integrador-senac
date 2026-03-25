@@ -124,7 +124,6 @@ class CashierService {
         }
     }
 
-
     //1-shift id exists? 2- if so ,has it already been closed?
     static async close(shiftId, closingBalance) {
 
@@ -180,7 +179,6 @@ class CashierService {
             throw error;
         }
     }
-
 
     static async filterByDate(initialDate, endDate, userId) {
         try {
