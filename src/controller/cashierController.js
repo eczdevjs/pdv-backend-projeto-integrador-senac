@@ -32,7 +32,7 @@ class CashierController {
                 throw new AppError("shiftId and closing balance must be provided", 400);
             }
 
-            if (typeof closingBalance !== 'number' || typeof shiftId !== number) {
+            if (typeof Number(closingBalance )!== 'number' || typeof Number(shiftId) !== 'number') {
                 throw new AppError("Data type mismatch", 400);
             }
 
@@ -90,10 +90,12 @@ class CashierController {
             next(error);
         }
     }
+    
     static async getShift(req, res, next) {
         try {
             const { userId } = req;
-            const { shiftId } = req.params;
+            let { shiftId } = req.params;
+            shiftId = Number(shiftId);
 
             if (typeof shiftId !== 'number') {
                 throw new AppError("Data type mismatch", 400);
