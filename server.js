@@ -2,7 +2,7 @@
 const routes =require('./routes');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 3001;
 require("./src/database/connection");
 const cors = require('cors');
 const errorHandler = require('./src/middlewares/errorHandler');
@@ -23,5 +23,5 @@ app.use(errorHandler);
 
 
 app.listen(port, ()=>{
-    console.log("Listening port 3000\nPress CTRL + click => http://localhost:3000")
+    console.log("Listening port 3000\nPress CTRL + click => http://localhost:3001")
 });
