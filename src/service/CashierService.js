@@ -42,7 +42,8 @@ class CashierService {
                     amount: shift.openingBalance,
                     userId: shift.userId,
                     transactionTypeId: ShiftTransactionTypeEnum.OPENING,
-                    paymentMethodId: 4,
+                    // should i create an enum for paymentMethod?
+                    paymentMethodId: 1,
                     openingId: shift.id
                 }
 
@@ -83,7 +84,7 @@ class CashierService {
                     amount: depositValue,
                     userId: userId,
                     transactionTypeId: ShiftTransactionTypeEnum.DEPOSIT,
-                    paymentMethodId: 4,
+                    paymentMethodId: 1,
                     depositId: deposit.id
                 }
 
@@ -109,7 +110,7 @@ class CashierService {
                     amount,
                     userId,
                     transactionTypeId: ShiftTransactionTypeEnum.WITHDRAW,
-                    paymentMethodId: 4,
+                    paymentMethodId: 1,
                     withdrawId: withdraw.id
                 }
 
@@ -193,7 +194,7 @@ class CashierService {
             });
 
             if (!shifts) {
-                throw new AppError("Transactions not found check dates paramethers and try again");
+                throw new AppError("Transactions not found check date paramethers and try again");
             }
 
             return shifts;
@@ -211,18 +212,20 @@ class CashierService {
                 attributes: [
                     [Sequelize.col('payment_method_id'), 'paymentMethodId'],
                     // Realiza a soma do campo amount
-                    [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalAmount']
+                    [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']
                 ],
                 include: [
                     {
                         model: PaymentMethod,
                         as: 'payment',
                         attributes: ['name']
-                    }
+                    },
                 ],
                 group: [
                     'ShiftTransaction.payment_method_id',
-                    'payment.id' // Necessário agrupar pelo ID da tabela incluída no Postgres
+                    'payment.id',// Necessário agrupar pelo ID da tabela incluída no Postgres
+                    'payment.name'
+
                 ],
                 raw: true, // Retorna um objeto JSON simples, facilitando o uso no front-end
                 nest: true
@@ -230,6 +233,7 @@ class CashierService {
 
             return balances;
         } catch (error) {
+            console.log(error)
             throw error;
         }
     }
