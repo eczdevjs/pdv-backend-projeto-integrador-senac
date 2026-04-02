@@ -51,8 +51,8 @@ module.exports = {
       type: 'unique',
       name: 'unique_product_constraint'
     })
-    
-     // criar data mock
+
+    // criar data mock
     await queryInterface.bulkInsert('products', [
       {
         name: "Smartphone Galaxy S24",
