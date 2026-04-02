@@ -61,6 +61,7 @@ routes.get('/cashier/shifts/list', loginRequired, CashierController.filterByDate
 
 routes.get('/cashier/shifts/:shiftId', loginRequired, CashierController.getShift);
 
+// todas as transacoes para a dada shift
 routes.get('/cashier/balances/:shiftId', loginRequired,CashierController.currentBalances);
 
 // deposit
