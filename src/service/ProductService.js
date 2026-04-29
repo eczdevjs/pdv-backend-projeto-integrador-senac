@@ -24,7 +24,7 @@ class ProductService {
     static async index() {
 
         try {
-            console.log("Idex method called !!!!!!!!!!!")
+            console.log("ProductService Index method called !!!!!!!!!!!")
             const products = await Product.findAll({
                 attributes: ['id', 'name', 'brand', 'productModel', 'size', 'description', 'price'],
                 where: { isDeleted: false },

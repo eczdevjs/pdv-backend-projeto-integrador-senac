@@ -217,7 +217,7 @@ class StockService {
     static async index() {
         try {
             const list = await Stock.findAll({
-                attributes: ['qty'],
+                attributes: ['qty'],    
                 include: [{
                     model: Product,
                     attributes: ['id', 'name', 'brand', 'description', 'price'],
@@ -297,7 +297,8 @@ class StockService {
             if (!transactions) {
                 throw new AppError("Stock transactions not found",404);
             }
-
+            console.log('----------------------------------------------------')
+            console.log(transactions)
             return transactions;
 
         } catch (error) {
@@ -309,12 +310,14 @@ class StockService {
         try {
             const startDate = new Date(`${start}T00:00:00`);
             const endDate = new Date(`${end}T23:59:59`);
+            console.log('start=',start,' end=', end);
 
             const transactions = await StockTransaction.findAll({
                 where: {
                     createdAt: {
                         [Op.between]: [startDate, endDate]
-                    }
+                    },
+                    referenceTypeId:[2,3,4,5]
                 },
                 attributes: ['id', 'qtyChange', 'referenceId', 'createdAt'],
                 include: [{
@@ -331,7 +334,8 @@ class StockService {
                     model: StockReferenceType,
                     attributes: ['code'],
                     as: 'referenceType'
-                }]
+                }],
+                order: [['createdAt', 'DESC']]
             });
 
             if (!transactions) {

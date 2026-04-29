@@ -5,6 +5,7 @@ const PaymentMethod = require('../model/PaymentMethod');
 const Suborder = require('../model/SuborderModel');
 
 class OrderController {
+    
     async store(req, res) {
         console.log(req.body);
         if(!req.body){
@@ -97,6 +98,8 @@ class OrderController {
             if (!order) {
                 res.status(404).json({ msg: "Client not foud" });
             }
+            console.log('===============================*******************===============================')
+            console.log('Checking client from order: ', order);
 
             res.status(200).json(order);
 

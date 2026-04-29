@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const loginRequired  = (req, res, next) => {
     const {authorization} = req.headers;
-
+    console.log(" ********************8 Login required Called")
     if(!authorization){
         return res.status(401).json({msg: "Access denied"});
     }

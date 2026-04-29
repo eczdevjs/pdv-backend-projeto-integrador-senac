@@ -64,7 +64,7 @@ class Shift extends Model {
 
         this.hasMany(models.ShiftTransaction, {
             foreignKey: 'shiftId',
-            as: 'shift'
+            as: 'transactions'
         });
 
 

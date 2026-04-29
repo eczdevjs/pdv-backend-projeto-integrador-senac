@@ -32,7 +32,7 @@ class CashierController {
                 throw new AppError("shiftId and closing balance must be provided", 400);
             }
 
-            if (typeof Number(closingBalance )!== 'number' || typeof Number(shiftId) !== 'number') {
+            if (typeof Number(closingBalance) !== 'number' || typeof Number(shiftId) !== 'number') {
                 throw new AppError("Data type mismatch", 400);
             }
 
@@ -71,7 +71,7 @@ class CashierController {
             const { userId } = req;
             const { amount, reason } = req.body;
 
-            if(!reason){
+            if (!reason) {
                 throw new AppError("Reason must be provided to withdraw operations");
             }
 
@@ -90,7 +90,7 @@ class CashierController {
             next(error);
         }
     }
-    
+
     static async getShift(req, res, next) {
         try {
             const { userId } = req;
@@ -113,17 +113,19 @@ class CashierController {
             console.log(req.query);
             const { initialDate, endDate } = req.query;
             const { userId } = req;
+            console.log("userId controller: =================== ", userId);
+            console.log(initialDate, endDate)
+
             if (!initialDate || !endDate) {
                 throw new AppError("Both initial date and end date must be provided", 400);
             }
             const shifts = await CashierService.filterByDate(initialDate, endDate, userId);
 
-            if (!shifts) {
+            if (shifts.length === 0) {
                 throw new AppError("Transactions not found", 404);
             }
 
             return res.status(200).json(shifts);
-
 
         } catch (error) {
             throw error;
@@ -151,22 +153,37 @@ class CashierController {
         }
     }
 
-    static async cashierHistory(req, res, next){
+    static async cashierHistory(req, res, next) {
         try {
-            const {userId} = req
-            const {shiftId} = req.params;
+            const { userId } = req
+            const { shiftId } = req.params;
 
-            if(!parseInt(shiftId)){
+            if (!parseInt(shiftId)) {
                 throw new AppError("Given id does not match type");
             }
 
             const history = await CashierService.cashierHistory(userId, shiftId);
 
-            return res.status(200).json({success: true, data: history});
-            
+            return res.status(200).json({ success: true, data: history });
+
         } catch (error) {
             next(error);
         }
+    }
+
+    static async getOpenedShift(req, res, next) {
+        try {
+            const { userId } = req
+
+
+            const shift = await CashierService.getOpenedShift(userId);
+
+            return res.status(200).json({ success: true, data: shift});
+
+        } catch (error) {
+            next(error);
+        }
+
     }
 }
 

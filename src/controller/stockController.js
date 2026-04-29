@@ -6,8 +6,8 @@ class StockController {
     static async purchase(req, res, next) {
 
         try {
-
-            const { userId, providerId, invoiceNumber, total, products } = req.body;
+            const userId = req.userId;
+            const {  providerId, invoiceNumber, total, products } = req.body;
             const register = await StockService.createPurchase(userId, providerId, invoiceNumber, total, products);
             if (!register) {
                 throw new AppError("Error creating store register, aborted", 500);
@@ -21,7 +21,8 @@ class StockController {
     static async adjustment(req, res, next) {
         // check received values,  define strategy route, params or body
         try {
-            const { userId, qtyChange, reason, productId } = req.body;
+            const userId = req.userId;
+            const {  qtyChange, reason, productId } = req.body;
             const adjObject = await StockService.createAdjustment(
                 userId,
                 productId,
@@ -92,14 +93,15 @@ class StockController {
         }
     }
 
+
     static async transactionsByDay(req, res, next) {
 
         try {
-            const { day } = req.body;
-            if (!day) {
+            const { date } = req.params;
+            if (!date) {
                 throw new AppError("Day field is missing", 400);
             }
-            const transactions = await StockService.transactionsByDay(day);
+            const transactions = await StockService.transactionsByDay(date);
             if (!transactions) {
                 throw new AppError("Transactions not found", 404);
             }
@@ -110,14 +112,17 @@ class StockController {
     }
 
     static async transactionsBetweenTwoDates(req, res, next) {
-
+        console.log('TRANSACTIONBETWEENDATES CALLED !!!!!!!!!!!!!!!!!!!!!');
         try {
-            const { start, end } = req.body;
-            if (!start || !end) {
+            const {initialDate, endDate } = req.query;
+            console.log('PARAMS')
+            console.log(req.params);
+            console.log("initial and end: =",initialDate,'|', endDate);
+            if (!initialDate || !endDate) {
                 throw new AppError("required fields (date) missing", 500);
             }
 
-            const transactions = await StockService.transactionsBetweenTwoDates(start, end);
+            const transactions = await StockService.transactionsBetweenTwoDates(initialDate, endDate);
 
             if (!transactions) {
                 throw new AppError("Transactions not found", 404);

@@ -183,17 +183,29 @@ class CashierService {
 
     static async filterByDate(initialDate, endDate, userId) {
         try {
+            console.log("Filtros finais:", { userId, initialDate, endDate });
+
             const shifts = await Shift.findAll({
                 where: {
-                    startTime: {
-                        [Op.gte]: `${initialDate} 00:00:00`,
-                        [Op.lt]: `${endDate} 23:59:59`
-                    },
-                    userId
-                }
+                    [Op.and]: [
+                        { userId: userId },
+                        {
+                            startTime: {
+                                [Op.between]: [
+                                    `${initialDate} 00:00:00`,
+                                    `${endDate} 23:59:59`
+                                ]
+                            }
+                        }
+                    ]
+
+                },
+                attributes: ['id', 'userId', 'startTime', 'openingBalance', 'endTime', 'closingBalance', 'difference'],
+                order: [['startTime', 'DESC']],
+                raw: true
             });
 
-            if (!shifts) {
+            if (shifts.length === 0) {
                 throw new AppError("Transactions not found check date paramethers and try again");
             }
 
@@ -246,7 +258,7 @@ class CashierService {
                     userId
                 },
                 attributes: [
-                    'id', 'amount', 'orderId', 'withdrawId', 'depositId', 'returnId', 'openingId'
+                    'id', 'amount', 'orderId', 'withdrawId', 'depositId', 'returnId', 'openingId', 'createdAt'
                 ],
                 include: [{
                     model: User,
@@ -269,7 +281,8 @@ class CashierService {
                         'name'
                     ],
                     as: 'payment'
-                }]
+                }],
+                order: [['createdAt', 'DESC']]
             });
 
             if (!history) {
@@ -282,6 +295,26 @@ class CashierService {
         } catch (error) {
             throw error;
         }
+    }
+
+
+    static async getOpenedShift(userId) {
+        try {
+            const shift = await Shift.findOne({
+                where: {
+                    userId,
+                    endTime: null
+                }
+            });
+
+            if (!shift) throw new AppError("There is not opened shift currently", 404);
+
+            return shift;
+
+        } catch (error) {
+            throw error;
+        }
+
     }
 
 }

@@ -7,10 +7,15 @@ module.exports = (err, req, res, next) => {
                     msg: "Duplicated value: A record with these fields already exists",
                     details: err.errors?.map(e => e.message || [])
                 });
+
             case "SequelizeValidationError":
+     
+                console.log(' ------------- cai aqui ------------------')
+                const errorMessages = err.errors.map(error => error.message);
+        
                 return res.status(400).json({
                     msg: err.message || 'Validation error: Check input data',
-                    details: err.fields || []
+                    details: errorMessages
                 });
 
             case "SequelizeForeignKeyConstraintError":
@@ -25,7 +30,7 @@ module.exports = (err, req, res, next) => {
 
             default:
                 return res.status(500).json({
-                    msg: 'Unhandled error'
+                    msg: `'Unhandled error: ${err.message}'`
                 });
         }
 

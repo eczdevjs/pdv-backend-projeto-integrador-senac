@@ -17,6 +17,11 @@ class SaleService {
 
     static async createSale(shiftId, clientId, userId, totalOrder, paymentMethodId, suborders) {
 
+        console.log('--- INICIANDO PROCESSAMENTO DE VENDA ---');
+        console.log('Shift:', shiftId, 'User:', userId, 'Total:', totalOrder);
+        console.log('Itens:', suborders.length);
+
+
         const result = await sequelize.transaction(async (t) => {
 
             const order = await Order.create({
@@ -69,11 +74,11 @@ class SaleService {
                     referenceId: order.id
                 }, { transaction: t });
             }
-            
-            return order ;
+
+            return order;
         });
         const updatedBalances = await CashierService.currentBalance(shiftId);
-        return {result, updatedBalances};
+        return { result, updatedBalances };
     }
 
 
@@ -81,7 +86,7 @@ class SaleService {
         try {
 
             const transactions = await ShiftTransaction.findAll({
-                where: { shiftId, userId },
+                where: { shiftId, userId, transactionTypeId: 2 },
                 attributes: ['id'],
                 include: [
                     {
@@ -112,9 +117,10 @@ class SaleService {
                                 ]
                             }
                         ],
-                        order: [['createdAt', 'DESC']]
+
                     }
-                ]
+                ],
+                order: [['createdAt', 'DESC']]
             });
 
             if (!transactions) {
@@ -130,12 +136,17 @@ class SaleService {
     }
 
 
+    /// sendo chamado no sale do front
     static async getSale(id) {
-
+        console.log(' %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GetSale called')
         try {
             const sale = Order.findByPk(id, {
                 attributes: ['id', 'totalOrder', 'createdAt'],
                 include: [{
+                    model: Client,
+                    attributes: ['id', 'name' , 'lastName'],
+                    as: 'client'
+                }, {
                     model: Suborder,
                     as: 'suborders',
                     attributes: ['productPrice', 'qtt', 'total'],
@@ -144,6 +155,10 @@ class SaleService {
                         as: 'product',
                         attributes: ['id', 'name', 'brand', 'description', 'size']
                     }]
+                }, {
+                    model: PaymentMethod,
+                    as: 'paymentMethod',
+                    attributes: ['id', 'name']
                 }]
             });
 

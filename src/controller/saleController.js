@@ -1,6 +1,7 @@
 const SaleService = require('../service/SaleService');
 const AppError = require('../utils/AppError');
 class SaleController {
+
     static async createSale(req, res, next) {
         try {
             for (let key in req.body) {
@@ -8,14 +9,27 @@ class SaleController {
                     return res.status(404).json({ msg: `Required field has null value: ${key} | Aborted` })
                 }
             }
+
             const {
                 shiftId,
                 clientId,
-                userId,
                 totalOrder,
                 paymentMethodId,
                 suborders
             } = req.body
+
+            const {userId} = req;
+
+            console.log('-----------------------====----------');
+            console.log("Order : =", {
+                shiftId,
+                clientId,
+                totalOrder,
+                paymentMethodId,
+                suborders
+            });
+
+            
             const saleRecord = await SaleService.createSale(
                 shiftId,
                 clientId,
@@ -24,6 +38,7 @@ class SaleController {
                 paymentMethodId,
                 suborders
             );
+
             if (!saleRecord) {
                 throw new AppError("Error creating sale register, aborted", 500);
             }
