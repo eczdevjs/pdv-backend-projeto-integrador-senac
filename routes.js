@@ -217,10 +217,10 @@ routes.patch('/products/restore/:id', ProductController.restore);
 
 //Photo routes
 
-const upload = multer(multerConfig);
+
 //add login required
 // upload deve ser configurado para receber um arquivo ou varios podeser adicionado em qualquer rota
-routes.post('/photos',upload.single('photo'), PhotoController.store)
+routes.post('/photos', PhotoController.store)
 
 
 
