@@ -1,6 +1,8 @@
 const express = require('express');
 const routes = express.Router();
 
+const multer = require('multer');
+const multerConfig = require('./src/config/multerConfig');
 const ProductController = require('./src/controller/productController');
 const UserController = require('./src/controller/userController');
 const tokenController = require('./src/controller/tokenController');
@@ -16,6 +18,7 @@ const SaleController = require('./src/controller/saleController');
 const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
 const Product = require('./src/model/ProductModel');
 const ProviderController = require('./src/controller/providerController');
+const PhotoController = require('./src/controller/PhotoController');
 
 
 
@@ -212,7 +215,12 @@ routes.patch('/products/restore/:id', ProductController.restore);
 // Providers routes
 
 
+//Photo routes
 
+const upload = multer(multerConfig);
+//add login required
+// upload deve ser configurado para receber um arquivo ou varios podeser adicionado em qualquer rota
+routes.post('/photos',upload.single('photo'), PhotoController.store)
 
 
 
