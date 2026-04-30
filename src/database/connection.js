@@ -22,7 +22,7 @@ const  PurchaseLine = require('../model/PurchaseLineModel');
 const Store = require('../model/StoreModel');
 const StockTransfer = require('../model/StockTransferModel');
 const StockTransferLine = require('../model/StockTransferLineModel');
-
+const ProductPhoto = require('../model/ProductPhoto');
 
 const models = [
     Product,
@@ -46,7 +46,8 @@ const models = [
     PurchaseLine,,
     Store,
     StockTransfer,
-    StockTransferLine
+    StockTransferLine,
+    ProductPhoto
 ];
 
 const connection = new Sequelize(databaseConfig);

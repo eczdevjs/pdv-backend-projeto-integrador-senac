@@ -1,5 +1,6 @@
 const { Sequelize, Model } = require('sequelize');
 const Suborder = require('../model/SuborderModel');
+const ProductPhoto = require('./ProductPhoto');
 
 class Product extends Model {
     static init(sequelize) {
@@ -31,6 +32,11 @@ class Product extends Model {
         this.hasMany(models.StockTransaction, {
             foreignKey: 'productId',
             as: 'product'
+        });
+
+        this.hasMany(models.ProductPhoto, {
+            foreignKey: 'productId',
+            as: 'photo'
         })
 
     }

@@ -220,7 +220,7 @@ routes.patch('/products/restore/:id', ProductController.restore);
 
 //add login required
 // upload deve ser configurado para receber um arquivo ou varios podeser adicionado em qualquer rota
-routes.post('/photos', PhotoController.store)
+routes.post('/photos/product/:productId',loginRequired, PhotoController.store)
 
 
 

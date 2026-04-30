@@ -1,6 +1,6 @@
 const Product = require('../model/ProductModel');
 const AppError = require('../utils/AppError');
-
+const ProductPhoto = require('../model/ProductPhoto');
 class ProductService {
 
     static async store(id, name, brand, productModel, size, description, price) {
@@ -28,7 +28,12 @@ class ProductService {
             const products = await Product.findAll({
                 attributes: ['id', 'name', 'brand', 'productModel', 'size', 'description', 'price'],
                 where: { isDeleted: false },
-                order: [['name', 'ASC']]
+                order: [['createdAt', 'DESC']],
+                include: {
+                    model: ProductPhoto,
+                    as: 'photo',
+                    order: [['createdAt', 'DESC']]
+                }
             });
 
             if (!products) {

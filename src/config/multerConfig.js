@@ -17,11 +17,11 @@ module.exports = {
 
         destination: (req, file, cb) => {
             //primeiro argumento erro
-            cb(null, resolve(__dirname, '..', '..', 'uploads'));
+            cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
         },
         // para evitar colisao de nomes ou nomes fora de um dado padrao
         filename: (req, file, cb) => {
-            cb(null, `${Date.now()}${random()}${extname(file.originalname)}`)
+            cb(null, `${Date.now()}_${random()}${extname(file.originalname)}`)
         }
     })
 
