@@ -1,4 +1,6 @@
 const sequelize = require('../database/connection')
+const { Op } = require('sequelize');
+
 const StockService = require('../service/StockService');
 const Order = require('../model/OrderModel');
 const Suborder = require('../model/SuborderModel');
@@ -12,6 +14,9 @@ const Client = require('../model/ClientModel');
 const PaymentMethod = require('../model/PaymentMethod');
 const Stock = require('../model/StockModel');
 const CashierService = require('../service/CashierService');
+const AppError = require('../utils/AppError');
+
+
 
 class SaleService {
 
@@ -144,7 +149,7 @@ class SaleService {
                 attributes: ['id', 'totalOrder', 'createdAt'],
                 include: [{
                     model: Client,
-                    attributes: ['id', 'name' , 'lastName'],
+                    attributes: ['id', 'name', 'lastName'],
                     as: 'client'
                 }, {
                     model: Suborder,
@@ -174,8 +179,63 @@ class SaleService {
     }
 
 
-    static async filterSalesByDate(begin, end) {
-        // buscar vendasdentro de um periodo
+    static async filterByDate(initialDate, finalDate, userId) {
+        try {
+            console.log("Filtros finais:", { userId, initialDate, finalDate });
+
+            const shifts = await Order.findAll({
+                where: {
+                    [Op.and]: [
+                        { userId: userId },
+                        {
+                            createdAt: {
+                                [Op.between]: [
+                                    `${initialDate} 00:00:00`,
+                                    `${finalDate} 23:59:59`
+                                ]
+                            }
+                        }
+                    ]
+
+                },
+                include: [
+                    {
+                        model: Client,
+                        attributes: ['id', 'name'],
+                        as: 'client'
+                    },
+                    {
+                        model: PaymentMethod,
+                        attributes: ['id', 'name'],
+                        as: 'paymentMethod'
+                    },
+                    {
+                        model: Suborder,
+                        attributes: ['productPrice', 'qtt', 'total'],
+                        as: 'suborders',
+                        include: [
+                            {
+                                model: Product,
+                                attributes: ['id', 'name', 'brand', 'productModel', 'description'],
+                                as: 'product'
+                            }
+                        ]
+                    }
+                ],
+                order: [['createdAt', 'DESC']]
+              
+
+            });
+
+            if (shifts.length === 0) {
+                throw new AppError("Transactions not found check date paramethers and try again", 404);
+            }
+
+            return shifts;
+
+        } catch (error) {
+            throw error;
+        }
     }
 
 

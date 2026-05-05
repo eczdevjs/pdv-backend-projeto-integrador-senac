@@ -9,10 +9,6 @@ class ProductService {
 
             const product = await Product.create({ id, name, brand, productModel, size, description, price, isDeleted: false });
 
-            if (!product) {
-                throw new Error('Error creating product register: aborted');
-            }
-
             return product;
 
         } catch (error) {
@@ -24,7 +20,7 @@ class ProductService {
     static async index() {
 
         try {
-            console.log("ProductService Index method called !!!!!!!!!!!")
+      
             const products = await Product.findAll({
                 attributes: ['id', 'name', 'brand', 'productModel', 'size', 'description', 'price'],
                 where: { isDeleted: false },
@@ -35,10 +31,6 @@ class ProductService {
                     order: [['createdAt', 'DESC']]
                 }
             });
-
-            if (!products) {
-                throw new Error('Error: products not found');
-            }
 
             return products;
         } catch (error) {
@@ -54,11 +46,13 @@ class ProductService {
                 where: {
                     id,
                     isDeleted: false
+                }, include: {
+                    model: ProductPhoto,
+                    as: 'photo',
+                    order: [['createdAt', 'DESC']]
                 }
             });
-            if (!product) {
-                throw new AppError('Product not found');
-            }
+         
             return product;
         } catch (error) {
             throw error;
@@ -74,10 +68,8 @@ class ProductService {
             if (!product) {
                 throw new AppError('Error: product not found');
             }
+
             const updated = await product.update(productToUpdate);
-            if (!updated) {
-                throw new Error("Error updating product: aborted");
-            }
             return updated;
         } catch (error) {
             throw error;
@@ -86,7 +78,7 @@ class ProductService {
 
 
     static async delete(id) {
-        // implement flag product instead delete
+        
         try {
             const product = await Product.findByPk(id);
 
@@ -105,16 +97,13 @@ class ProductService {
 
     static async getAllDeleted() {
         try {
-            const deletedList = Product.findAll({where:{isDeleted: true}});
-            if (!deletedList){
-                throw new AppError("There are not deleted products ");
-            }
+            const deletedList = Product.findAll({ where: { isDeleted: true } });
 
             return deletedList;
-            
+
         } catch (error) {
             throw error;
-        }                                                                                 
+        }
     }
 
     static async restore(id) {
@@ -124,18 +113,14 @@ class ProductService {
 
             if (!product) {
                 throw new AppError('Error: product not found');
-            }                        
+            }
 
             if (product.isDeleted === false) {
                 throw new AppError('product is not deleted thus can not be restored');
-
             }
 
             const updated = await product.update({ isDeleted: false });
 
-            if (!updated) {
-                throw new Error("Error updating product: aborted");
-            }
             return updated;
         } catch (error) {
             throw error;

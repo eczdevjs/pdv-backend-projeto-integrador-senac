@@ -1,0 +1,294 @@
+require('dotenv').config();
+const express = require('express');
+const routes = express.Router();
+const { resolve } = require('path');
+const cors = require('cors');
+const helmet = require('helmet');
+
+require('./src/database/connection');
+const errorHandler = require('./src/middlewares/errorHandler');
+const logger = require('./src/utils/logger')
+const morgan = require('morgan');
+const ProductRoutes = require('./src/routes/ProductsRoutes');
+
+// add error handling
+
+
+class App {
+    constructor() {
+        this.app = express();
+        this.middlewares();
+        this.routes();
+        this.errorHandle();
+    }
+
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(helmet());
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(express.json());
+        // this.app.use(morgan('dev'));
+        morgan.token('user-id', (req) => req.userId || 'Guest');
+        this.app.use(morgan(':method :url :status :user-id - :response-time ms'));
+
+        this.app.use(express.static(resolve(__dirname, 'uploads')));
+        logger.info('Middleware initialized');
+    }
+
+    routes() {
+        this.app.use('/products', ProductRoutes);
+    }
+
+    errorHandle() {
+        this.app.use(errorHandler);
+    }
+}
+
+module.exports = new App().app;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const multer = require('multer');
+// const multerConfig = require('./src/config/multerConfig');
+// const ProductController = require('./src/controller/productController');
+// const UserController = require('./src/controller/userController');
+// const tokenController = require('./src/controller/tokenController');
+// const loginRequired = require('./src/middlewares/loginRequired');
+// const ClientController = require('./src/controller/clientController');
+// const PaymentMethodController = require('./src/controller/paymentMethodController');
+// const orderController = require('./src/controller/orderController');
+// const CashierController = require('./src/controller/cashierController');
+
+// const StockController = require('./src/controller/stockController');
+// const storeController = require('./src/controller/storeController');
+// const SaleController = require('./src/controller/saleController');
+// const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
+// const Product = require('./src/model/ProductModel');
+// const ProviderController = require('./src/controller/providerController');
+// const PhotoController = require('./src/controller/PhotoController');
+
+
+
+
+// //Provider routes
+
+// routes.get('/providers', loginRequired, ProviderController.index);
+
+
+
+
+// // STOCK ROUTES
+// routes.get('/stock/index/', StockController.index);
+
+// routes.post('/stock/purchase/create/',loginRequired, jsonBodyRequired, StockController.purchase);
+
+// routes.put('/stock/adjustment/create/',loginRequired, jsonBodyRequired, StockController.adjustment);
+
+// // FILTER
+// routes.get('/stock/transactions/filter',loginRequired, StockController.transactionsBetweenTwoDates);
+
+
+
+// routes.get('/stock/product/:id', StockController.show);
+
+// routes.get('/stock/transactions/:date', StockController.transactionsByDay);
+
+
+
+
+
+
+// routes.post('/stock/transference/create/', jsonBodyRequired, StockController.transference);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // CASHIER ROUTES
+// routes.post('/cashier/open', loginRequired, jsonBodyRequired, CashierController.open);
+
+// routes.get('/cashier/shift/opened',loginRequired, CashierController.getOpenedShift);
+
+// routes.get('/cashier/shifts/filter', loginRequired, CashierController.filterByDate);
+
+// routes.patch('/cashier/close/:shiftId', loginRequired, CashierController.close);
+
+// routes.get('/cashier/shifts/list', loginRequired, CashierController.filterByDate);
+
+// routes.get('/cashier/shifts/:shiftId', loginRequired, CashierController.getShift);
+
+// // todas as transacoes para a dada shift
+// routes.get('/cashier/balances/:shiftId', loginRequired, CashierController.currentBalances);
+
+// // deposit
+// routes.post('/cashier/deposit/:shiftId', loginRequired, CashierController.deposit);
+// // withdraw
+// routes.post('/cashier/withdraw/:shiftId', loginRequired, CashierController.withdraw);
+
+// routes.get('/cashier/history/:shiftId', loginRequired, CashierController.cashierHistory);
+
+
+
+
+
+
+
+
+// /*USER ROUTES*/
+// routes.post('/users/create/', jsonBodyRequired, UserController.store);
+// // only admins are supposed to see all registered users
+// routes.get('/users/', loginRequired, UserController.index);
+// routes.get('/users/user', loginRequired, UserController.show);
+// routes.put('/users/update', loginRequired, jsonBodyRequired, UserController.update);
+// // deve ser deletado apenas por adm, se nao for o usuario nao deve excluir o proprio registro, mas pode setar a flag do tipo isActive para falso
+// routes.delete('/users/', loginRequired, UserController.delete);
+
+
+
+
+
+// //TOKEN ROUTES
+// routes.post('/tokens/', jsonBodyRequired, tokenController.store);
+
+
+
+
+// // CLIENT ROUTES
+// routes.post('/clients/register/', jsonBodyRequired, ClientController.store);
+// routes.get('/clients/list/', ClientController.index);
+// routes.get('/clients/:id', ClientController.show);
+// routes.put("/clients/edit/:id", jsonBodyRequired, ClientController.update);
+// routes.delete("/clients/delete/:id", ClientController.delete);
+
+
+
+
+
+
+
+// //PAYMENT METHOD ROUTES: ADMIN ONLY
+// // Access: loginRequired add or exclude as well admin access.
+
+// routes.post('/paymentmethod/register', jsonBodyRequired, PaymentMethodController.store)
+// routes.get('/paymentmethod/list', loginRequired, PaymentMethodController.index);
+// routes.get('/paymentmethod/:id', PaymentMethodController.show);
+// routes.put('/paymentmethod/:id', jsonBodyRequired, PaymentMethodController.update);
+// routes.delete('/paymentmethod/delete/:id', PaymentMethodController.delete);
+
+
+
+
+
+
+// // ORDER ROUTES 
+// //LOGIN REQUIRED HERE
+// // routes.post('/order/store',jsonBodyRequired, orderController.store);
+// // routes.get('/orders/list', orderController.index);
+// // routes.get('/orders/order/:id', orderController.show);
+// // routes.delete('/orders/delete/:id', orderController.delete);
+
+
+
+
+
+// /*!!!!!! ADMIN ONLY!!!!!!!!!!!!! */
+// //SHIFT TRANSACTION TYPE ROUTES
+// // routes.post('/shift/shifttransactiontype/register',jsonBodyRequired, shiftTransactionTypeController.store);
+// // routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
+
+
+
+
+
+
+// // SALE ROUTES
+
+// routes.post('/sales/create', jsonBodyRequired, loginRequired, SaleController.createSale);
+
+// routes.get('/sales/list/daily/:shiftId', loginRequired, SaleController.getDailySales);
+
+// routes.get('/sales/filter', loginRequired, SaleController.filterByDate);
+
+// routes.get('/sales/:id',loginRequired, SaleController.getSale);
+
+
+
+
+
+
+// // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
+// // // every transaction of shift, Sale, Deposit, Withdraw, Refund
+// // // routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
+// // routes.post('/shift-transactions/withdraw',jsonBodyRequired, shiftTransactionController.createWithdrawTransaction);
+// // routes.post('/shift-transactions/deposit', jsonBodyRequired,shiftTransactionController.createDepositTransaction);
+// // routes.get('/shift-transactions/list', shiftTransactionController.index);
+
+
+
+
+
+
+// /* PRODUCTS  ROUTES  */
+// routes.post('/products/create/', jsonBodyRequired, ProductController.store);
+// routes.get('/products/delete/index/', ProductController.getAllDeleted);
+
+// routes.get('/products/', ProductController.index);
+// routes.get('/products/:id', ProductController.show);
+
+// routes.put('/products/edit/:id', jsonBodyRequired, ProductController.update);
+// routes.delete('/products/delete/:id', ProductController.delete);
+// routes.patch('/products/restore/:id', ProductController.restore);
+
+
+
+
+
+
+// // // STORE ROUTES
+// // routes.post('/store/register/', jsonBodyRequired, storeController.store);
+// // routes.get('/store/list', storeController.index);
+// // pending testing it
+// // routes.get('/stock/transactions/filterbydate', StockController.transactionsBetweenTwoDates);
+
+
+// // Providers routes
+
+
+// //Photo routes
+
+
+// //add login required
+// // upload deve ser configurado para receber um arquivo ou varios podeser adicionado em qualquer rota
+// routes.post('/photos/product/:productId',loginRequired, PhotoController.store)
+
+
+
+// module.exports = routes;
+

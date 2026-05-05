@@ -18,7 +18,7 @@ class SaleController {
                 suborders
             } = req.body
 
-            const {userId} = req;
+            const { userId } = req;
 
             console.log('-----------------------====----------');
             console.log("Order : =", {
@@ -29,7 +29,7 @@ class SaleController {
                 suborders
             });
 
-            
+
             const saleRecord = await SaleService.createSale(
                 shiftId,
                 clientId,
@@ -51,7 +51,7 @@ class SaleController {
 
     static async getDailySales(req, res, next) {
         try {
-            const {userId} = req;
+            const { userId } = req;
             const { shiftId } = req.params;
             console.log(userId, shiftId);
             if (!userId || !shiftId) {
@@ -62,7 +62,7 @@ class SaleController {
             if (!orders) {
                 throw new AppError("Sales not found", 404);
             }
-            return res.status(200).json({success: true, data:orders, errors: false});
+            return res.status(200).json({ success: true, data: orders, errors: false });
         } catch (error) {
             next(error);
         }
@@ -73,7 +73,7 @@ class SaleController {
         try {
             const { id } = req.params
             if (!id || isNaN(parseInt(id))) {
-               throw new AppError("field mismatch data", 500);
+                throw new AppError("field mismatch data", 500);
             }
             const sale = await SaleService.getSale(id);
             if (!sale) {
@@ -81,9 +81,35 @@ class SaleController {
             }
             return res.status(200).json(sale);
         } catch (error) {
-           next(error);
+            next(error);
         }
     }
+
+    static async filterByDate(req, res , next) {
+        try {
+            console.log(req.query);
+            const { initialDate, finalDate } = req.query;
+            const { userId } = req;
+            console.log("SALE CONTROLLER: userId controller: =================== ", userId);
+            console.log(initialDate, finalDate)
+
+            if (!initialDate || !finalDate) {
+                throw new AppError("Both initial date and end date must be provided", 400);
+            }
+            const  sales = await SaleService.filterByDate(initialDate, finalDate, userId);
+
+            if (sales.length === 0) {
+                throw new AppError("Transactions not found", 404);
+            }
+
+            return res.status(200).json(sales);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
 }
 
 module.exports = SaleController;

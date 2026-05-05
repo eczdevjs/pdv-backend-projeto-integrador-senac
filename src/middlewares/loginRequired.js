@@ -20,7 +20,7 @@ const loginRequired  = (req, res, next) => {
         return next();
 
     } catch (error) {
-        res.status(401).json({msg: 'Token invalid or expired'});
+        res.status(401).json({message: 'Login required'});
     }
 
 };
