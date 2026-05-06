@@ -1,5 +1,6 @@
 const Client = require('../model/ClientModel');
-
+const AppError = require('../utils/AppError');
+const { Op } = require('sequelize');
 
 class ClientService {
 
@@ -9,14 +10,14 @@ class ClientService {
             const client = await Client.create({ name, lastName, email, phone, addressId });
 
             if (!client) {
-                throw new Error('Error creating client register: aborted');
+                throw new AppError('Error creating client register: aborted', 501);
             }
 
             return client;
 
         } catch (error) {
             console.log(error);
-            throw new Error(error.message);
+            throw error;
         }
     }
 
@@ -25,52 +26,44 @@ class ClientService {
 
         try {
             const clients = await Client.findAll({
-                attributes: ['id','name', 'lastName', 'email', 'phone'],
+                attributes: ['id', 'name', 'lastName', 'email', 'phone'],
                 order: [['createdAt', 'DESC']]
             });
-
-            if (!clients) {
-                throw new Error('Error: clients not found');
-            }
 
             return clients;
         } catch (error) {
             console.log(error);
-            throw new Error(error.message);
+            throw new error;
         }
     }
-
 
     static async show(id) {
 
         try {
+
             const client = await Client.findByPk(id);
+
             if (!client) {
-                throw new Error('Error: client not found');
+                throw new AppError('Error: client not found', 404);
             }
 
             return client;
 
         } catch (error) {
             console.log(error);
-            throw new Error(error.message);
+            throw error;
         }
 
     }
-
 
     static async update(id, clientToUpdate) {
         try {
             const client = await Client.findByPk(id);
             if (!client) {
-                throw new Error('Error: client not found');
+                throw new AppError('Error: client not found', 404);
             }
 
             const updated = await client.update(clientToUpdate);
-
-            if (!updated) {
-                throw new Error("Error updating client: aborted");
-            }
 
             return updated;
 
@@ -80,14 +73,14 @@ class ClientService {
         }
     }
 
-
-    static async delete(id) {
+    //soft deletion using sequelize paranoid;
+    static async softDelete(id) {
 
         try {
             const client = await Client.findByPk(id);
 
             if (!client) {
-                throw new Error('Client not found');
+                throw new AppError('Client not found', 404);
             }
 
             await client.destroy();
@@ -100,6 +93,45 @@ class ClientService {
         }
     }
 
+    static async deletedIndex() {
+        try {
+            const deleteds = await Client.findAll({
+                where: {
+                    deleted_at: {
+                        [Op.not]: null
+                    }
+                },
+                paranoid: false
+            });
+
+            return deleteds;
+
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    static async restore(id) {
+
+        try {
+            const client = await Client.findByPk(id, { paranoid: false });
+
+            if (!client) {
+                throw new AppError('Client not found', 404);
+            }
+
+            await client.restore();
+
+            return client;
+
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
 }
+
 
 module.exports = ClientService;

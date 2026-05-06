@@ -9,8 +9,10 @@ require('./src/database/connection');
 const errorHandler = require('./src/middlewares/errorHandler');
 const logger = require('./src/utils/logger')
 const morgan = require('morgan');
-const ProductRoutes = require('./src/routes/ProductsRoutes');
 
+const ProductRoutes = require('./src/routes/ProductsRoutes');
+const ClientRoutes = require('./src/routes/ClientsRoutes');
+const TokenRoutes = require('./src/routes/TokenRoutes');
 // add error handling
 
 
@@ -27,7 +29,7 @@ class App {
         this.app.use(helmet());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.json());
-        // this.app.use(morgan('dev'));
+      
         morgan.token('user-id', (req) => req.userId || 'Guest');
         this.app.use(morgan(':method :url :status :user-id - :response-time ms'));
 
@@ -37,6 +39,8 @@ class App {
 
     routes() {
         this.app.use('/products', ProductRoutes);
+        this.app.use('/clients', ClientRoutes );
+        this.app.use('/', TokenRoutes);
     }
 
     errorHandle() {
@@ -105,7 +109,8 @@ module.exports = new App().app;
 // routes.get('/stock/transactions/filter',loginRequired, StockController.transactionsBetweenTwoDates);
 
 
-
+// const loginRequired = require('../middlewares/loginRequired');
+// const jsonBodyRequired = require("../middlewares/jsonBodyRequired");
 // routes.get('/stock/product/:id', StockController.show);
 
 // routes.get('/stock/transactions/:date', StockController.transactionsByDay);

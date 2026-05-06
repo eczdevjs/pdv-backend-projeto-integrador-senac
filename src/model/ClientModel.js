@@ -56,7 +56,10 @@ class Client extends Model {
             }
 
         }, {
-            sequelize
+            sequelize,
+            paranoid: true,
+            timestamps:true,
+            underscored:true
         });
 
         return this;

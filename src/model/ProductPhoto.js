@@ -1,5 +1,5 @@
 const { Sequelize, Model } = require('sequelize');
-const {url} = require('../config/app.config');
+const url = require('../config/app.config');
 
 class ProductPhoto extends Model {
     static init(sequelize) {

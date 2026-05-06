@@ -1,22 +1,26 @@
 const User = require('../model/UserModel');
 const jwt = require('jsonwebtoken');
+const AppError = require('../utils/AppError');
+const App = require('../../App');
+
+
 class TokenController {
     async store(req, res) {
         try {
             const { email = '', password = '' } = req.body;
             if (!email || !password) {
-                return res.status(401).json({ msg: "Password or email not provided" })
+                throw new AppError("Password or email not provided",  401)
             }
             console.log({ email, password });
 
             const user = await User.findOne({ where: { email } });
 
             if (!user) {
-                return res.status(404).json({ msg: "User not found" });
+                throw new AppError("User not found", 404);
             }
 
             if (!(await user.validatePassword(password))) {
-                return res.status(401).json({ msg: "Password or email not found" });
+                throw new AppError("Password or email incorrect", 400);
             }
 
             const { id } = user;
@@ -26,11 +30,9 @@ class TokenController {
 
             return res.status(200).json({token: token, user});
 
-
         } catch (e) {
-            res.json(e);
+            throw e;
         }
-
     }
 }
 

@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 module.exports = (err, req, res, next) => {
     const userId = req.userId || 'Anonymous';
-    // console.log(`[Error] ${err.name}: `, err);
+  
     logger.error(`${err.name}: ${err.message}`, {
         userId,
         url: req.originalUrl,
@@ -49,6 +49,7 @@ module.exports = (err, req, res, next) => {
 
     if (err.isCustomError) {
         return res.status(err.statusCode || 400).json({ message: err.message || "Bad request" });
+      
     }
 
     return res.status(500).json({

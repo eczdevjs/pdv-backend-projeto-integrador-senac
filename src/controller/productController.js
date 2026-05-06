@@ -27,11 +27,11 @@ class ProductController {
     static async show(req, res, next) {
         try {
             if (!req.params.id) {
-                throw new Error("Id paramether is required, or given id mismatched");
+                throw new AppError("Id paramether is required, or given id mismatched", 400);
             }
 
             if (!parseInt(req.params.id)) {
-                throw new AppError("given id is mismatched", 404);
+                throw new AppError("given id is mismatched", 400);
             }
 
             const { id } = req.params;
@@ -57,14 +57,14 @@ class ProductController {
         }
     }
 
-    static async delete(req, res, next) {
+    static async softDelete(req, res, next) {
         try {
             if (!req.params.id) {
                 throw new AppError("Id paramether is required");
             }
 
             const { id } = req.params;
-            const success = await ProductService.delete(id);
+            const success = await ProductService.softDelete(id);
 
 
             return res.status(200).json({
@@ -76,10 +76,10 @@ class ProductController {
         }
     }
 
-    static async getAllDeleted(req, res, next) {
+    static async deletedIndex(req, res, next) {
         try {
 
-            const products = await ProductService.getAllDeleted();
+            const products = await ProductService.deletedIndex();
             return res.status(200).json(products);
 
         } catch (error) {

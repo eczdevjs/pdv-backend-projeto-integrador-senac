@@ -1,1 +1,3 @@
-export const url = 'http://localhost:3001'
+const url = 'http://localhost:3001'
+
+module.exports = url;

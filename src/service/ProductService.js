@@ -1,6 +1,10 @@
 const Product = require('../model/ProductModel');
 const AppError = require('../utils/AppError');
 const ProductPhoto = require('../model/ProductPhoto');
+const Stock = require('../model/StockModel');
+const  {Op} = require('sequelize') ;
+
+
 class ProductService {
 
     static async store(id, name, brand, productModel, size, description, price) {
@@ -20,10 +24,9 @@ class ProductService {
     static async index() {
 
         try {
-      
+
             const products = await Product.findAll({
                 attributes: ['id', 'name', 'brand', 'productModel', 'size', 'description', 'price'],
-                where: { isDeleted: false },
                 order: [['createdAt', 'DESC']],
                 include: {
                     model: ProductPhoto,
@@ -38,21 +41,19 @@ class ProductService {
         }
     }
 
-
     static async show(id) {
 
         try {
             const product = await Product.findOne({
                 where: {
-                    id,
-                    isDeleted: false
+                    id
                 }, include: {
                     model: ProductPhoto,
                     as: 'photo',
                     order: [['createdAt', 'DESC']]
                 }
             });
-         
+            if(!product) throw new AppError('Product not found', 404);
             return product;
         } catch (error) {
             throw error;
@@ -63,7 +64,7 @@ class ProductService {
     static async update(id, productToUpdate) {
 
         try {
-            const product = await Product.findOne({ where: { id, isDeleted: false } });
+            const product = await Product.findByPk(id);
 
             if (!product) {
                 throw new AppError('Error: product not found');
@@ -77,27 +78,45 @@ class ProductService {
     }
 
 
-    static async delete(id) {
-        
+    static async softDelete(id) {
+
         try {
             const product = await Product.findByPk(id);
 
             if (!product) {
-                throw new Error('Product not found');
+                throw new AppError('Product not found',404);
             }
 
-            await product.update({ isDeleted: true });
+
+            const stockQtt = await Stock.findOne({
+                where: { productId : id },
+                attributes: ['qty']
+            });
+
+            if (stockQtt &&  stockQtt.dataValues.qty > 0) {
+                throw new AppError(`To remove the product, the quantity in stock must be 0. Current Stock: ${stockQtt.dataValues.qty}`, 400);
+            }
+
+            await product.destroy();
 
             return true;
 
         } catch (error) {
-            throw new Error(error.message);
+            throw error;
         }
     }
 
-    static async getAllDeleted() {
+
+    static async deletedIndex() {
         try {
-            const deletedList = Product.findAll({ where: { isDeleted: true } });
+            const deletedList = await Product.findAll({
+                where: {
+                    deleted_at: {
+                        [Op.not]: null
+                    }
+                },
+                paranoid: false
+            });
 
             return deletedList;
 
@@ -109,17 +128,17 @@ class ProductService {
     static async restore(id) {
 
         try {
-            const product = await Product.findByPk(id);
+            const product = await Product.findByPk(id, {paranoid:false});
 
             if (!product) {
                 throw new AppError('Error: product not found');
             }
-
-            if (product.isDeleted === false) {
-                throw new AppError('product is not deleted thus can not be restored');
+            console.log(product)
+            if (!product.dataValues.deletedAt) {
+                throw new AppError('product is not deleted thus can not be restored', 400);
             }
 
-            const updated = await product.update({ isDeleted: false });
+            const updated = await product.restore();
 
             return updated;
         } catch (error) {

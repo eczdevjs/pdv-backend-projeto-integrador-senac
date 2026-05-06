@@ -10,14 +10,15 @@ class Product extends Model {
             productModel: Sequelize.STRING,
             description: Sequelize.STRING,
             price: Sequelize.DOUBLE,
-            size: Sequelize.STRING,
-            isDeleted: Sequelize.BOOLEAN
+            size: Sequelize.STRING
         },
 
             {
                 sequelize,
+                paranoid: true,
                 timestamps: true,
                 underscored:true
+
             });
 
         return this;
@@ -37,7 +38,7 @@ class Product extends Model {
         this.hasMany(models.ProductPhoto, {
             foreignKey: 'productId',
             as: 'photo'
-        })
+        });
 
     }
 }
