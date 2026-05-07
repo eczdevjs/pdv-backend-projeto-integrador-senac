@@ -18,6 +18,37 @@ const AppError = require('../utils/AppError');
 
 class StockService {
 
+    static async createPurchase(userId, providerId, invoiceNumber, total, products) {
+        try {
+
+            const response = await sequelize.transaction(async (t) => {
+
+                const purchase = await PurchaseOrder.create({ userId, providerId, invoiceNumber, total }, { transaction: t });
+
+                const purchaseId = purchase.id;
+
+                for (let { productId, qty, unityCost } of products) {
+
+                    const { id } = await PurchaseLine.create({
+                        purchaseId,
+                        productId,
+                        qty,
+                        unityCost
+                    }, {
+                        transaction: t
+                    });
+
+                    await this.#stockPurchaseRecord(userId, productId, qty, unityCost, id, t);
+                }
+                return purchase;
+            });
+
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async createAdjustment(userId, productId, qtyChange, reason) {
         try {
             let referenceTypeId = qtyChange > 0 ? EStockTransactionType.ADJ_UP : EStockTransactionType.ADJ_DOWN;
@@ -68,92 +99,6 @@ class StockService {
         }
     }
 
-    static async createPurchase(userId, providerId, invoiceNumber, total, products) {
-        try {
-
-            const response = await sequelize.transaction(async (t) => {
-
-                const purchase = await PurchaseOrder.create({ userId, providerId, invoiceNumber, total }, { transaction: t });
-
-                const purchaseId = purchase.id;
-
-                for (let { productId, qty, unityCost } of products) {
-
-                    const { id } = await PurchaseLine.create({
-                        purchaseId,
-                        productId,
-                        qty,
-                        unityCost
-                    }, {
-                        transaction: t
-                    });
-
-                    await this.stockPurchaseRecord(userId, productId, qty, unityCost, id, t);
-                }
-                return purchase;
-            });
-
-            return response;
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async stockPurchaseRecord(userId, productId, qty, unityCost, purchaseLineId, transaction) {
-        try {
-
-            const stock = await Stock.findOne({ where: { productId } });
-
-            if (!stock) {
-
-                const register = await Stock.create({ productId, qty, avgCost: unityCost });
-
-                const stockTransaction = await StockTransaction.create({
-                    userId,
-                    productId,
-                    qtyChange: qty,
-                    unityCost,
-                    typeId: EStockTransactionType.IN_PURCHASE,
-                    referenceTypeId: EStockRerefenceType.PURCHASE,
-                    referenceId: purchaseLineId
-                }, {
-                    transaction
-                });
-
-                return { register, stockTransaction };
-            }
-
-            const oldQty = stock.qty;
-            const oldAvg = stock.avgPrice
-
-            let newAvg = oldAvg;
-
-            if (qty > 0) {
-                newAvg = (oldQty * oldAvg + qty * unityCost) / (oldQty + qty);
-            }
-
-            await stock.update({
-                qty: oldQty + qty,
-                avgPrice: newAvg,
-            }, {
-                transaction
-            });
-
-            await StockTransaction.create({
-                userId,
-                productId,
-                qtyChange: qty,
-                unityCost,
-                typeId: EStockTransactionType.IN_PURCHASE,
-                referenceTypeId: EStockRerefenceType.PURCHASE,
-                referenceId: purchaseLineId
-            }, {
-                transaction
-            });
-        } catch (error) {
-            throw error;
-        }
-    }
     // [] Further: get rid of loops to create each line register, perfect scenario is building a query and send it to database once. (Loop can be kept, it is not wishable for connecting each time into database)
 
     // stock must not get negative
@@ -206,6 +151,10 @@ class StockService {
                     }, { transaction: t });
 
                 }
+
+                if (!stockTransfer) {
+                    throw new AppError("Error creating transfer register, aborted", 500);
+                }
                 return stockTransfer;
             });
             return result;
@@ -214,10 +163,12 @@ class StockService {
         }
     }
 
+
     static async index() {
         try {
+
             const list = await Stock.findAll({
-                attributes: ['qty'],    
+                attributes: ['qty'],
                 include: [{
                     model: Product,
                     attributes: ['id', 'name', 'brand', 'description', 'price'],
@@ -225,15 +176,12 @@ class StockService {
                 }]
             });
 
-            if (!list) {
-                throw new AppError('It wasn\'t possible to reach resources (stock list): Aborted ')
-            }
-
             return list;
         } catch (error) {
             throw error;
         }
     }
+
 
     static async show(productId) {
         try {
@@ -249,7 +197,7 @@ class StockService {
             });
 
             if (!stock) {
-                throw new AppError("Product not found");
+                throw new AppError("Product not found", 404);
             }
 
             return stock;
@@ -259,66 +207,25 @@ class StockService {
         }
     }
 
-    static async transactionsByDay(day) {
 
+    static async transactions(start, end, type) {
         try {
-
-            const startOfDay = new Date(`${day}T00:00:00`);
-            const endOfDay = new Date(`${day}T23:59:59`);
-
-            const transactions = await StockTransaction.findAll({
-                where: {
-                    createdAt: {
-                        [Op.between]: [startOfDay, endOfDay]
-                    }
-                },
-                attributes: ['id', 'qtyChange', 'referenceId', 'createdAt'],
-
-                include: [{
-                    model: User,
-                    attributes: ['name'],
-                    as: 'user'
-                },
-                {
-                    model: Product,
-                    attributes: ['name'],
-                    as: 'product'
-                },
-                {
-                    model: StockReferenceType,
-                    attributes: ['code'],
-                    as: 'referenceType'
-                }
-                ],
-                order: [["createdAt", "DESC"]]
-
-            });
-
-            if (!transactions) {
-                throw new AppError("Stock transactions not found",404);
-            }
-            console.log('----------------------------------------------------')
-            console.log(transactions)
-            return transactions;
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    static async transactionsBetweenTwoDates(start, end) {
-        try {
+            const where = {};
             const startDate = new Date(`${start}T00:00:00`);
             const endDate = new Date(`${end}T23:59:59`);
-            console.log('start=',start,' end=', end);
+
+            where.createdAt = {
+                [Op.between]: [startDate, endDate]
+            }
+
+            if (type) {
+                where.referenceTypeId = type;
+            } else {
+                where.referenceTypeId = [2, 3, 4, 5];
+            }
 
             const transactions = await StockTransaction.findAll({
-                where: {
-                    createdAt: {
-                        [Op.between]: [startDate, endDate]
-                    },
-                    referenceTypeId:[2,3,4,5]
-                },
+                where,
                 attributes: ['id', 'qtyChange', 'referenceId', 'createdAt'],
                 include: [{
                     model: User,
@@ -332,20 +239,73 @@ class StockService {
                 },
                 {
                     model: StockReferenceType,
-                    attributes: ['code'],
+                    attributes: ['id', 'code'],
                     as: 'referenceType'
                 }],
                 order: [['createdAt', 'DESC']]
             });
 
-            if (!transactions) {
-                throw new AppError("Stock transactions not found");
-            }
-
             return transactions;
 
         } catch (error) {
             console.log(error);
+            throw error;
+        }
+    }
+
+    static async #stockPurchaseRecord(userId, productId, qty, unityCost, purchaseLineId, transaction) {
+        try {
+
+            const stock = await Stock.findOne({ where: { productId } });
+
+            if (!stock) {
+
+                const register = await Stock.create({ productId, qty, avgCost: unityCost });
+
+                const stockTransaction = await StockTransaction.create({
+                    userId,
+                    productId,
+                    qtyChange: qty,
+                    unityCost,
+                    typeId: EStockTransactionType.IN_PURCHASE,
+                    referenceTypeId: EStockRerefenceType.PURCHASE,
+                    referenceId: purchaseLineId
+                }, {
+                    transaction
+                });
+
+                return { register, stockTransaction };
+            }
+
+            const oldQty = stock.qty;
+            const oldAvg = stock.avgPrice
+
+            let newAvg = oldAvg;
+
+            if (qty > 0) {
+                newAvg = (oldQty * oldAvg + qty * unityCost) / (oldQty + qty);
+            }
+
+            await stock.update({
+                qty: oldQty + qty,
+                avgPrice: newAvg,
+            }, {
+                transaction
+            });
+
+            await StockTransaction.create({
+                userId,
+                productId,
+                qtyChange: qty,
+                unityCost,
+                typeId: EStockTransactionType.IN_PURCHASE,
+                referenceTypeId: EStockRerefenceType.PURCHASE,
+                referenceId: purchaseLineId
+            }, {
+                transaction
+            });
+        } catch (error) {
+            throw error;
         }
     }
 }

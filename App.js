@@ -13,6 +13,7 @@ const morgan = require('morgan');
 const ProductRoutes = require('./src/routes/ProductsRoutes');
 const ClientRoutes = require('./src/routes/ClientsRoutes');
 const TokenRoutes = require('./src/routes/TokenRoutes');
+const StockRoutes = require('./src/routes/StockRoutes');
 // add error handling
 
 
@@ -41,6 +42,7 @@ class App {
         this.app.use('/products', ProductRoutes);
         this.app.use('/clients', ClientRoutes );
         this.app.use('/', TokenRoutes);
+        this.app.use('/stock', StockRoutes);
     }
 
     errorHandle() {
@@ -98,22 +100,25 @@ module.exports = new App().app;
 
 
 
+
 // // STOCK ROUTES
+
+// GET CURRENT STOCK
 // routes.get('/stock/index/', StockController.index);
 
-// routes.post('/stock/purchase/create/',loginRequired, jsonBodyRequired, StockController.purchase);
+// CREATE PURCHASE
+// routes.post('/stock/purchase',loginRequired, jsonBodyRequired, StockController.purchase);
 
-// routes.put('/stock/adjustment/create/',loginRequired, jsonBodyRequired, StockController.adjustment);
+//CREATE ADJUSTMENT
+// routes.put('/stock/adjustment',loginRequired, jsonBodyRequired, StockController.adjustment);
 
-// // FILTER
+// // FILTER TRANSACTIONS
 // routes.get('/stock/transactions/filter',loginRequired, StockController.transactionsBetweenTwoDates);
 
 
-// const loginRequired = require('../middlewares/loginRequired');
-// const jsonBodyRequired = require("../middlewares/jsonBodyRequired");
-// routes.get('/stock/product/:id', StockController.show);
+// routes.get('/stock/:productId', StockController.show);
 
-// routes.get('/stock/transactions/:date', StockController.transactionsByDay);
+// routes.get('/stock/transactions', StockController.transactionsByDay);
 
 
 
