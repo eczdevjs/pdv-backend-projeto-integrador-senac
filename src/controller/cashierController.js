@@ -1,3 +1,4 @@
+const App = require('../../App');
 const ShiftService = require('../service/CashierService');
 const CashierService = require('../service/CashierService');
 const AppError = require('../utils/AppError');
@@ -49,9 +50,10 @@ class CashierController {
             const { userId } = req;
             const { amount } = req.body;
 
-            if (amount <= 0) {
-                throw new AppError("Deposit value must be greater than zero", 400);
+            if (amount <= 0 || !amount) {
+                throw new AppError("Deposit value must be provided and greater than zero", 400);
             }
+
 
             const deposit = await CashierService.deposit(shiftId, userId, amount);
 
@@ -76,7 +78,7 @@ class CashierController {
             }
 
             if (amount >= 0) {
-                throw new AppError("withdraw amount must be less than zero (negative)", 400);
+                throw new AppError("withdraw amount must be lesser than zero (negative)", 400);
             }
 
             const withdraw = await CashierService.withdraw(userId, shiftId, amount, reason);
@@ -158,13 +160,18 @@ class CashierController {
             const { userId } = req
             const { shiftId } = req.params;
 
+            if(!userId || !shiftId){
+                console.log("Error: UserId or shiftId not provided");
+                throw new AppError("required field is missing",400);
+            }
+
             if (!parseInt(shiftId)) {
                 throw new AppError("Given id does not match type");
             }
 
-            const history = await CashierService.cashierHistory(userId, shiftId);
+            const history = await CashierService.cashierHistory(parseInt(userId), parseInt(shiftId));
 
-            return res.status(200).json({ success: true, data: history });
+            return res.status(200).json(history);
 
         } catch (error) {
             next(error);
@@ -178,7 +185,7 @@ class CashierController {
 
             const shift = await CashierService.getOpenedShift(userId);
 
-            return res.status(200).json({ success: true, data: shift});
+            return res.status(200).json(shift);
 
         } catch (error) {
             next(error);

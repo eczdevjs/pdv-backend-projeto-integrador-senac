@@ -130,7 +130,7 @@ class CashierService {
 
         try {
 
-            if (!shiftId || !closingBalance) throw new AppError("Required field is missing");
+            if (!shiftId || !closingBalance) throw new AppError("Required field is missing",400);
             const shift = await Shift.findByPk(shiftId);
 
             if (!shift) throw new AppError("Shift not found");
@@ -167,7 +167,7 @@ class CashierService {
         }
     }
 
-    // logged user can access only his shift history;
+    // logged user can access only his own shift history;
     static async getShift(shiftId, userId) {
         try {
             const shift = await Shift.findOne({ where: { id: shiftId, userId } });
@@ -250,6 +250,7 @@ class CashierService {
         }
     }
 
+    // Historico para uma sessao de caixa
     static async cashierHistory(userId, shiftId) {
         try {
             let history = await ShiftTransaction.findAll({
@@ -288,7 +289,8 @@ class CashierService {
             if (!history) {
                 throw new AppError("Either there is no history for that cashier or  given id does not match");
             }
-            history = history.map(item => item.toJSON())
+            history = history.map(item => item.toJSON());
+            console.log("history: ", history);
             const historyCleaned = history.map(x => removeNullFields(x));
 
             return historyCleaned;
