@@ -1,10 +1,10 @@
 
 const logger = require('../utils/logger');
-
+const AppError = require('../utils/AppError');
 
 module.exports = (err, req, res, next) => {
     const userId = req.userId || 'Anonymous';
-  
+
     logger.error(`${err.name}: ${err.message}`, {
         userId,
         url: req.originalUrl,
@@ -23,7 +23,7 @@ module.exports = (err, req, res, next) => {
 
             case "SequelizeValidationError":
                 const errorMessages = err.errors.map(error => error.message);
-        
+
                 return res.status(400).json({
                     message: err.message || 'Validation error: Check input data',
                     details: errorMessages
@@ -35,6 +35,11 @@ module.exports = (err, req, res, next) => {
                     details: err.fields || []
                 })
             case "SequelizeDatabaseError":
+                if (err.parent.code === '23514') {
+                    // 23514 is the Postgres code for Check Constraint Violation
+                    res.status(400).json({message: "For some item there is not enogh stock available, check stock and try again"});
+                }
+
                 return res.status(500).json({
                     message: "Database error: check server logs for details"
                 });
@@ -49,7 +54,7 @@ module.exports = (err, req, res, next) => {
 
     if (err.isCustomError) {
         return res.status(err.statusCode || 400).json({ message: err.message || "Bad request" });
-      
+
     }
 
     return res.status(500).json({
