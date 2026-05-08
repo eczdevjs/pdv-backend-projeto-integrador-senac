@@ -8,16 +8,18 @@ class CashierController {
 
     static async open(req, res, next) {
 
-        // fields are required and can not be null
-        for (let key in req.body) {
-            if (!req.body[key]) {
-                return res.status(400).json({ msg: "Operation can not be perfomed: fields can not be null" });
-            }
-        }
-
         try {
             const { openingBalance } = req.body;
             const userId = req.userId;
+
+            if (!openingBalance || !userId) {
+                throw new AppError("Required fields is missing", 400);
+            }
+
+            if (!Number(openingBalance)) {
+                throw new AppError("Amount to opening cashier must be a number", 400);
+            }
+
             const shift = await CashierService.open(userId, openingBalance);
             return res.status(201).json(shift);
         } catch (error) {
@@ -50,6 +52,10 @@ class CashierController {
             const { userId } = req;
             const { amount } = req.body;
 
+            if (!shiftId || !amount || !userId) {
+                throw new AppError("shiftId and closing balance must be provided", 400);
+            }
+
             if (amount <= 0 || !amount) {
                 throw new AppError("Deposit value must be provided and greater than zero", 400);
             }
@@ -73,8 +79,8 @@ class CashierController {
             const { userId } = req;
             const { amount, reason } = req.body;
 
-            if (!reason) {
-                throw new AppError("Reason must be provided to withdraw operations");
+            if (!reason || !amount || !shiftId || !userId) {
+                throw new AppError("Required data is missing to withdraw operations",400);
             }
 
             if (amount >= 0) {
@@ -84,7 +90,7 @@ class CashierController {
             const withdraw = await CashierService.withdraw(userId, shiftId, amount, reason);
 
             if (!withdraw) {
-                throw new AppError("Error creating withdraw register, operation aborted!");
+                throw new AppError("Error creating withdraw register, operation aborted!",500);
             }
 
             return res.status(201).json({ success: true, data: withdraw });
@@ -97,6 +103,10 @@ class CashierController {
         try {
             const { userId } = req;
             let { shiftId } = req.params;
+
+            if (!shiftId || !userId) {
+                throw new AppError("Required data is missing", 400);
+            }
             shiftId = Number(shiftId);
 
             if (typeof shiftId !== 'number') {
@@ -138,7 +148,7 @@ class CashierController {
         try {
             const { shiftId } = req.params;
 
-            if (typeof Number(shiftId) !== 'number') {
+            if (!shiftId || typeof Number(shiftId) !== 'number') {
                 throw new AppError('Invalid ID', 400);
             }
 
@@ -160,9 +170,9 @@ class CashierController {
             const { userId } = req
             const { shiftId } = req.params;
 
-            if(!userId || !shiftId){
+            if (!userId || !shiftId) {
                 console.log("Error: UserId or shiftId not provided");
-                throw new AppError("required field is missing",400);
+                throw new AppError("required field is missing", 400);
             }
 
             if (!parseInt(shiftId)) {
@@ -181,7 +191,6 @@ class CashierController {
     static async getOpenedShift(req, res, next) {
         try {
             const { userId } = req
-
 
             const shift = await CashierService.getOpenedShift(userId);
 
