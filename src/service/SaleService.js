@@ -15,8 +15,7 @@ const PaymentMethod = require('../model/PaymentMethod');
 const Stock = require('../model/StockModel');
 const CashierService = require('../service/CashierService');
 const AppError = require('../utils/AppError');
-
-
+const User = require('../model/UserModel');
 
 class SaleService {
 
@@ -61,7 +60,7 @@ class SaleService {
             if (!transactionCreated) {
                 throw new Error("Error creating transaction register: Aborted");
             }
-
+            // further write a query to insert it once
             for (let { productId, qtt, productPrice } of suborders) {
                 await Stock.decrement('qty', {
                     by: qtt,
@@ -86,12 +85,83 @@ class SaleService {
         return { result, updatedBalances };
     }
 
-
-    static async getDailySales(shiftId, userId) {
+    static async show(saleId, userId) {
         try {
+            const sale = Order.findOne({
+                where: {
+                    id: saleId,
+                    userId
+                },
+                attributes: ['id', 'totalOrder', 'createdAt'],
+                include: [{
+                    model: Client,
+                    attributes: ['id', 'name', 'lastName'],
+                    as: 'client'
+                }, {
+                    model: Suborder,
+                    as: 'suborders',
+                    attributes: ['productPrice', 'qtt', 'total'],
+                    include: [{
+                        model: Product,
+                        as: 'product',
+                        attributes: ['id', 'name', 'brand', 'description', 'size']
+                    }]
+                }, {
+                    model: PaymentMethod,
+                    as: 'paymentMethod',
+                    attributes: ['id', 'name']
+                }, {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'name']
+                }]
+            });
+
+            if (!sale) {
+                throw new Error('Sale not found');
+            }
+
+            return sale;
+        } catch (error) {
+            console.log(error);
+            throw new Error('Error fetching sale');
+        }
+    }
+
+    static async index(userId, shiftId, initialDate, endDate) {
+        try {
+            const where = {};
+
+            if (!shiftId && !userId && !initialDate && !finalDate) {
+                throw new AppError("Filter paramethers are missing", 400);
+            }
+
+            if (shiftId && userId) {
+                where.shiftId = shiftId;
+                where.userId = userId;
+                where.transactionTypeId = 2;
+            } else {
+                if (userId && initialDate && endDate) {
+
+                    where.createdAt = {
+                        [Op.between]: [
+                            `${initialDate} 00:00:00`,
+                            `${endDate} 23:59:59`
+                        ]
+                    }
+                    where.userId = userId;
+                    where.transactionTypeId = 2;
+                }
+            }
+
+            if (Object.keys(where).length === 0) {
+                throw new AppError("Required filters paramethers are missing", 400)
+            }
+
+            console.log("Where clause Service: ", where);
 
             const transactions = await ShiftTransaction.findAll({
-                where: { shiftId, userId, transactionTypeId: 2 },
+                where,
                 attributes: ['id'],
                 include: [
                     {
@@ -122,7 +192,6 @@ class SaleService {
                                 ]
                             }
                         ],
-
                     }
                 ],
                 order: [['createdAt', 'DESC']]
@@ -135,121 +204,19 @@ class SaleService {
 
         } catch (error) {
             console.log(error);
-            throw new Error("Error: ", error.message);
-        }
-
-    }
-
-
-    /// sendo chamado no sale do front
-    static async getSale(id) {
-        console.log(' %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GetSale called')
-        try {
-            const sale = Order.findByPk(id, {
-                attributes: ['id', 'totalOrder', 'createdAt'],
-                include: [{
-                    model: Client,
-                    attributes: ['id', 'name', 'lastName'],
-                    as: 'client'
-                }, {
-                    model: Suborder,
-                    as: 'suborders',
-                    attributes: ['productPrice', 'qtt', 'total'],
-                    include: [{
-                        model: Product,
-                        as: 'product',
-                        attributes: ['id', 'name', 'brand', 'description', 'size']
-                    }]
-                }, {
-                    model: PaymentMethod,
-                    as: 'paymentMethod',
-                    attributes: ['id', 'name']
-                }]
-            });
-
-            if (!sale) {
-                throw new Error('Sale not found');
-            }
-
-            return sale;
-        } catch (error) {
-            console.log(error);
-            throw new Error('Error fetching sale');
-        }
-    }
-
-
-    static async filterByDate(initialDate, finalDate, userId) {
-        try {
-            console.log("Filtros finais:", { userId, initialDate, finalDate });
-
-            const shifts = await Order.findAll({
-                where: {
-                    [Op.and]: [
-                        { userId: userId },
-                        {
-                            createdAt: {
-                                [Op.between]: [
-                                    `${initialDate} 00:00:00`,
-                                    `${finalDate} 23:59:59`
-                                ]
-                            }
-                        }
-                    ]
-
-                },
-                include: [
-                    {
-                        model: Client,
-                        attributes: ['id', 'name'],
-                        as: 'client'
-                    },
-                    {
-                        model: PaymentMethod,
-                        attributes: ['id', 'name'],
-                        as: 'paymentMethod'
-                    },
-                    {
-                        model: Suborder,
-                        attributes: ['productPrice', 'qtt', 'total'],
-                        as: 'suborders',
-                        include: [
-                            {
-                                model: Product,
-                                attributes: ['id', 'name', 'brand', 'productModel', 'description'],
-                                as: 'product'
-                            }
-                        ]
-                    }
-                ],
-                order: [['createdAt', 'DESC']]
-              
-
-            });
-
-            if (shifts.length === 0) {
-                throw new AppError("Transactions not found check date paramethers and try again", 404);
-            }
-
-            return shifts;
-
-        } catch (error) {
             throw error;
         }
     }
 
-
     static async updateSale() {
         // alterar informacoes do pedido
     }
-
 
     static async createRefund(orderId) {
         // descontar valor da venda caixa
         // adicionar produtos estoque
         // alterar status pedido para canceled
     }
-
 }
 
 module.exports = SaleService;

@@ -607,3 +607,383 @@
 {"level":"error","message":"Error: Reason must be provided to withdraw operations","method":"POST","stack":"Error: Reason must be provided to withdraw operations\n    at withdraw (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/cashierController.js:77:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-07 12:4557","url":"/cashier/24/withdraws","userId":1}
 {"level":"info","message":"Middleware initialized","timestamp":"2026-05-07 12:5225"}
 {"level":"info","message":"Middleware initialized","timestamp":"2026-05-07 12:5227"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:2148"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:2909"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3108"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3242"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3318"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3348"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3351"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3354"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3408"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3410"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3417"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3446"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3448"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3451"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3457"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3506"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3509"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3516"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3612"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3620"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3633"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3659"}
+{"level":"error","message":"Error: field mismatch data","method":"GET","stack":"Error: field mismatch data\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:71:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 16:3736","url":"/sales/10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3828"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3831"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3838"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3840"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3844"}
+{"level":"error","message":"Error: field mismatch data","method":"GET","stack":"Error: field mismatch data\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:72:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 16:3846","url":"/sales/10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:3923"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4146"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4214"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4310"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4327"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4330"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4335"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4349"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4407"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4409"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4414"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4416"}
+{"level":"error","message":"ReferenceError: id is not defined","method":"GET","stack":"ReferenceError: id is not defined\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:71:13)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 16:4420","url":"/sales/10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4437"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4440"}
+{"level":"error","message":"ReferenceError: id is not defined","method":"GET","stack":"ReferenceError: id is not defined\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:71:13)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 16:4451","url":"/sales/10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4524"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4604"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4618"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4642"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4649"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4700"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4708"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4710"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4711"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4728"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4744"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4759"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4803"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4808"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4810"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4822"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4826"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4830"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4838"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4840"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4842"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4845"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4850"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:4852"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5104"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5108"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5111"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5137"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5138"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5147"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5151"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5153"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5339"}
+{"level":"error","message":"SequelizeEagerLoadingError: User is associated to Order using an alias. You've included an alias (seller), but it does not match the alias(es) defined in your association (user).","method":"GET","stack":"SequelizeEagerLoadingError: User is associated to Order using an alias. You've included an alias (seller), but it does not match the alias(es) defined in your association (user).\n    at Order._getIncludedAssociation (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:574:15)\n    at Order._validateIncludedElement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:502:53)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:421:37\n    at Array.map (<anonymous>)\n    at Order._validateIncludedElements (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:417:39)\n    at Order.findAll (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:1124:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Order.findOne (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:1240:12)\n    at async Order.findByPk (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:1221:12)\n    at async show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:79:26)","timestamp":"2026-05-08 16:5340","url":"/sales/21","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5352"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5517"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5536"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5648"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5650"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5655"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5659"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5703"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5709"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5714"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5718"}
+{"level":"error","message":"Error: Error fetching sale","method":"GET","stack":"Error: Error fetching sale\n    at SaleService.getSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:184:19)\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:79:44)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 16:5722","url":"/sales/20","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5742"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5744"}
+{"level":"error","message":"Error: Sale not found","method":"GET","stack":"Error: Sale not found\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:81:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)","timestamp":"2026-05-08 16:5807","url":"/sales/25","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5830"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5842"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5905"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 16:5914"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0021"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0026"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0045"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0050"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0057"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0100"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0113"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0144"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0202"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0208"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0230"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0254"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0312"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0318"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0319"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0343"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0411"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0417"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0419"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0446"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0536"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0554"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0558"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0636"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0722"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0726"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0736"}
+{"level":"error","message":"Error: Sale not found","method":"GET","stack":"Error: Sale not found\n    at show (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:82:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)","timestamp":"2026-05-08 17:0739","url":"/sales/25","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0849"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0939"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:0943"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1041"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1043"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1055"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1102"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1103"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1105"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1106"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1110"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1112"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1113"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1115"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1127"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1131"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1143"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1207"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1217"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1219"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1225"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1227"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1231"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1239"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1242"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1308"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1309"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1312"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1314"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1326"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1330"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1349"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1350"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1410"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1417"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1423"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1429"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1435"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1440"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1442"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1448"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1632"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1639"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1648"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1703"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:1927"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2020"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2043"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2045"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2055"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2132"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2135"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2147"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2149"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2152"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2204"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2235"}
+{"level":"error","message":"Error: Error: ","method":"GET","stack":"Error: Error: \n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:160:19)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:56:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 17:2416","url":"/sales?shiftId=23","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2516"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2530"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2540"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2542"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2548"}
+{"level":"error","message":"ReferenceError: initialDate is not defined","method":"GET","stack":"ReferenceError: initialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:56:70)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 17:2602","url":"/sales?shiftId=23","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2628"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2631"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2639"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2643"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2656"}
+{"level":"error","message":"ReferenceError: initialDate is not defined","method":"GET","stack":"ReferenceError: initialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:52:65)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 17:2704","url":"/sales?shiftId=23","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2832"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2833"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2845"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2858"}
+{"level":"error","message":"ReferenceError: initialDate is not defined","method":"GET","stack":"ReferenceError: initialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:52:65)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 17:2901","url":"/sales?shiftId=23","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:2952"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3116"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3118"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3127"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3130"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3131"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3136"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:3139"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:4421"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:4427"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:4429"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:4541"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5211"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5215"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5217"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5222"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5225"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5228"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5517"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5706"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5709"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5711"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5724"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5726"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5948"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5951"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 17:5958"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0001"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0052"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0241"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0242"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0302"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0304"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0312"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0326"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0341"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0352"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0355"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0403"}
+{"level":"error","message":"Error: Filter paramethers are missing","method":"GET","stack":"Error: Filter paramethers are missing\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:54:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:0424","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0642"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0648"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0811"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0817"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0821"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0827"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0832"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0836"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0837"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0840"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0848"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:0853"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1320"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1555"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1558"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1635"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1637"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1639"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1652"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1653"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1944"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:1951"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2009"}
+{"level":"error","message":"Error: Error: ","method":"GET","stack":"Error: Error: \n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:167:19)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2010","url":"/sales?endDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2047"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2053"}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2055","url":"/sales?endDate=2026-04-01","userId":2}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2140","url":"/sales?endDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2212"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2226"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2250"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2255"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2301"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2304"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2306"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2346"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2351"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2353"}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2406","url":"/sales?endDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2452"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2457"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2459"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2506"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2510"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2512"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2517"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2522"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2524"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2528"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2530"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2534"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2539"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2546"}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2548","url":"/sales?endDate=2026-04-01","userId":2}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2629","url":"/sales?endDate=2026-04-01&initialDate=2026-04-10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2644"}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2648","url":"/sales?endDate=2026-04-01&initialDate=2026-04-10","userId":2}
+{"level":"error","message":"Error: Required filters does not match","method":"GET","stack":"Error: Required filters does not match\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:119:23)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:2755","url":"/sales?initialDate=2026-04-10&endDate=2026-04-01","userId":2}
+{"level":"error","message":"Error: Filter paramethers are missing","method":"GET","stack":"Error: Filter paramethers are missing\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:54:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:2824","url":"/sales?initialDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2909"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:2913"}
+{"level":"error","message":"Error: Filter paramethers are missing","method":"GET","stack":"Error: Filter paramethers are missing\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:55:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:2919","url":"/sales?initialDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3016"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3018"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3024"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3025"}
+{"level":"error","message":"Error: Filter paramethers are missing","method":"GET","stack":"Error: Filter paramethers are missing\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:55:23)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:3027","url":"/sales?initialDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3103"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3111"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3116"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3118"}
+{"level":"error","message":"ReferenceError: initialDate is not defined","method":"GET","stack":"ReferenceError: initialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:52:40)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:3119","url":"/sales?initialDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3143"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3151"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3158"}
+{"level":"error","message":"ReferenceError: intialDate is not defined","method":"GET","stack":"ReferenceError: intialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:55:30)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:3200","url":"/sales?initialDate=2026-04-01","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3222"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3234"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3239"}
+{"level":"error","message":"ReferenceError: intialDate is not defined","method":"GET","stack":"ReferenceError: intialDate is not defined\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:57:71)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:295:15","timestamp":"2026-05-08 18:3301","url":"/sales?initialDate=2026-04-01&endDate=2026-04-10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3335"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3337"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3338"}
+{"level":"error","message":"ReferenceError: finalDate is not defined","method":"GET","stack":"ReferenceError: finalDate is not defined\n    at SaleService.index (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:110:32)\n    at index (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:62:46)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at loginRequired (/home/ecz/Folder/Programming/Backend/pdvProject/src/middlewares/loginRequired.js:20:16)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)\n    at next (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:157:13)\n    at Route.dispatch (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/route.js:117:3)\n    at handle (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/index.js:435:11)\n    at Layer.handleRequest (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/router/lib/layer.js:152:17)","timestamp":"2026-05-08 18:3340","url":"/sales?initialDate=2026-04-01&endDate=2026-04-10","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3403"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:3934"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4704"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4746"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4751"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4756"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4848"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4853"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4857"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4926"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4946"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4952"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:4956"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5002"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5003"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5237"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5553"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5617"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5619"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5621"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5624"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5627"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5629"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5637"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5641"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5715"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5717"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 18:5809"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3010"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3017","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3126"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3127"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3129"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3146"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3156"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3203","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3217"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3220","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3326"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3329"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3330","url":"/sales","userId":2}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3331","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3434"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3447"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3454"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3511"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3544","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3612"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3614"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3638"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3648"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3650","url":"/sales","userId":2}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3705"}
+{"level":"info","message":"Middleware initialized","timestamp":"2026-05-08 19:3715"}
+{"level":"error","message":"SequelizeDatabaseError: new row for relation \"stock\" violates check constraint \"check_qty_non_negative\"","method":"POST","stack":"Error\n    at Query.run (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/postgres/query.js:50:25)\n    at /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:315:28\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async PostgresQueryInterface.decrement (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/dialects/abstract/query-interface.js:421:12)\n    at async Stock.increment (/home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/model.js:2113:22)\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:65:17\n    at async /home/ecz/Folder/Programming/Backend/pdvProject/node_modules/sequelize/lib/sequelize.js:507:18\n    at async SaleService.createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/service/SaleService.js:29:24)\n    at async createSale (/home/ecz/Folder/Programming/Backend/pdvProject/src/controller/saleController.js:28:32)","timestamp":"2026-05-08 19:3717","url":"/sales","userId":2}

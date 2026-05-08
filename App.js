@@ -15,7 +15,8 @@ const ClientRoutes = require('./src/routes/ClientsRoutes');
 const TokenRoutes = require('./src/routes/TokenRoutes');
 const StockRoutes = require('./src/routes/StockRoutes');
 const CashierRoutes = require('./src/routes/CashierRoutes');
-// add error handling
+const SaleRoutes = require('./src/routes/SalesRoutes');
+
 
 
 class App {
@@ -45,6 +46,7 @@ class App {
         this.app.use('/', TokenRoutes);
         this.app.use('/stock', StockRoutes);
         this.app.use('/cashier', CashierRoutes);
+        this.app.use('/sales', SaleRoutes);
     }
 
     errorHandle() {

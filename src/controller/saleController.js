@@ -4,11 +4,6 @@ class SaleController {
 
     static async createSale(req, res, next) {
         try {
-            for (let key in req.body) {
-                if (!req.body[key]) {
-                    return res.status(404).json({ msg: `Required field has null value: ${key} | Aborted` })
-                }
-            }
 
             const {
                 shiftId,
@@ -19,16 +14,6 @@ class SaleController {
             } = req.body
 
             const { userId } = req;
-
-            console.log('-----------------------====----------');
-            console.log("Order : =", {
-                shiftId,
-                clientId,
-                totalOrder,
-                paymentMethodId,
-                suborders
-            });
-
 
             const saleRecord = await SaleService.createSale(
                 shiftId,
@@ -49,33 +34,45 @@ class SaleController {
         }
     }
 
-    static async getDailySales(req, res, next) {
+    static async index(req, res, next) {
         try {
             const { userId } = req;
-            const { shiftId } = req.params;
-            console.log(userId, shiftId);
-            if (!userId || !shiftId) {
+            const { initialDate, endDate, shiftId } = req.query;
+
+
+            if (!shiftId && !initialDate && !endDate) {
+                throw new AppError("Filter paramethers are missing", 400);
+            }
+
+            console.log(`Index paramthers controller: initialDate : ${initialDate} endDate: ${endDate}, shiftId: ${shiftId },` );
+
+            if (!userId) {
                 throw new AppError("Required field missing", 400);
             }
-            const orders = await SaleService.getDailySales(shiftId, userId);
+            const orders = await SaleService.index(userId, shiftId, initialDate, endDate);
 
             if (!orders) {
                 throw new AppError("Sales not found", 404);
             }
-            return res.status(200).json({ success: true, data: orders, errors: false });
+            return res.status(200).json(orders);
         } catch (error) {
             next(error);
         }
     }
 
-
-    static async getSale(req, res, next) {
+    static async show(req, res, next) {
         try {
-            const { id } = req.params
-            if (!id || isNaN(parseInt(id))) {
-                throw new AppError("field mismatch data", 500);
+            console.log('SaleController: method show called');
+            const { userId } = req;
+            const { saleId } = req.params
+
+            if (!userId) {
+                throw new AppError("Required field is missing", 400);
             }
-            const sale = await SaleService.getSale(id);
+            if (!saleId || isNaN(parseInt(saleId))) {
+                throw new AppError("field mismatch data", 400);
+            }
+            const sale = await SaleService.show(saleId, userId);
             if (!sale) {
                 throw new AppError("Sale not found", 404);
             }
@@ -84,31 +81,6 @@ class SaleController {
             next(error);
         }
     }
-
-    static async filterByDate(req, res , next) {
-        try {
-            console.log(req.query);
-            const { initialDate, finalDate } = req.query;
-            const { userId } = req;
-            console.log("SALE CONTROLLER: userId controller: =================== ", userId);
-            console.log(initialDate, finalDate)
-
-            if (!initialDate || !finalDate) {
-                throw new AppError("Both initial date and end date must be provided", 400);
-            }
-            const  sales = await SaleService.filterByDate(initialDate, finalDate, userId);
-
-            if (sales.length === 0) {
-                throw new AppError("Transactions not found", 404);
-            }
-
-            return res.status(200).json(sales);
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
 
 }
 
