@@ -19,6 +19,7 @@ const CashierRoutes = require('./src/routes/CashierRoutes');
 const SaleRoutes = require('./src/routes/SalesRoutes');
 const UserRoutes= require('./src/routes/UserRoutes');
 const ProductPhotoRoute = require('./src/routes/ProductPhotoRoute');
+const ProviderRoutes = require('./src/routes/ProviderRoutes');
 
 
 
@@ -52,7 +53,7 @@ class App {
         this.app.use('/sales', SaleRoutes);
         this.app.use('/users', UserRoutes);
         this.app.use('/photos', ProductPhotoRoute);
-
+        this.app.use('/providers', ProviderRoutes);
     }
 
     errorHandle() {

@@ -1,45 +1,134 @@
 const Provider = require('../model/ProviderModel');
 const AppError = require('../utils/AppError');
+const {Op} = require('sequelize');
 
 class ProviderService {
+
+    static async store({ name, cnpj, email, phone, notes }) {
+        try {
+            const provider = await Provider.create({ name, cnpj, email, phone, notes });
+
+            if (!provider) {
+                throw new AppError('Error creating provider register: aborted', 500);
+            }
+
+            return provider;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    }
 
     static async index() {
 
         try {
-            console.log("ProviderService Index method called !!!!!!!!!!!")
             const providers = await Provider.findAll({
-                attributes: ['id', 'name', 'cnpj', 'email', 'phone'],
-                order: [['name', 'ASC']]
+                attributes: ['id', 'name', 'cnpj', 'email', 'phone', 'notes'],
+                order: [['createdAt', 'DESC']]
             });
-
-            if (!providers) {
-                throw new Error('Error: products not found');
-            }
 
             return providers;
         } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    static async show(id) {
+
+        try {
+
+            const provider = await Provider.findByPk(id);
+
+            if (!provider) {
+                throw new AppError('Error: Provider not found', 404);
+            }
+
+            return provider;
+
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    }
+
+    static async update(id, providerToUpdate) {
+        try {
+            const provider = await Provider.findByPk(id);
+
+            if (!provider) {
+                throw new AppError('Error: Provider not found', 404);
+            }
+
+            const updated = await provider.update(providerToUpdate);
+
+            return updated;
+
+        } catch (error) {
+            console.log(error);
             throw new Error(error.message);
         }
     }
 
+    //soft deletion using sequelize paranoid;
+    static async softDelete(id) {
 
-    // static async show(id) {
+        try {
+            const provider = await Provider.findByPk(id);
 
-    //     try {
-    //         const product = await Product.findOne({
-    //             where: {
-    //                 id,
-    //                 isDeleted: false
-    //             }
-    //         });
-    //         if (!product) {
-    //             throw new AppError('Product not found');
-    //         }
-    //         return product;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
+            if (!Provider) {
+                throw new AppError('Provider not found', 404);
+            }
+
+            await provider.destroy();
+
+            return true;
+
+        } catch (error) {
+            console.log(error);
+            throw new Error(error.message);
+        }
+    }
+
+    static async deletedIndex() {
+        try {
+            const deleteds = await Provider.findAll({
+                where: {
+                    deletedAt: {
+                        [Op.not]: null
+                    }
+                },
+                paranoid: false
+            });
+
+            return deleteds;
+
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    static async restore(id) {
+
+        try {
+            const provider = await Provider.findByPk(id, { paranoid: false });
+
+            if (!provider) {
+                throw new AppError('Provider not found', 404);
+            }
+
+            await provider.restore();
+
+            return provider;
+
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 
 }
 
