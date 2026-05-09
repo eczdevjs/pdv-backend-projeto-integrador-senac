@@ -10,7 +10,6 @@ const updload = multer(multerConfig).single('photo');
 class PhotoController {
     async store(req, res, next) {
 
-
         return updload(req, res, async (err) => {
             if (err) {
                 return res.status(400).json({ errors: [err.code] })
