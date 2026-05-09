@@ -18,32 +18,6 @@ router.get('/:productId', loginRequired, StockController.show);
 
 router.patch('/:productId', loginRequired, jsonBodyRequired, StockController.adjustment);
 
-
-
-
 module.exports = router;
-
-
-
-
-
-
-
-
-// CREATE PURCHASE
-// routes.post('/stock',loginRequired, jsonBodyRequired, StockController.purchase);
-
-//CREATE ADJUSTMENT
-// routes.put('/stock/adjustment',loginRequired, jsonBodyRequired, StockController.adjustment);
-
-// // FILTER TRANSACTIONS
-// routes.get('/stock/transactions/filter',loginRequired, StockController.transactionsBetweenTwoDates);
-
-
-// routes.get('/stock/:productId', StockController.show);
-
-// routes.get('/stock/transactions', StockController.transactionsByDay);
-
-
 
 

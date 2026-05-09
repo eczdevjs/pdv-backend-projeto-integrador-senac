@@ -5,16 +5,22 @@ class UserService {
     static async store(props) {
         try {
 
-            const {name, lastName, email, phone, password} = props;
+            const { name, lastName, email, phone, password } = props;
 
-            // if(!email || !password){
-            //     throw new AppError("Email and Password are required, either both or one  is missing", 400);
-            // }
+            if (!email || !password) {
+                throw new AppError("Email and Password are required, either both or one  is missing", 400);
+            }
 
             const newUser = await User.create({ name, lastName, email, phone, password });
-            if (newUser) {
-                return newUser;
+
+
+            if (!newUser) {
+                throw new AppError("Error creating new user: Aborted", 500);
             }
+
+            const response = newUser.toJSON();
+            return response;
+
         } catch (error) {
             throw error;
         }
@@ -22,12 +28,15 @@ class UserService {
 
     static async show(id) {
         try {
-            const user = await User.findByPk(id);
+            const user = await User.findByPk(id, {
+                attributes: ['id', 'name', 'lastName', 'email', 'phone']
+            });
+
             if (!user) {
-                throw new Error('Error creating user: aborted');
+                throw new AppError("User not found", 404);
             }
 
-            return user;
+            return user.toJSON();
         } catch (error) {
             throw error;
         }
@@ -56,13 +65,15 @@ class UserService {
             if (!updated) {
                 throw new Error("Error updating user: Aborted");
             }
-            return updated;
+
+            return updated.toJSON();
         } catch (error) {
             throw error;
         }
     }
 
-    static async delete(id) {
+
+    static async softDelete(id) {
         // flag based, not exclud change flag to unavalible or something like that
         try {
             const user = await User.findByPk(id);

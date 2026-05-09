@@ -75,13 +75,13 @@ class User extends Model {
                         msg: 'password is required',
 
                     },
-                    
+
                     isPasswordRequired(value) {
-                    
+
                         if (this.isNewRecord && (!value)) {
                             throw new Error('Password is required for user creation.');
                         }
-             
+
                     }
                 },
                 set(value) {
@@ -89,9 +89,24 @@ class User extends Model {
                 }
             }
         }, {
-            sequelize
+            sequelize,
+            tableName: 'users',
+            underscored: true,
+            defaultScope: {
+                attributes: {
+                    exclude: ['password_hash']
+                }
+            },
+            scopes: {
+                withPassword: {
+                    attributes: {}
+                }
+            }
         });
 
+        
+
+        
 
         this.addHook('beforeSave', async (user, options) => {
             if (user.changed('password')) {
@@ -100,6 +115,8 @@ class User extends Model {
         });
         return this;
     }
+
+    
 
     validatePassword(password) {
         return bcrypt.compare(password, this.password_hash)
@@ -120,6 +137,12 @@ class User extends Model {
             model: 'ShiftTransaction',
             as: 'user'
         });
+    }
+
+    toJSON() {
+        const values = { ...this.get() };
+        delete values.password_hash;
+        return values;
     }
 }
 

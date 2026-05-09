@@ -9,13 +9,16 @@ require('./src/database/connection');
 const errorHandler = require('./src/middlewares/errorHandler');
 const logger = require('./src/utils/logger')
 const morgan = require('morgan');
-
+const multer = require('multer');
+const multerConfig = require('./src/config/multerConfig');
 const ProductRoutes = require('./src/routes/ProductsRoutes');
 const ClientRoutes = require('./src/routes/ClientsRoutes');
 const TokenRoutes = require('./src/routes/TokenRoutes');
 const StockRoutes = require('./src/routes/StockRoutes');
 const CashierRoutes = require('./src/routes/CashierRoutes');
 const SaleRoutes = require('./src/routes/SalesRoutes');
+const UserRoutes= require('./src/routes/UserRoutes');
+
 
 
 
@@ -47,6 +50,7 @@ class App {
         this.app.use('/stock', StockRoutes);
         this.app.use('/cashier', CashierRoutes);
         this.app.use('/sales', SaleRoutes);
+        this.app.use('/users', UserRoutes);
     }
 
     errorHandle() {
@@ -75,8 +79,7 @@ module.exports = new App().app;
 
 
 
-// const multer = require('multer');
-// const multerConfig = require('./src/config/multerConfig');
+
 // const ProductController = require('./src/controller/productController');
 // const UserController = require('./src/controller/userController');
 // const tokenController = require('./src/controller/tokenController');
@@ -92,7 +95,7 @@ module.exports = new App().app;
 // const jsonBodyRequired = require('./src/middlewares/jsonBodyRequired');
 // const Product = require('./src/model/ProductModel');
 // const ProviderController = require('./src/controller/providerController');
-// const PhotoController = require('./src/controller/PhotoController');
+
 
 
 
@@ -100,76 +103,6 @@ module.exports = new App().app;
 // //Provider routes
 
 // routes.get('/providers', loginRequired, ProviderController.index);
-
-
-
-
-
-// // STOCK ROUTES
-
-// GET CURRENT STOCK
-// routes.get('/stock/index/', StockController.index);
-
-// CREATE PURCHASE
-// routes.post('/stock/purchase',loginRequired, jsonBodyRequired, StockController.purchase);
-
-//CREATE ADJUSTMENT
-// routes.put('/stock/adjustment',loginRequired, jsonBodyRequired, StockController.adjustment);
-
-// // FILTER TRANSACTIONS
-// routes.get('/stock/transactions/filter',loginRequired, StockController.transactionsBetweenTwoDates);
-
-
-// routes.get('/stock/:productId', StockController.show);
-
-// routes.get('/stock/transactions', StockController.transactionsByDay);
-
-
-
-
-
-
-// routes.post('/stock/transference/create/', jsonBodyRequired, StockController.transference);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // CASHIER ROUTES
-// routes.post('/cashier/open', loginRequired, jsonBodyRequired, CashierController.open);
-
-// routes.get('/cashier/shift/opened',loginRequired, CashierController.getOpenedShift);
-
-// routes.get('/cashier/shifts/filter', loginRequired, CashierController.filterByDate);
-
-// routes.patch('/cashier/close/:shiftId', loginRequired, CashierController.close);
-
-// routes.get('/cashier/shifts/list', loginRequired, CashierController.filterByDate);
-
-// routes.get('/cashier/shifts/:shiftId', loginRequired, CashierController.getShift);
-
-// // todas as transacoes para a dada shift
-// routes.get('/cashier/balances/:shiftId', loginRequired, CashierController.currentBalances);
-
-// // deposit
-// routes.post('/cashier/deposit/:shiftId', loginRequired, CashierController.deposit);
-// // withdraw
-// routes.post('/cashier/withdraw/:shiftId', loginRequired, CashierController.withdraw);
-
-// routes.get('/cashier/history/:shiftId', loginRequired, CashierController.cashierHistory);
-
-
-
 
 
 
@@ -186,27 +119,6 @@ module.exports = new App().app;
 
 
 
-
-
-// //TOKEN ROUTES
-// routes.post('/tokens/', jsonBodyRequired, tokenController.store);
-
-
-
-
-// // CLIENT ROUTES
-// routes.post('/clients/register/', jsonBodyRequired, ClientController.store);
-// routes.get('/clients/list/', ClientController.index);
-// routes.get('/clients/:id', ClientController.show);
-// routes.put("/clients/edit/:id", jsonBodyRequired, ClientController.update);
-// routes.delete("/clients/delete/:id", ClientController.delete);
-
-
-
-
-
-
-
 // //PAYMENT METHOD ROUTES: ADMIN ONLY
 // // Access: loginRequired add or exclude as well admin access.
 
@@ -215,74 +127,6 @@ module.exports = new App().app;
 // routes.get('/paymentmethod/:id', PaymentMethodController.show);
 // routes.put('/paymentmethod/:id', jsonBodyRequired, PaymentMethodController.update);
 // routes.delete('/paymentmethod/delete/:id', PaymentMethodController.delete);
-
-
-
-
-
-
-// // ORDER ROUTES 
-// //LOGIN REQUIRED HERE
-// // routes.post('/order/store',jsonBodyRequired, orderController.store);
-// // routes.get('/orders/list', orderController.index);
-// // routes.get('/orders/order/:id', orderController.show);
-// // routes.delete('/orders/delete/:id', orderController.delete);
-
-
-
-
-
-// /*!!!!!! ADMIN ONLY!!!!!!!!!!!!! */
-// //SHIFT TRANSACTION TYPE ROUTES
-// // routes.post('/shift/shifttransactiontype/register',jsonBodyRequired, shiftTransactionTypeController.store);
-// // routes.get('/shift/shifttransactiontype/list', shiftTransactionTypeController.index);
-
-
-
-
-
-
-// // SALE ROUTES
-
-// routes.post('/sales/create', jsonBodyRequired, loginRequired, SaleController.createSale);
-
-// routes.get('/sales/list/daily/:shiftId', loginRequired, SaleController.getDailySales);
-
-// routes.get('/sales/filter', loginRequired, SaleController.filterByDate);
-
-// routes.get('/sales/:id',loginRequired, SaleController.getSale);
-
-
-
-
-
-
-// // ********************     SHIFT TRANSACTIONS ROUTE    ********************************************
-// // // every transaction of shift, Sale, Deposit, Withdraw, Refund
-// // // routes.post('/shift-transaction/sale', shiftTransactionController.createSaleTransaction);
-// // routes.post('/shift-transactions/withdraw',jsonBodyRequired, shiftTransactionController.createWithdrawTransaction);
-// // routes.post('/shift-transactions/deposit', jsonBodyRequired,shiftTransactionController.createDepositTransaction);
-// // routes.get('/shift-transactions/list', shiftTransactionController.index);
-
-
-
-
-
-
-// /* PRODUCTS  ROUTES  */
-// routes.post('/products/create/', jsonBodyRequired, ProductController.store);
-// routes.get('/products/delete/index/', ProductController.getAllDeleted);
-
-// routes.get('/products/', ProductController.index);
-// routes.get('/products/:id', ProductController.show);
-
-// routes.put('/products/edit/:id', jsonBodyRequired, ProductController.update);
-// routes.delete('/products/delete/:id', ProductController.delete);
-// routes.patch('/products/restore/:id', ProductController.restore);
-
-
-
-
 
 
 // // // STORE ROUTES

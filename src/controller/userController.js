@@ -1,48 +1,40 @@
 const UserService = require('../service/UserService');
 const AppError = require('../utils/AppError');
 
+
 class UserController {
     // adming required []
     static async store(req, res, next) {
         try {
             const { name, lastName, email, phone, password } = req.body;
+
+            if(!name|| !lastName|| !email|| !phone|| !password){
+                throw new AppError("Required fields missing, check parmethers and try again", 400);
+            }
+
             const newUser = await UserService.store({ name, lastName, email, phone, password });
+
             if (!newUser) {
                 throw new AppError("Error creating user")
             }
 
-            res.status(201).json({
-                success: true,
-                data: {
-                    id: newUser.id,
-                    name: newUser.name,
-                    email: newUser.email,
-                    createdAt: newUser.createdAt
-                },
-                errors: null
-            });
+            res.status(201).json(newUser);
 
         } catch (e) {
             next(e)
         }
     }
 
-
     //  adminRequired []
     static async index(req, res, next) {
         try {
             const users = await UserService.index();
-            if (!users) {
-                return res.status(400).json(e);
-            }
             return res.status(200).json(users);
-
         } catch (e) {
             next(e);
         }
     }
 
-    // login required [x]
     static async show(req, res, next) {
         try {
 
@@ -52,20 +44,22 @@ class UserController {
 
             const id = req.userId;
 
+            if(isNaN(parseInt(id))){
+                throw new AppError("Required field id mismatch : Aborted",400);
+            }
+
             const user = await UserService.show(id);
 
             if (!user) {
                 throw new AppError("User not found", 404);
             }
-
             return res.status(200).json(user);
-
         } catch (e) {
             next(e);
         }
 
     }
-    // login required alterar rota [x]
+
     static async update(req, res, next) {
         try {
 
@@ -86,23 +80,13 @@ class UserController {
                 throw new AppError('Error updating user: aborted', 500);
             }
 
-            const response = {
-                success: true,
-                data: {
-                    name: updatedUser.name,
-                    lastName: updatedUser.lastName,
-                    email: updatedUser.email,
-                    phone: updatedUser.phone,
-                    updatedAt: updatedUser.updatedAt
-                },
-                errors: null
-            }
-
-            return res.status(200).json(response);
+  
+            return res.status(200).json(updatedUser);
         } catch (e) {
             next(e);
         }
     }
+    
     // admin required
     static async delete(req, res, next) {
         try {
