@@ -183,6 +183,7 @@ class CashierService {
 
     static async filterByDate(initialDate, endDate, userId) {
         try {
+            
             console.log("Filtros finais:", { userId, initialDate, endDate });
 
             const shifts = await Shift.findAll({
@@ -204,10 +205,6 @@ class CashierService {
                 order: [['startTime', 'DESC']],
                 raw: true
             });
-
-            if (shifts.length === 0) {
-                throw new AppError("Transactions not found check date paramethers and try again");
-            }
 
             return shifts;
 
@@ -259,6 +256,7 @@ class CashierService {
                     userId
                 },
                 attributes: [
+                    'shiftId',
                     'id', 'amount', 'orderId', 'withdrawId', 'depositId', 'returnId', 'openingId', 'createdAt'
                 ],
                 include: [{
@@ -290,7 +288,7 @@ class CashierService {
                 throw new AppError("Either there is no history for that cashier or  given id does not match");
             }
             history = history.map(item => item.toJSON());
-            console.log("history: ", history);
+            // console.log("history: ", history);
             const historyCleaned = history.map(x => removeNullFields(x));
 
             return historyCleaned;

@@ -37,7 +37,7 @@ module.exports = (err, req, res, next) => {
             case "SequelizeDatabaseError":
                 if (err.parent.code === '23514') {
                     // 23514 is the Postgres code for Check Constraint Violation
-                    res.status(400).json({message: "For some item there is not enogh stock available, check stock and try again"});
+                    res.status(400).json({message: "Não existe estoque suficiente para um ou mais itens na lista. Cheque o estoque disponível e tente novamente"});
                 }
 
                 return res.status(500).json({

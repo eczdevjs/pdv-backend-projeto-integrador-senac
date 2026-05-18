@@ -133,10 +133,6 @@ class CashierController {
             }
             const shifts = await CashierService.filterByDate(initialDate, endDate, userId);
 
-            if (shifts.length === 0) {
-                throw new AppError("Transactions not found", 404);
-            }
-
             return res.status(200).json(shifts);
 
         } catch (error) {

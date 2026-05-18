@@ -25,7 +25,6 @@ module.exports = {
       }
     });
 
-
     // criar mock dos dados
     await queryInterface.bulkInsert('payment_methods', [
       {

@@ -1,5 +1,5 @@
 const sequelize = require('../database/connection')
-const { Op } = require('sequelize');
+const { Op, fn, col, literal } = require('sequelize');
 
 const StockService = require('../service/StockService');
 const Order = require('../model/OrderModel');
@@ -132,7 +132,7 @@ class SaleService {
         try {
             const where = {};
 
-            if (!shiftId && !userId && !initialDate && !finalDate) {
+            if (!shiftId && !userId && !initialDate && !endDate) {
                 throw new AppError("Filter paramethers are missing", 400);
             }
 
@@ -208,15 +208,45 @@ class SaleService {
         }
     }
 
-    static async updateSale() {
-        // alterar informacoes do pedido
+    static async productSaleRanking(initialDate, endDate) {
+  
+        try {
+            const now = new Date();
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const endOfMonth = now;
+
+            const ranking = await Product.findAll({
+                attributes: [
+                    'id',
+                    'name',
+                    [fn('SUM', col('suborders.qtt')), 'total_units'],
+                    [fn('COUNT', col('suborders.product_id')), 'total_orders'],
+                    [fn('SUM', col('suborders.total')), 'total_revenue']
+                ],
+                include: [{
+                    model: Suborder,
+                    as: 'suborders',
+                    attributes: [],
+                    required: true,
+                    where: {
+                        createdAt: {
+                            [Op.between]: [startOfMonth, endOfMonth]
+                        }
+                    }
+                }],
+                group: ['Product.id', 'Product.name'],
+                order: [[literal('total_units'), 'DESC']],
+                subQuery: false,
+                limit: 10
+            });
+            return ranking;
+        } catch (error) {
+            console.log('Erro ao criar filtro mais vendidos')
+            throw error;
+        }
+
     }
 
-    static async createRefund(orderId) {
-        // descontar valor da venda caixa
-        // adicionar produtos estoque
-        // alterar status pedido para canceled
-    }
 }
 
 module.exports = SaleService;

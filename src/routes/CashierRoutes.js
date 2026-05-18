@@ -9,11 +9,15 @@ const router = new Router();
 //Opening cashier
 router.post('/', loginRequired, jsonBodyRequired, CashierController.open);
 
+router.get('/', loginRequired, CashierController.filterByDate);
+
+
 // fechar caixa
 router.patch('/:shiftId', loginRequired, CashierController.close);
 
-// obeter uma shift, neste caso necessariamente aberta
+// obter uma shift, neste caso necessariamente aberta
 router.get('/active',loginRequired, CashierController.getOpenedShift);
+
 
 // INFORMACAO SOBRE UMA DETERMINADA SESSAO
 router.get('/:shiftId', loginRequired, CashierController.getShift);

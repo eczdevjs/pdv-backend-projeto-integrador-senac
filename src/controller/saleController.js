@@ -82,6 +82,16 @@ class SaleController {
         }
     }
 
+    static async productSaleRanking(req, res, next) {
+        try {
+            const saleRanking = await SaleService.productSaleRanking();
+            return res.status(200).json(saleRanking);
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
 }
 
 module.exports = SaleController;

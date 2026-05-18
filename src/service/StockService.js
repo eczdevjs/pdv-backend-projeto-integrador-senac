@@ -224,6 +224,8 @@ class StockService {
                 where.referenceTypeId = [2, 3, 4, 5];
             }
 
+            console.log("Objeto where: ", where);
+
             const transactions = await StockTransaction.findAll({
                 where,
                 attributes: ['id', 'qtyChange', 'referenceId', 'createdAt'],

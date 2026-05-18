@@ -53,11 +53,11 @@ module.exports = {
     // database seeding exclude it further
     await queryInterface.bulkInsert('providers', [
       { name: 'MAX TITANIUM', created_at: new Date(), updated_at: new Date() },
-      { name: 'GROWTH', created_at: new Date(), updated_at: new Date() },
-      { name: 'MATRIX', created_at: new Date(), updated_at: new Date() },
-      { name: 'KALENJI', created_at: new Date(), updated_at: new Date() },
-      { name: 'NIKE', created_at: new Date(), updated_at: new Date() },
-      { name: 'ADIDAS', created_at: new Date(), updated_at: new Date() }
+      { name: 'MASTER COMPUTER', created_at: new Date(), updated_at: new Date() },
+      { name: 'KING ELECTRONICS', created_at: new Date(), updated_at: new Date() },
+      { name: 'HARDWARE HOUSE', created_at: new Date(), updated_at: new Date() },
+      { name: 'TI SOLUTINOS', created_at: new Date(), updated_at: new Date() },
+      { name: 'START INFORMATION', created_at: new Date(), updated_at: new Date() }
     ]);
   },
 
