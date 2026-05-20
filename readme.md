@@ -61,6 +61,29 @@ npm install
 
 O servidor iniciará na porta 3001 — acesse http://localhost:3001
 
+---
+
+## 🌐 Como Testar a API (Insomnia)
+
+Para facilitar os testes das rotas do **E-PDV**, disponibilizamos uma coleção pronta do Insomnia com todos os endpoints estruturados (Autenticação, Clientes, Produtos, Estoque, etc.).
+
+### 🛠️ Passo 1: Importar a Coleção
+1. Abra o **Insomnia**.
+2. No canto superior esquerdo, clique em **Import** (ou vá em *Preferences > Data > Import Data*).
+3. Selecione a opção **From File** (A partir de um arquivo).
+4. Navegue até a pasta do projeto e selecione o arquivo: `/docs/insomnia_collection.json`.
+
+### 🔑 Passo 2: Entendendo a Estratégia de Autenticação (Bearer Token)
+A API utiliza segurança baseada em **JWT (JSON Web Token)** com a estratégia **Bearer Token** para proteger rotas sensíveis. Para testar rotas protegidas, siga o fluxo abaixo:
+
+1. Na pasta **TOKENS**, selecione a requisição **GERAR TOKEN**.
+2. Envie um e-mail e senha válidos no corpo (Body) da requisição para efetuar o login.
+3. Na resposta da API, copie o código do `token` gerado.
+4. Vá até a rota que deseja testar (ex: Criar Produto), acesse a aba **Header**, e substitua o texto `INSERIR_TOKEN_AQUI` pelo token copiado, mantendo a palavra `Bearer` antes dele.
+   * *Exemplo final do Header:* `Authorization: Bearer eyJhbGciOiJIUzI1Ni...`
+
+---
+
 ✒️ Autores
 
 ### @eczdevjs
