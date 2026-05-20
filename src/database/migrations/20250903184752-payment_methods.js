@@ -25,29 +25,7 @@ module.exports = {
       }
     });
 
-    // criar mock dos dados
-    await queryInterface.bulkInsert('payment_methods', [
-      {
-        name: "Cash",
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        name: "Pix",
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        name: "Credit Card",
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-       name: "Debit Card",
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    ]);
+   
   },
 
 

@@ -6,7 +6,10 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": " nodemon server.js"
+    "server": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:clean": "sequelize-cli db:migrate",
+    "db:demo": "sequelize-cli db:migrate && sequelize-cli db:seed:all"
   },
   "author": "ecz",
   "license": "ISC",
