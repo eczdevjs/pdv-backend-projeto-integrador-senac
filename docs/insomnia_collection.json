@@ -1,0 +1,321 @@
+{
+  "type": "collection.insomnia.rest/5.0",
+  "schema_version": "5.1",
+  "name": "E-PDV API - Projeto Integrador Senac",
+  "meta": {
+    "id": "wrk_scratchpad",
+    "created": 1774466128389,
+    "modified": 1774466128389,
+    "description": "Coleção de endpoints para o sistema E-PDV"
+  },
+  "collection": [
+    {
+      "name": "TOKENS",
+      "meta": {
+        "id": "fld_8c60ad174b504a53ac363089c32f796e",
+        "created": 1762359246249,
+        "modified": 1762359246249,
+        "sortKey": -1762359246249,
+        "description": ""
+      },
+      "children": [
+        {
+          "url": "{{ _.base }}/tokens",
+          "name": "GERAR TOKEN",
+          "meta": {
+            "id": "req_7c2cdfd71d6f4d39af30f7fa0be495f0",
+            "created": 1762359253811,
+            "modified": 1779313407723,
+            "isPrivate": false,
+            "description": "Geração de token JWT para autenticação.",
+            "sortKey": -1762359253811
+          },
+          "method": "POST",
+          "body": {
+            "mimeType": "application/json",
+            "text": "{\n\t\"email\": \"admin@exemplo.com\",\n\t\"password\": \"suasenhadecorrente\"\n}"
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PRODUTO",
+      "meta": {
+        "id": "fld_0905c90b715b4e41af7e8ba84a5cc2a3",
+        "created": 1762372621367,
+        "modified": 1779057954531,
+        "sortKey": -1762358354315.5,
+        "description": ""
+      },
+      "children": [
+        {
+          "url": "{{ _.base }}/products",
+          "name": "create",
+          "meta": {
+            "id": "req_6eb33618135e451a98d2c259c7c75aec",
+            "created": 1762372621368,
+            "modified": 1778078000857,
+            "isPrivate": false,
+            "sortKey": -1762358359642
+          },
+          "method": "POST",
+          "body": {
+            "mimeType": "application/json",
+            "text": "{\n  \"name\": \"Cabo Caracol para teclado\",\n  \"brand\": \"Generica\",\n  \"product_model\": \"CBC-247\",\n  \"description\": \"Cabo caracol bipartido entrada tipo c\",\n  \"price\": 55,\n  \"size\": \"1.5 M\"\n}"
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products",
+          "name": "index",
+          "meta": {
+            "id": "req_e6d6ed73974d4631b781d45855cce9e2",
+            "created": 1762372621368,
+            "modified": 1779313427455,
+            "isPrivate": false,
+            "sortKey": -1762369929294
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products/",
+          "name": "show",
+          "meta": {
+            "id": "req_7071271896cb4a3c94546ed71f95639c",
+            "created": 1762372621369,
+            "modified": 1778077489567,
+            "isPrivate": false,
+            "sortKey": -1762370296265
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products/13",
+          "name": "update",
+          "meta": {
+            "id": "req_c7ea145561e9409cb0dfb36ec285f99e",
+            "created": 1762372621370,
+            "modified": 1778077772531,
+            "isPrivate": false,
+            "sortKey": -1762370424539
+          },
+          "method": "PUT",
+          "body": {
+            "mimeType": "application/json",
+            "text": "{\n\t\"price\": 95\n}"
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products/15",
+          "name": "Delete",
+          "meta": {
+            "id": "req_2290313af0be4f489988867ded04a5d0",
+            "created": 1778078058250,
+            "modified": 1778079612709,
+            "isPrivate": false,
+            "sortKey": -1762370360402
+          },
+          "method": "DELETE",
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products/15/restore",
+          "name": "Restore",
+          "meta": {
+            "id": "req_bd9c45b24a0f4926a6a791f701a858f3",
+            "created": 1778078836038,
+            "modified": 1778085421237,
+            "isPrivate": false,
+            "sortKey": -1762370328333.5
+          },
+          "method": "PATCH",
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/products/archiveds",
+          "name": "get deleteds",
+          "meta": {
+            "id": "req_6265c8c6129d48cb8cea005cd4bde9e6",
+            "created": 1778084100717,
+            "modified": 1778084562867,
+            "isPrivate": false,
+            "sortKey": -1762368594858.625
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FOTO-PRODUTO",
+      "meta": {
+        "id": "fld_db9db462a48f4b45b5ef33fb5b346426",
+        "created": 1777477567435,
+        "modified": 1779058019624,
+        "sortKey": -176235834296.75
+      },
+      "children": [
+        {
+          "url": "{{ _.base }}/photos/product/14",
+          "name": "post",
+          "meta": {
+            "id": "req_0a15d92a654944d2bae3cb1cf76fe745",
+            "created": 1777477567435,
+            "modified": 1778344468085,
+            "isPrivate": false,
+            "sortKey": -1776885894751
+          },
+          "method": "POST",
+          "body": {
+            "mimeType": "multipart/form-data",
+            "params": [
+              {
+                "name": "photo",
+                "value": "",
+                "type": "file"
+              }
+            ]
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "multipart/form-data" },
+            { "name": "User-Agent", "value": "insomnia/12.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CLIENTE",
+      "meta": {
+        "id": "fld_fb924ca70b17448fb20a2c4c86193979",
+        "created": 1778085931997,
+        "modified": 1779057958893,
+        "sortKey": -1762358354309.25
+      },
+      "children": [
+        {
+          "url": "{{ _.base }}/clients/8",
+          "name": "update",
+          "meta": {
+            "id": "req_018bd50003e24370bb3f70a71b892957",
+            "created": 1778085931997,
+            "sortKey": -1762370424539
+          },
+          "method": "PUT",
+          "body": {
+            "mimeType": "application/json",
+            "text": "{\n\t\"email\": \"cliente@update.com\"\n}"
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/clients",
+          "name": "create",
+          "meta": {
+            "id": "req_5b1043a84ccb42aebb4dcdef611e95b5",
+            "created": 1778085931997,
+            "sortKey": -1762358359642
+          },
+          "method": "POST",
+          "body": {
+            "mimeType": "application/json",
+            "text": "{\n\t\"name\": \"George\",\n\t\"lastName\": \"Russel\",\n\t\"email\": \"russel@exemplo.com\",\n\t\"phone\": \"11956423765\"\n}"
+          },
+          "headers": [
+            { "name": "Content-Type", "value": "application/json" },
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/clients",
+          "name": "index",
+          "meta": {
+            "id": "req_ca684d1a168447f19889c438e0b0b615",
+            "created": 1778085931997,
+            "sortKey": -1762369929294
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ESTOQUE E CAIXA",
+      "meta": {
+        "id": "fld_394ce611ff0e44f9b3a8b5f33c816891",
+        "created": 1778089943075,
+        "sortKey": -1762358354303
+      },
+      "children": [
+        {
+          "url": "{{ _.base }}/stock",
+          "name": "index",
+          "meta": {
+            "id": "req_37e0d937faa744989a596e5badd2f4d7",
+            "created": 1778089943075,
+            "sortKey": -1762369929294
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        },
+        {
+          "url": "{{ _.base }}/cashier/active",
+          "name": "CAIXA ACTIVE",
+          "meta": {
+            "id": "req_1e553ec9650d4d19acfc121378b33263",
+            "created": 1778163573926,
+            "sortKey": -1762370112779.5
+          },
+          "method": "GET",
+          "headers": [
+            { "name": "User-Agent", "value": "insomnia/11.5.0" },
+            { "name": "authorization", "value": "Bearer INSERIR_TOKEN_AQUI" }
+          ]
+        }
+      ]
+    }
+  ]
+}
