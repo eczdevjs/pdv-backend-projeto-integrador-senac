@@ -36,15 +36,15 @@ cd pdv-backend-projeto-integrador-senac
 npm install
 ```
 
-4 Configure as variáveis de ambiente:
+4. Configure as variáveis de ambiente:
 
-4.1- Duplique o arquivo .env.example e renomeie para .env.
+   4.1- Duplique o arquivo .env.example e renomeie para .env.
 
-4.2- Preencha-o com as informações necessárias.
+   4.2- Preencha-o com as informações necessárias.
 
-4.3- Abra o seu gerenciador do PostgreSQL (pgAdmin ou terminal) e crie um banco de dados vazio.
+   4.3- Abra o seu gerenciador do PostgreSQL (pgAdmin ou terminal) e crie um banco de dados vazio.
 
-4.4 -Preencha as credenciais de conexão do seu banco de dados local no arquivo .env.
+   4.4 -Preencha as credenciais de conexão do seu banco de dados local no arquivo .env.
 
 5. Inicialize o banco de dados conforme sua preferência:
 #### Opção A — Com banco de dados populado para demonstração (produtos, fornecedores, fotos, estoque):
