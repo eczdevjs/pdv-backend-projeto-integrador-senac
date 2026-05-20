@@ -9,7 +9,7 @@ const { log } = require('winston');
 
 const router = new Router();
 
-router.post('/', loginRequired, jsonBodyRequired, UserController.store);
+router.post('/',jsonBodyRequired, UserController.store);
 
 router.get('/', loginRequired, UserController.show);
 
