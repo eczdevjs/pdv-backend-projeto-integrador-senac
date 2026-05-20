@@ -4,3 +4,6 @@ todo.txt
 queries.sql
 mockData
 queries.sql
+# Logs
+/logs
+*.log
