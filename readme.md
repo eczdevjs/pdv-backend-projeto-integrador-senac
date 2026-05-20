@@ -34,23 +34,32 @@ npm install
 Configure as variáveis de ambiente:
 
 Duplique o arquivo .env.example e renomeie para .env
+Prencha-o com as informações.
 
-Abra o seu gerenciador do PostgreSQL (pgAdmin ou terminal) e crie um banco de dados vazio chamado nome_do_seu_banco antes de rodar o comando npm run dev
+Abra o seu gerenciador do PostgreSQL (pgAdmin ou terminal) e crie um banco de dados vazio.
 
-Preencha as credenciais de conexão do seu banco de dados local.
+Preencha as credenciais de conexão do seu banco de dados localno arquivo .env .
+
+
+Caso queira iniciar com o banco de dados totalmente limpo:
+Bash
+npm run db:clean
+
+Opção com banco de dados populado como demonstração:
+Bash
+npm run db:demo
 
 Inicie o servidor de desenvolvimento:
 
 Bash
-npm run dev
+npm run server
 
 O servidor iniciará na porta 3001 - acesse http://localhost:3001
 
 📌 Links do Projeto
-Repositório Frontend: [Link aqui]
+Repositório Frontend: https://github.com/eczdevjs/pdv-frontend-projeto-integrador-senac
 
-Demonstração em Vídeo (YouTube): [Link aqui]
-https://www.youtube.com/watch?v=k_fSXlfXJnE
+Demonstração em Vídeo (YouTube): https://www.youtube.com/watch?v=k_fSXlfXJnE
 
 ✒️ Autores
 @eczdevjs

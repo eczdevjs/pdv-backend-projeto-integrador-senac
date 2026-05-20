@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('payment-methods', [
+    await queryInterface.bulkInsert('payment_methods', [
       {
         name: "Dinheiro",
         created_at: new Date(),
@@ -29,6 +29,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     // Remove os produtos inseridos limpando a tabela
-    await queryInterface.bulkDelete('payment-methods', null, {});
+    await queryInterface.bulkDelete('payment_methods', null, {});
   }
 };

@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('product_images', [
+    await queryInterface.bulkInsert('product_photos', [
       {
         original_name: "Pasted image (2).png",
         file_name: "177749530968911573.png",
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('product_images', null, {});
+    await queryInterface.bulkDelete('product_photos', null, {});
   }
 };
