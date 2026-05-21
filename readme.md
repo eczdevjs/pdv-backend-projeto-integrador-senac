@@ -76,6 +76,8 @@ Para facilitar os testes das rotas do **E-PDV**, disponibilizamos uma coleção 
 ### 🔑 Passo 2: Entendendo a Estratégia de Autenticação (Bearer Token)
 A API utiliza segurança baseada em **JWT (JSON Web Token)** com a estratégia **Bearer Token** para proteger rotas sensíveis. Para testar rotas protegidas, siga o fluxo abaixo:
 
+*Crie um usuário. Em seguida, para logar em uma seção:
+
 1. Na pasta **TOKENS**, selecione a requisição **GERAR TOKEN**.
 2. Envie um e-mail e senha válidos no corpo (Body) da requisição para efetuar o login.
 3. Na resposta da API, copie o código do `token` gerado.
